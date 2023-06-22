@@ -10,20 +10,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  //revision
-  const download = require("download-chromium");
-  const os = require("os");
-  const tmp = os.tmpdir();
-  const exec = await download({
-    revision: 1161067,
-    installPath: `${tmp}/.local-chromium`,
-  });
-
-  const browser = await puppeteer.launch({
-    executablePath: exec,
-    headless: true,
-  });
-  //const browser = await puppeteer.launch({ headless: 'new' });
+  const browser = await puppeteer.launch({ headless: "new" });
   // 이미 실행된 경우 중복 실행하지 않고 종료
   if (isExecuted) {
     return res.status(200).json({ message: "Already executed" });
