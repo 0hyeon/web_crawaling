@@ -8,15 +8,20 @@ export default function Products() {
 
   // 1.초기 랜더링view
   useEffect(() => {
-    console.log("hi");
+    let isMounted = true; // Add a flag to track mounted state
     fetch(`/api/scraper`)
       .then((res) => res.json()) // JSON 파싱
       .then((data) => {
         // 응답 데이터를 상태로 설정
-        console.log(data);
-        setData(data);
+        if (isMounted) {
+          console.log(data);
+          setData(data);
+        }
       })
       .catch((error) => console.error(error));
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return <div className="mb-36 mt-36">Hello World</div>;
