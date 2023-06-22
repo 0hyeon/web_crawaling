@@ -29,7 +29,7 @@ export default async function handler(
     if (iframeContent) {
       console.log("웹크롤링 진입");
       // iframe 내부에서 30초 동안 대기
-      await iframeContent.waitForTimeout(5000);
+      await iframeContent.waitForTimeout(3000);
 
       // iframe 내부의 HTML 가져오기
       const html = await iframeContent.content();
@@ -60,7 +60,7 @@ export default async function handler(
 
       //브랜드추출
       await page.goto(`${href}`);
-      await iframeContent.waitForTimeout(5000);
+      await iframeContent.waitForTimeout(3000);
 
       const ogSiteName = await page.evaluate(() => {
         const metaElement = document.querySelector(
@@ -74,9 +74,15 @@ export default async function handler(
       //로직 중복방지
       isExecuted = true;
 
-      return res.json({ imgNm, url });
+      return res.json({ imageSrc: imageSrc, imgNm, desc, href, ogSiteName });
     } else {
-      return res.json({ imgNm: "", url: "" });
+      return res.json({
+        imageSrc: "",
+        imgNm: "",
+        desc: "",
+        href: "",
+        ogSiteName: "",
+      });
     }
   } catch (error) {
     console.error("Error:", error);
