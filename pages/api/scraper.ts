@@ -29,7 +29,7 @@ export default async function handler(
     if (iframeContent) {
       console.log("웹크롤링 진입");
       // iframe 내부에서 30초 동안 대기
-      await iframeContent.waitForTimeout(3000);
+      await iframeContent.waitForTimeout(10000);
 
       // iframe 내부의 HTML 가져오기
       const html = await iframeContent.content();
@@ -60,15 +60,18 @@ export default async function handler(
 
       //브랜드추출
       await page.goto(`${href}`);
-      await iframeContent.waitForTimeout(3000);
+      await iframeContent.waitForTimeout(10000);
 
-      const ogSiteName = await page.evaluate(() => {
+      let ogSiteName = await page.evaluate(() => {
         const metaElement = document.querySelector(
           'meta[property="og:site_name"]'
         );
-        return metaElement ? metaElement.getAttribute("content") : "";
+        const metaElement2 = document.querySelector(
+          'meta[property="og:title"]'
+        );
+        return metaElement ? metaElement.getAttribute("content") : metaElement2? metaElement2.getAttribute("content") : '';
       });
-
+      
       console.log("브랜드 : ", ogSiteName);
 
       //로직 중복방지
