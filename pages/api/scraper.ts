@@ -10,17 +10,15 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-
-  const puppeteer = require('puppeteer-core');
   // 이미 실행된 경우 중복 실행하지 않고 종료
   if (isExecuted) {
     return res.status(200).json({ message: "Already executed" });
   }
-  const browser = await puppeteer.launch({
-    executablePath: process.env.CHROME_EXECUTABLE_PATH,
-    // 기타 옵션들...
-  });
-  //const browser = await puppeteer.launch({ headless: true });
+  // const browser = await puppeteer.launch({
+  //   executablePath: '/usr/bin/google-chrome-stable',
+  //   // 기타 옵션들...
+  // });
+  const browser = await puppeteer.launch({ headless: "new" });
   const page = await browser.newPage();
   await page.setViewport({ width: 1280, height: 720 });
 
@@ -74,9 +72,13 @@ export default async function handler(
         const metaElement2 = document.querySelector(
           'meta[property="og:title"]'
         );
-        return metaElement ? metaElement.getAttribute("content") : metaElement2? metaElement2.getAttribute("content") : '';
+        return metaElement
+          ? metaElement.getAttribute("content")
+          : metaElement2
+          ? metaElement2.getAttribute("content")
+          : "";
       });
-      
+
       console.log("브랜드 : ", ogSiteName);
 
       //로직 중복방지
