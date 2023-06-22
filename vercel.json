@@ -4,5 +4,11 @@
       "path": "/api/scraper",
       "schedule": "* * * * *"
     }
-  ]
+  ],
+  "functions": {
+    "pages/api/scraper.ts": {
+      "memory": 1024,
+      "maxDuration": 30
+    }
+  }
 }
