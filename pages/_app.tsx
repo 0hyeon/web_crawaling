@@ -8,7 +8,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   });
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="px-36">
+      <div className="">
         <Component {...pageProps} />
       </div>
     </QueryClientProvider>

@@ -6,7 +6,6 @@ const Login = () => {
   const [isPassWord, setPassWord] = useState<string | undefined>();
 
   const router = useRouter();
-  console.log(isName, isPassWord);
   const LoginOnClick = (name: string | undefined, pw: string | undefined) => {
     if (name === "") {
       alert("ID를 입력해주세요 ");
@@ -32,7 +31,7 @@ const Login = () => {
       <video
         className="absolute left-0 top-0 h-full w-full object-cover"
         autoPlay
-        loop
+        //loop
         muted
       >
         <source src="/video/211224_greenbricks_4.mp4" type="video/mp4" />
@@ -60,7 +59,7 @@ const Login = () => {
             />
             <button
               className="h-10  w-full rounded bg-[#01DEA4] text-[#fff] duration-100 hover:border-2 hover:border-black hover:bg-white hover:text-[#000]"
-              type="submit"
+              type="button"
               onClick={() => LoginOnClick(isName, isPassWord)}
             >
               Log in
