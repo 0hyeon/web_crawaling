@@ -25,6 +25,7 @@ const Login = () => {
       return;
     }
     alert("로그인성공");
+    router.push("/main");
   };
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-900">
