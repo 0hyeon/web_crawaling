@@ -1,8 +1,8 @@
 import Image from "next/image";
 import React from "react";
 import AnalistIcon from "../../public/asset/svg/AnalistIcon";
-import Pie from "@components/Pie";
-import { pieData } from "@constants/data";
+// import Pie from "@components/Pie";
+// import { pieData } from "@constants/data";
 const Main = () => {
   return (
     <>
@@ -51,9 +51,7 @@ const Main = () => {
         <div className="mx-4 my-4 bg-white px-4 py-4">
           {`{ "Mobile": { "src": [ "https://ssl.pstatic.net/melona/libs/1455/1455180/c54cda675a7d60d485ac_20230623114338029.png", "https://ssl.pstatic.net/melona/libs/1455/1455190/07c87b93a24c8d0f90b8_20230626112552012.png", "https://ssl.pstatic.net/melona/libs/1455/1455180/20ec1d0b9f8c04bcaa21_20230623114258487.png", "https://ssl.pstatic.net/melona/libs/1455/1455190/fba1c817e474a59d861f_20230626113738620.png" ], "alt": "[광고]하루 1시간도 운전 안한다면? 탄만큼 내는(특약) 캐롯퍼마일자동차보험", "replaceName": "2023062620ec1d0b9f8c04bcaa21_20230623114258487.png", "title": "캐롯 퍼마일자동차보험" }, "PC": { "src": [ "https://ssl.pstatic.net/melona/libs/1454/1454135/be5019225c6610fec37c_20230626103842549.jpg" ], "alt": "[광고]유산균은 락토핏 골드 종근당 건강 최대 37% 할인", "replaceName": "20230626be5019225c6610fec37c_20230626103842549.jpg", "url": "https://campaign.naver.com/healthychart/brand/?dtm_source=naver_timeboard&dtm_medium=display&dtm_campaign=hchart&pcode=naver_timeboard" } }`}
         </div>
-        <div>
-          <Pie data={pieData} />
-        </div>
+        <div>{/* <Pie data={pieData} /> */}</div>
       </div>
     </>
   );
