@@ -1,9 +1,39 @@
 import Image from "next/image";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import AnalistIcon from "../../public/asset/svg/AnalistIcon";
+import Accordion from "@components/Accordian";
+import SettingIcon from "public/asset/svg/SettingIcon";
+import { useQuery } from "@tanstack/react-query";
+import useMutation from "@libs/client/useMutation";
+import { Banner } from "@prisma/client";
 // import Pie from "@components/Pie";
 // import { pieData } from "@constants/data";
+
+interface UploadProductMutation {
+  ok: boolean;
+  banner: Banner;
+}
 const Main = () => {
+  const [isData, setData] = useState([]);
+
+  const [uploadBanner, { loading, data }] = useMutation<UploadProductMutation>(
+    "/api/add-webcrawaling"
+  );
+
+  const CRAWALING_QUERY_KEY = "/api/scraper";
+
+  const { data: fetchData } = useQuery<{ items: any[] }, unknown, any[]>(
+    [CRAWALING_QUERY_KEY],
+    () => fetch(CRAWALING_QUERY_KEY).then((res) => res.json())
+    // .then((res) => res.json())
+    // .then((data) => data)
+  );
+
+  console.log("fetchData : ", fetchData);
+  useEffect(() => {
+    console.log("useEffect실행");
+    uploadBanner(fetchData);
+  }, [fetchData]);
   return (
     <>
       <div className="fix fixed h-[100vh] w-64 border-r-2 bg-white">
@@ -33,17 +63,40 @@ const Main = () => {
           </div>
         </div>
         <div className="px-4 py-4">
-          <ul>
-            <AnalistIcon width={25} height={25} />
-            <span>Service</span>
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((el, idx) => {
-              return (
-                <li key={idx} className="py-4 duration-75 hover:bg-[#ddd]">
-                  {idx + 1}menu
-                </li>
-              );
-            })}
-          </ul>
+          <div className="flex">
+            <div className="mt-[19px] flex">
+              <AnalistIcon width={25} height={25} />
+            </div>
+            <Accordion summary={"Service"}>
+              {[1, 2, 3, 4, 5].map((el, idx) => {
+                return (
+                  <ul key={idx}>
+                    <li className="py-4 duration-75 hover:text-[#228ae6]">
+                      {idx + 1}menu
+                    </li>
+                  </ul>
+                );
+              })}
+            </Accordion>
+          </div>
+        </div>
+        <div className="px-4">
+          <div className="flex">
+            <div className="mt-[19px] flex">
+              <SettingIcon width={25} height={25} />
+            </div>
+            <Accordion summary={"Service"}>
+              {[1, 2, 3, 4, 5].map((el, idx) => {
+                return (
+                  <ul key={idx}>
+                    <li className="cursor-pointer py-4 duration-75 hover:text-[#228ae6]">
+                      {idx + 1}menu
+                    </li>
+                  </ul>
+                );
+              })}
+            </Accordion>
+          </div>
         </div>
       </div>
       <div className="h-[100vh] w-full bg-[#dee2e6] pl-64">

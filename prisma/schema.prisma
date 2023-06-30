@@ -1,0 +1,46 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model Banner {
+  id            Int           @id @default(autoincrement())
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  pcbanners     PcBanner[]
+  mobilebanners MobieBanner[]
+}
+
+model PcBanner {
+  id        Int      @id @default(autoincrement())
+  src       String?
+  alt       String?
+  title     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  banner    Banner?  @relation(fields: [bannerId], references: [id], onDelete: Cascade)
+  bannerId  Int
+
+  @@index([bannerId])
+}
+
+model MobieBanner {
+  id        Int      @id @default(autoincrement())
+  src       String?
+  alt       String?
+  title     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  banner    Banner?  @relation(fields: [bannerId], references: [id], onDelete: Cascade)
+  bannerId  Int
+
+  @@index([bannerId])
+}
