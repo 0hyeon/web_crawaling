@@ -16,11 +16,7 @@ interface UploadProductMutation {
 const Main = () => {
   const [isData, setData] = useState([]);
 
-  const [uploadBanner, { loading, data }] = useMutation<UploadProductMutation>(
-    "/api/add-webcrawaling"
-  );
-
-  const CRAWALING_QUERY_KEY = "/api/scraper";
+  const CRAWALING_QUERY_KEY = "/api/add-webcrawaling";
 
   const { data: fetchData } = useQuery<{ items: any[] }, unknown, any[]>(
     [CRAWALING_QUERY_KEY],
@@ -28,11 +24,9 @@ const Main = () => {
     // .then((res) => res.json())
     // .then((data) => data)
   );
-
   console.log("fetchData : ", fetchData);
   useEffect(() => {
     console.log("useEffect실행");
-    uploadBanner(fetchData);
   }, [fetchData]);
   return (
     <>

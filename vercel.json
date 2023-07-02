@@ -1,12 +1,12 @@
 {
   "crons": [
     {
-      "path": "/api/scraper",
-      "schedule": "* * * * *"
+      "path": "/api/add-webcrawaling",
+      "schedule": "0 * * * *"
     }
   ],
   "functions": {
-    "pages/api/scraper.ts": {
+    "pages/api/add-webcrawaling.ts": {
       "memory": 1024,
       "maxDuration": 30
     }

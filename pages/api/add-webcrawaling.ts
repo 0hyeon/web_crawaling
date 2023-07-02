@@ -7,35 +7,51 @@ interface MobileBanner {
   alt: string;
   title: string;
 }
+
 interface PCBanner extends MobileBanner {}
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === "POST") {
-    const {
-      body: { ok, PC, Mobile },
-    } = req;
-    console.log("ok: ", ok);
-    console.log("PC: ", PC);
-    console.log("Mobile: ", Mobile);
+  if (req.method === "GET") {
+    const response = await (
+      await fetch("http://127.0.0.1/hello", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+    ).json();
+    const { ok, PC, Mobile } = response;
 
-    const pcbanners = PC.map(({ src, alt, title }: PCBanner) => ({
-      where: { src, alt, title },
-      create: { src, alt, title },
-    }));
+    const pcbanners =
+      PC?.map(({ src, alt, title }: PCBanner) => ({
+        src,
+        alt,
+        title,
+      })) || [];
 
-    const mobilebanners = Mobile.map(({ src, alt, title }: MobileBanner) => ({
-      where: { src, alt, title },
-      create: { src, alt, title },
-    }));
+    const mobilebanners =
+      Mobile?.map(({ src, alt, title }: MobileBanner) => ({
+        src,
+        alt,
+        title,
+      })) || [];
 
     const banner = await client.banner.create({
       data: {
         pcbanners: {
-          connectOrCreate: pcbanners,
+          createMany: {
+            data: pcbanners,
+          },
         },
         mobilebanners: {
-          connectOrCreate: mobilebanners,
+          createMany: {
+            data: mobilebanners,
+          },
         },
+      },
+      include: {
+        pcbanners: true,
+        mobilebanners: true,
       },
     });
 
@@ -46,4 +62,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-export default withHandler({ methods: ["POST"], handler, isPrivate: false });
+export default withHandler({ methods: ["GET"], handler, isPrivate: false });
