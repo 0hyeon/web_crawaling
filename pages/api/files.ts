@@ -1,44 +1,32 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import withHandler from "@libs/server/withHandler";
+import withHandler, { ResponseType } from "@libs/server/withHandler";
 
-interface CloudflareResponse {
-  result: { ok: boolean; url: string };
-  success: boolean;
-  errors?: Array<{ message: string }>;
-}
-
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const formData = new FormData();
-  formData.append("file", req.body.file);
-
-  try {
-    const response = await fetch(
+async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<ResponseType>
+) {
+  const response = await (
+    await fetch(
+      // `https://api.cloudflare.com/client/v4/accounts/${process.env.CF_ID}/images/v1/direct_upload`,
       `https://api.cloudflare.com/client/v4/accounts/${process.env.CF_ID}/images/v2/direct_upload`,
       {
         method: "POST",
         headers: {
+          "Content-Type": "application/json",
+          // "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${process.env.CF_IMAGE_TOKEN}`,
         },
-        body: formData,
       }
-    );
-
-    const jsonData: CloudflareResponse = await response.json();
-
-    console.log("files.ts:", jsonData);
-
-    if (jsonData.success && jsonData.result.ok) {
-      res.json({ url: jsonData.result.url });
-    } else {
-      const errorMessage = jsonData.errors
-        ? jsonData.errors[0].message
-        : "Image upload failed";
-      res.status(500).json({ error: errorMessage });
-    }
-  } catch (error) {
-    console.error("files.ts:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
-
-export default withHandler({ methods: ["POST"], handler });
+    )
+  ).json();
+  console.log("files.ts : ", response);
+  res.json({
+    ok: true,
+    ...response.result, // ...객체 자체가 아니라 객체의 내용을 제공합니다.
+  });
+}
+//유저는 우리에게 url 을 원할거고, cloud flare는 url을 요청함
+export default withHandler({
+  methods: ["GET"],
+  handler,
+});
