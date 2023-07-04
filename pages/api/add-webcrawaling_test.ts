@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import withHandler from "@libs/server/withHandler";
 import client from "@libs/server/clients";
+import { checkEnvironment } from "@libs/server/useCheckEnvironment";
 
 interface MobileBanner {
   src: string;
@@ -8,11 +9,7 @@ interface MobileBanner {
   title: string;
 }
 
-interface PCBanner {
-  src: string;
-  alt: string;
-  title: string;
-}
+interface PCBanner extends MobileBanner {}
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {
@@ -27,38 +24,28 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         })
       ).json();
       const { ok, PC, Mobile } = response;
-
-      // Step 2: Map the data to the correct format
-      // const pcbanners: PCBanner[] =
-      //   PC?.map(({ src, alt, title }: PCBanner) => ({
-      //     src,
-      //     alt,
-      //     title,
-      //   })) || [];
-
-      // const mobilebanners: MobileBanner[] =
-      //   Mobile?.map(({ src, alt, title }: MobileBanner) => ({
-      //     src,
-      //     alt,
-      //     title,
-      //   })) || [];
-      const form = new FormData();
       const pcbanners: PCBanner[] = [];
       for (let i = 0; i < (PC?.length ?? 0); i++) {
-        const { alt, title } = PC[i];
+        const { alt, src, title } = PC[i];
 
         const { uploadURL } = await (
-          await fetch("http://localhost:3000/api/files")
-        ).json();
-        console.log("uploadURL : ", uploadURL);
-        const {
-          result: { id },
-        } = await (
-          await fetch(uploadURL, { method: "POST", body: form })
+          await fetch(checkEnvironment().concat("/api/files"))
         ).json();
 
+        const form = new FormData(); // 폼 생성
+
+        // 파일을 서버에 업로드하기 위해 폼에 첨부
+        const response = await fetch(src);
+        const blob = await response.blob();
+        form.append("file", blob);
+
+        const result = await (
+          await fetch(uploadURL, { method: "POST", body: form })
+        ).json();
+        console.log("pc result", result);
+
         pcbanners.push({
-          src: id, // id로 src 값을 설정
+          src: "",
           alt,
           title,
         });
@@ -66,17 +53,25 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       const mobilebanners: MobileBanner[] = [];
       for (let i = 0; i < (Mobile?.length ?? 0); i++) {
-        const { alt, title } = Mobile[i];
-        const { uploadURL } = await (await fetch("/api/files")).json();
-        console.log("uploadURL : ", uploadURL);
-        const {
-          result: { id },
-        } = await (
-          await fetch(uploadURL, { method: "POST", body: form })
+        const { alt, title, src } = Mobile[i];
+        const { uploadURL } = await (
+          await fetch(checkEnvironment().concat("/api/files"))
         ).json();
 
+        const form = new FormData(); // 폼 생성
+
+        // 파일을 서버에 업로드하기 위해 폼에 첨부
+        const response = await fetch(src);
+        const blob = await response.blob();
+        form.append("file", blob);
+
+        const result = await (
+          await fetch(uploadURL, { method: "POST", body: form })
+        ).json();
+        console.log("mobile result", result);
+
         mobilebanners.push({
-          src: id, // id로 src 값을 설정
+          src: "",
           alt,
           title,
         });
