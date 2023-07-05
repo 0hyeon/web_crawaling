@@ -26,26 +26,32 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       const { ok, PC, Mobile } = response;
       const pcbanners: PCBanner[] = [];
       for (let i = 0; i < (PC?.length ?? 0); i++) {
-        const { alt, src, title } = PC[i];
+        const { alt, src, title, replaceName } = PC[i];
 
+        /*cloudfalre에 업로드 요청할 빈url 요청*/
         const { uploadURL } = await (
           await fetch(checkEnvironment().concat("/api/files"))
         ).json();
 
-        const form = new FormData(); // 폼 생성
+        /* 이미지 저장할 폼데이터 */
+        const form = new FormData();
 
-        // 파일을 서버에 업로드하기 위해 폼에 첨부
+        /* 파일을 서버에 업로드하기 위해 폼에 첨부 */
         const response = await fetch(src);
         const blob = await response.blob();
-        form.append("file", blob);
+        form.append("file", blob, replaceName);
 
-        const result = await (
+        /* cloudflare로 이미지전송 post로 한 response, id는 이미지 조회시 필요 */
+        const {
+          result: { id },
+        } = await (
           await fetch(uploadURL, { method: "POST", body: form })
         ).json();
-        console.log("pc result", result);
 
+        console.log("pc result id : ", id);
+        /* 메인db에 push */
         pcbanners.push({
-          src: "",
+          src: id,
           alt,
           title,
         });
@@ -53,25 +59,32 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       const mobilebanners: MobileBanner[] = [];
       for (let i = 0; i < (Mobile?.length ?? 0); i++) {
-        const { alt, title, src } = Mobile[i];
+        const { alt, title, src, replaceName } = Mobile[i];
+
+        /*빈url 요청*/
         const { uploadURL } = await (
           await fetch(checkEnvironment().concat("/api/files"))
         ).json();
 
-        const form = new FormData(); // 폼 생성
+        /* 이미지 저장할 폼데이터 */
+        const form = new FormData();
 
-        // 파일을 서버에 업로드하기 위해 폼에 첨부
+        /* 파일을 서버에 업로드하기 위해 폼에 첨부 */
         const response = await fetch(src);
         const blob = await response.blob();
-        form.append("file", blob);
+        form.append("file", blob, replaceName);
 
-        const result = await (
+        /* cloudflare로 이미지전송 post로 한 response, id는 이미지 조회시 필요 */
+        const {
+          result: { id },
+        } = await (
           await fetch(uploadURL, { method: "POST", body: form })
         ).json();
-        console.log("mobile result", result);
+
+        console.log("mobile result id : ", id);
 
         mobilebanners.push({
-          src: "",
+          src: id,
           alt,
           title,
         });
