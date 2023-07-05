@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import withHandler from "@libs/server/withHandler";
 import client from "@libs/server/clients";
+import { checkEnvironment } from "@libs/server/useCheckEnvironment";
 
 interface MobileBanner {
   src: string;
@@ -12,53 +13,112 @@ interface PCBanner extends MobileBanner {}
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {
-    const response = await (
-      await fetch("http://127.0.0.1/hello", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-    ).json();
-    const { ok, PC, Mobile } = response;
+    try {
+      // Step 1: Fetch the data
+      const response = await (
+        await fetch("http://127.0.0.1/hello", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+      ).json();
+      const { ok, PC, Mobile } = response;
+      const pcbanners: PCBanner[] = [];
+      for (let i = 0; i < (PC?.length ?? 0); i++) {
+        const { alt, src, title, replaceName } = PC[i];
 
-    const pcbanners =
-      PC?.map(({ src, alt, title }: PCBanner) => ({
-        src,
-        alt,
-        title,
-      })) || [];
+        /*cloudfalre에 업로드 요청할 빈url 요청*/
+        const { uploadURL } = await (
+          await fetch(checkEnvironment().concat("/api/files"))
+        ).json();
 
-    const mobilebanners =
-      Mobile?.map(({ src, alt, title }: MobileBanner) => ({
-        src,
-        alt,
-        title,
-      })) || [];
+        /* 이미지 저장할 폼데이터 */
+        const form = new FormData();
 
-    const banner = await client.banner.create({
-      data: {
-        pcbanners: {
-          createMany: {
-            data: pcbanners,
+        /* 파일을 서버에 업로드하기 위해 폼에 첨부 */
+        const response = await fetch(src);
+        const blob = await response.blob();
+        form.append("file", blob, replaceName);
+
+        /* cloudflare로 이미지전송 post로 한 response, id는 이미지 조회시 필요 */
+        const {
+          result: { id },
+        } = await (
+          await fetch(uploadURL, { method: "POST", body: form })
+        ).json();
+
+        console.log("pc result id : ", id);
+        /* 메인db에 push */
+        pcbanners.push({
+          src: id,
+          alt,
+          title,
+        });
+      }
+
+      const mobilebanners: MobileBanner[] = [];
+      for (let i = 0; i < (Mobile?.length ?? 0); i++) {
+        const { alt, title, src, replaceName } = Mobile[i];
+
+        /*빈url 요청*/
+        const { uploadURL } = await (
+          await fetch(checkEnvironment().concat("/api/files"))
+        ).json();
+
+        /* 이미지 저장할 폼데이터 */
+        const form = new FormData();
+
+        /* 파일을 서버에 업로드하기 위해 폼에 첨부 */
+        const response = await fetch(src);
+        const blob = await response.blob();
+        form.append("file", blob, replaceName);
+
+        /* cloudflare로 이미지전송 post로 한 response, id는 이미지 조회시 필요 */
+        const {
+          result: { id },
+        } = await (
+          await fetch(uploadURL, { method: "POST", body: form })
+        ).json();
+
+        console.log("mobile result id : ", id);
+
+        mobilebanners.push({
+          src: id,
+          alt,
+          title,
+        });
+      }
+
+      // Step 3: Create the record in the database
+      const banner = await client.banner.create({
+        data: {
+          pcbanners: {
+            createMany: {
+              data: pcbanners,
+            },
+          },
+          mobilebanners: {
+            createMany: {
+              data: mobilebanners,
+            },
           },
         },
-        mobilebanners: {
-          createMany: {
-            data: mobilebanners,
-          },
+        include: {
+          pcbanners: true,
+          mobilebanners: true,
         },
-      },
-      include: {
-        pcbanners: true,
-        mobilebanners: true,
-      },
-    });
+      });
 
-    res.json({
-      ok: true,
-      banner,
-    });
+      // Step 4: Send the response
+      res.json({
+        ok: true,
+        banner,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error });
+    }
   }
 }
 

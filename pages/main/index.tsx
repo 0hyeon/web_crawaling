@@ -16,7 +16,7 @@ interface UploadProductMutation {
 const Main = () => {
   const [isData, setData] = useState([]);
 
-  const CRAWALING_QUERY_KEY = "/api/add-webcrawaling_test";
+  const CRAWALING_QUERY_KEY = "/api/add-webcrawaling";
 
   const { data: fetchData } = useQuery<{ items: any[] }, unknown, any[]>(
     [CRAWALING_QUERY_KEY],
