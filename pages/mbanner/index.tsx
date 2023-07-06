@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Banner } from "@prisma/client";
 import { Input, Pagination, SegmentedControl, Select } from "@mantine/core";
@@ -21,11 +21,30 @@ const MoBanner = () => {
   const [keyword, setKeyword] = useState("");
   const [activePage, setPage] = useState(1);
   const [selectedFilter, setFilter] = useState<string | null>(FILTERS[0].value);
+  const [isDate, setDate] = useState<[string | null, string | null]>([
+    null,
+    null,
+  ]);
+  const [currentValue, setCurrentValue] = useState<any>(null);
+  const getDate = useCallback(
+    (startDay: string | null, lastDay: string | null) => {
+      setDate([startDay, lastDay]);
+    },
+    [setDate]
+  );
+  console.log(isDate[0], isDate[1]);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
   };
   const debouncedKeword = useDebounce<string>(keyword);
-  const { data: banners } = useQuery<{ items: Banner[] }, unknown, Banner[]>(
+  const debouncedStartDate = useDebounce<string | null>(isDate[0]);
+  const debouncedLastDate = useDebounce<string | null>(isDate[1]);
+
+  const { data: banners, refetch } = useQuery<
+    { items: Banner[] },
+    unknown,
+    Banner[]
+  >(
     [
       `/api/get-mobanner?skip=${
         TAKE * (activePage - 1)
@@ -35,12 +54,17 @@ const MoBanner = () => {
       fetch(
         `/api/get-mobanner?skip=${
           TAKE * (activePage - 1)
-        }&take=${TAKE}&orderBy=${selectedFilter}&contains=${debouncedKeword}`
+          //}&take=${TAKE}&orderBy=${selectedFilter}&contains=${debouncedKeword}`
+        }&take=${TAKE}&orderBy=${selectedFilter}&contains=${debouncedKeword}&startday=${debouncedStartDate}&lastday=${debouncedLastDate}`
       ).then((res) => res.json()),
     {
       select: (data) => data.items,
     }
   );
+
+  useEffect(() => {
+    refetch();
+  }, [debouncedStartDate, debouncedLastDate, refetch]);
 
   const { data: total } = useQuery(
     [`/api/get-products-count?&contains=${debouncedKeword}`],
@@ -79,7 +103,7 @@ const MoBanner = () => {
               />
             </div>
             <div className="relative flex">
-              <DateSchedule />
+              <DateSchedule getDate={getDate} />
               {/* 검색바 */}
               <div className="w-52">
                 <Input
