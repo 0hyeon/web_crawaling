@@ -1,7 +1,7 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
-import { getOrderBy } from "@constants/banners";
-const prisma = new PrismaClient();
+// import type { NextApiRequest, NextApiResponse } from "next";
+// import { PrismaClient } from "@prisma/client";
+// import { getOrderBy } from "@constants/banners";
+// const prisma = new PrismaClient();
 
 // async function getProducts({
 //   skip,
@@ -83,6 +83,12 @@ const prisma = new PrismaClient();
 //     res.status(400).json({ message: "Failed" });
 //   }
 // }
+import type { NextApiRequest, NextApiResponse } from "next";
+import { PrismaClient, Prisma } from "@prisma/client";
+import { getOrderBy } from "@constants/banners";
+
+const prisma = new PrismaClient();
+
 async function getProducts({
   skip,
   take,
@@ -95,8 +101,8 @@ async function getProducts({
   take: number;
   orderBy: string;
   contains: string;
-  startday?: string;
-  lastday?: string;
+  startday?: string | null;
+  lastday?: string | null;
 }) {
   const containsCondition =
     contains && contains !== ""
@@ -108,34 +114,17 @@ async function getProducts({
         }
       : undefined;
 
-  console.log("startday : ", startday);
-  console.log("lastday : ", lastday);
+  console.log("startday: ", startday);
+  console.log("lastday: ", lastday);
 
-  let whereCondition: any = {
+  const whereCondition: Prisma.MobieBannerWhereInput = {
     ...containsCondition,
   };
 
-  if (startday && lastday) {
-    whereCondition = {
-      ...whereCondition,
-      createdAt: {
-        gte: new Date(startday),
-        lte: new Date(),
-      },
-    };
-  } else if (startday && !lastday) {
-    whereCondition = {
-      ...whereCondition,
-      createdAt: {
-        equals: new Date(startday),
-      },
-    };
-  } else if (!startday && !lastday) {
-    whereCondition = {
-      ...whereCondition,
-      createdAt: {
-        lte: new Date(),
-      },
+  if (startday) {
+    whereCondition.createdAt = {
+      gte: new Date(startday),
+      lte: new Date(lastday ?? Date.now()), // Use current date if lastday is null
     };
   }
 
@@ -155,29 +144,36 @@ async function getProducts({
 }
 
 type Data = {
-  items?: any;
+  items?: any[];
   message: string;
 };
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
   const { skip, take, category, orderBy, contains, startday, lastday } =
     req.query;
+
   if (skip == null || take == null) {
-    //category 선택을 안하면 alert을 안보내줘도 됨 필수가 아니기때문
     res.status(400).json({ message: "no skip or take" });
   }
+
   try {
     const products = await getProducts({
       skip: Number(skip),
       take: Number(take),
       orderBy: String(orderBy),
       contains: contains ? String(contains) : "",
-      startday: startday ? String(startday) : "",
-      lastday: lastday ? String(lastday) : "",
+      startday: startday ? String(startday) : null,
+      lastday: lastday ? String(lastday) : null,
     });
-    res.status(200).json({ items: products, message: "Success" });
+
+    if (startday && (!products || products.length === 0)) {
+      res.status(200).json({ items: [], message: "No items found" });
+    } else {
+      res.status(200).json({ items: products || [], message: "Success" });
+    }
   } catch (error) {
     res.status(400).json({ message: "Failed" });
   }
