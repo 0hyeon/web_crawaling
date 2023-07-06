@@ -81,7 +81,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           await fetch(uploadURL, { method: "POST", body: form })
         ).json();
 
-        console.log("mobile result id : ", id);
+        //console.log("mobile result id : ", id);
 
         mobilebanners.push({
           src: id,

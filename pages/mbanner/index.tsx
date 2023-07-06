@@ -8,6 +8,7 @@ import useDebounce from "@libs/client/useDebounce";
 import { FILTERS, TAKE } from "@constants/banners";
 import { useRouter } from "next/router";
 import { format } from "date-fns";
+import DateSchedule from "@components/DateSchedule";
 // import Pie from "@components/Pie";
 // import { pieData } from "@constants/data";
 
@@ -77,31 +78,34 @@ const MoBanner = () => {
                 data={FILTERS}
               />
             </div>
-            {/* 검색바 */}
-            <div className="w-52">
-              <Input
-                icon={
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="icon icon-tabler icon-tabler-search"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    strokeWidth="2"
-                    stroke="currentColor"
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
-                    <path d="M21 21l-6 -6" />
-                  </svg>
-                }
-                placeholder="Search"
-                value={keyword}
-                onChange={handleChange}
-              />
+            <div className="relative flex">
+              <DateSchedule />
+              {/* 검색바 */}
+              <div className="w-52">
+                <Input
+                  icon={
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="icon icon-tabler icon-tabler-search"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      strokeWidth="2"
+                      stroke="currentColor"
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                      <path d="M21 21l-6 -6" />
+                    </svg>
+                  }
+                  placeholder="Search"
+                  value={keyword}
+                  onChange={handleChange}
+                />
+              </div>
             </div>
           </div>
           {/* banner */}
@@ -144,7 +148,7 @@ const MoBanner = () => {
             </div>
           )}
           {/*페이지네이션*/}
-          <div className="mt-5 flex w-full">
+          <div className="mt-20 flex w-full">
             {total && (
               <Pagination
                 className="m-auto"

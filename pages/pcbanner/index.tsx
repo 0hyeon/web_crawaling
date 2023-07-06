@@ -59,7 +59,7 @@ const PcBanner = () => {
   // useEffect(() => {
   //   console.log("useEffect실행");
   // }, [fetchData]);
-  console.log(banners);
+  // console.log(banners);
   return (
     <>
       {/* 메뉴바 */}
