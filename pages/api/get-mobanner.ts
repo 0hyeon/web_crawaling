@@ -1,88 +1,3 @@
-// import type { NextApiRequest, NextApiResponse } from "next";
-// import { PrismaClient } from "@prisma/client";
-// import { getOrderBy } from "@constants/banners";
-// const prisma = new PrismaClient();
-
-// async function getProducts({
-//   skip,
-//   take,
-//   orderBy,
-//   contains,
-//   startday,
-//   lastday,
-// }: {
-//   skip: number;
-//   take: number;
-//   orderBy: string;
-//   contains: string;
-//   startday?: string;
-//   lastday?: string;
-// }) {
-//   const containsCondition =
-//     contains && contains !== ""
-//       ? {
-//           OR: [
-//             { title: { contains: contains } },
-//             { alt: { contains: contains } },
-//           ],
-//         }
-//       : undefined;
-
-//   console.log("startday : ", startday);
-//   console.log("lastday : ", lastday);
-//   const dateCondition = {
-//     createdAt: {
-//       gte: startday ? new Date(startday) : undefined,
-//       lte: lastday ? new Date(lastday) : undefined,
-//     },
-//   };
-//   // const orderByCondition = getOrderBy(orderBy);
-//   const orderByCondition: any = getOrderBy(orderBy);
-//   const whereCondition = {
-//     ...containsCondition,
-//     ...dateCondition,
-//   };
-//   try {
-//     const response = await prisma.mobieBanner.findMany({
-//       skip: skip,
-//       take: take,
-//       ...orderByCondition,
-//       where: whereCondition,
-//     });
-//     //console.log("get-products : ", response);
-//     return response;
-//   } catch (error) {
-//     console.error(error);
-//   }
-// }
-// type Data = {
-//   items?: any;
-//   message: string;
-// };
-// export default async function handler(
-//   req: NextApiRequest,
-//   res: NextApiResponse<Data>
-// ) {
-//   const { skip, take, category, orderBy, contains, startday, lastday } =
-//     req.query;
-//   if (skip == null || take == null) {
-//     //category 선택을 안하면 alert을 안보내줘도 됨 필수가 아니기때문
-//     res.status(400).json({ message: "no skip or take" });
-//   }
-//   try {
-//     const products = await getProducts({
-//       skip: Number(skip),
-//       take: Number(take),
-//       orderBy: String(orderBy),
-//       contains: contains ? String(contains) : "",
-//       startday: startday ? String(startday) : "",
-//       lastday: lastday ? String(lastday) : "",
-//     });
-//     res.status(200).json({ items: products, message: "Success" });
-//   } catch (error) {
-//     res.status(400).json({ message: "Failed" });
-//   }
-// }
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient, Prisma } from "@prisma/client";
 import { getOrderBy } from "@constants/banners";
@@ -114,22 +29,51 @@ async function getProducts({
         }
       : undefined;
 
-  console.log("startday: ", startday);
-  console.log("lastday: ", lastday);
-
   const whereCondition: Prisma.MobieBannerWhereInput = {
     ...containsCondition,
   };
 
-  if (startday) {
+  let orderByCondition: any = getOrderBy(orderBy);
+
+  if (startday && lastday === null) {
+    const targetStartDate = new Date(startday);
+    const startDate = new Date(
+      targetStartDate.getFullYear(),
+      targetStartDate.getMonth(),
+      targetStartDate.getDate()
+    );
+    const endDate = new Date(startDate.getTime() + 24 * 60 * 60 * 1000); // 다음 날짜의 00:00:00
+
     whereCondition.createdAt = {
-      gte: new Date(startday),
-      lte: new Date(lastday ?? Date.now()), // Use current date if lastday is null
+      gte: startDate,
+      lt: endDate,
     };
+    orderByCondition = { orderBy: { createdAt: "asc" } };
   }
 
-  const orderByCondition: any = getOrderBy(orderBy);
+  if (startday !== null && lastday !== null) {
+    const targetStartDate = new Date(startday as any);
+    const startDate = new Date(
+      targetStartDate.getFullYear(),
+      targetStartDate.getMonth(),
+      targetStartDate.getDate()
+    );
+    const targetEndDate = new Date(lastday as any);
+    const endDate = new Date(
+      targetEndDate.getFullYear(),
+      targetEndDate.getMonth(),
+      targetEndDate.getDate()
+    );
+    endDate.setDate(endDate.getDate() + 1); // 다음 날 자정까지로 설정
 
+    whereCondition.createdAt = {
+      gte: startDate,
+      lt: endDate,
+    };
+    orderByCondition = { orderBy: { createdAt: "asc" } };
+  }
+  console.log("startday: ", startday);
+  console.log("lastday: ", lastday);
   try {
     const response = await prisma.mobieBanner.findMany({
       skip: skip,
@@ -157,6 +101,7 @@ export default async function handler(
 
   if (skip == null || take == null) {
     res.status(400).json({ message: "no skip or take" });
+    return;
   }
 
   try {
@@ -165,8 +110,8 @@ export default async function handler(
       take: Number(take),
       orderBy: String(orderBy),
       contains: contains ? String(contains) : "",
-      startday: startday ? String(startday) : null,
-      lastday: lastday ? String(lastday) : null,
+      startday: startday !== "null" ? String(startday) : null,
+      lastday: lastday !== "null" ? String(lastday) : null,
     });
 
     if (startday && (!products || products.length === 0)) {

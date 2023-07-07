@@ -10,26 +10,21 @@ function DateSchedule({ getDate }: any) {
   const [value, setValue] = useState<[Date | null, Date | null]>([null, null]);
 
   useEffect(() => {
-    if (value[0] !== null) {
-      formatDate(value[0]);
+    console.log("value  :", value);
+    if (value[0] !== null || (value[0] === null && value[1] === null)) {
       getDate(formatDate(value[0]), formatDate(value[1]));
     }
-    // else {
-    //   if (value[1] !== null) {
-    //     formatDate(value[1]);
-    //   }
-    // }
   }, [getDate, value]);
   return (
     <div
-      className="absolute left-[-50px] z-[1] mr-5 flex items-center justify-center border-b-2 bg-white"
+      className="absolute left-[-50px] z-[1] mr-5 flex items-center justify-center border-b-2 bg-white "
       ref={dropDownRef as any}
     >
       {isOpen ? (
         <Group position="center">
           <Group position="center">
             <DatePicker
-              className="absolute left-[-500px] top-10 bg-white"
+              className="absolute left-[-500px] top-10 rounded-lg bg-white p-[10px] drop-shadow-lg"
               type="range"
               numberOfColumns={2}
               value={value}

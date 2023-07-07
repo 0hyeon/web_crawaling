@@ -32,7 +32,6 @@ const MoBanner = () => {
     },
     [setDate]
   );
-  console.log(isDate[0], isDate[1]);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
   };
@@ -103,6 +102,7 @@ const MoBanner = () => {
               />
             </div>
             <div className="relative flex">
+              {/* 달력 */}
               <DateSchedule getDate={getDate} />
               {/* 검색바 */}
               <div className="w-52">
