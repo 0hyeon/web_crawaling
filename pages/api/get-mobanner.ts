@@ -105,7 +105,7 @@ export default async function handler(
   }
 
   try {
-    const products = await getProducts({
+    const moBanner = await getProducts({
       skip: Number(skip),
       take: Number(take),
       orderBy: String(orderBy),
@@ -114,10 +114,10 @@ export default async function handler(
       lastday: lastday !== "null" ? String(lastday) : null,
     });
 
-    if (startday && (!products || products.length === 0)) {
+    if (startday && (!moBanner || moBanner.length === 0)) {
       res.status(200).json({ items: [], message: "No items found" });
     } else {
-      res.status(200).json({ items: products || [], message: "Success" });
+      res.status(200).json({ items: moBanner || [], message: "Success" });
     }
   } catch (error) {
     res.status(400).json({ message: "Failed" });

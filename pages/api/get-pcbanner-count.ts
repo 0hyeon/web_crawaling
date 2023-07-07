@@ -1,20 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient, Prisma } from "@prisma/client";
-import { getOrderBy } from "@constants/banners";
-
 const prisma = new PrismaClient();
 
-async function getProducts({
-  skip,
-  take,
-  orderBy,
+async function getPcbannerCount({
   contains,
   startday,
   lastday,
 }: {
-  skip: number;
-  take: number;
-  orderBy: string;
   contains: string;
   startday?: string | null;
   lastday?: string | null;
@@ -33,8 +25,6 @@ async function getProducts({
     ...containsCondition,
   };
 
-  let orderByCondition: any = getOrderBy(orderBy);
-
   if (startday && lastday === null) {
     const targetStartDate = new Date(startday);
     const startDate = new Date(
@@ -48,7 +38,6 @@ async function getProducts({
       gte: startDate,
       lt: endDate,
     };
-    orderByCondition = { orderBy: { createdAt: "asc" } };
   }
 
   if (startday !== null && lastday !== null) {
@@ -70,54 +59,40 @@ async function getProducts({
       gte: startDate,
       lt: endDate,
     };
-    orderByCondition = { orderBy: { createdAt: "asc" } };
   }
-  console.log("startday: ", startday);
-  console.log("lastday: ", lastday);
+
   try {
-    const response = await prisma.pcBanner.findMany({
-      skip: skip,
-      take: take,
-      ...orderByCondition,
-      where: whereCondition,
-    });
+    const response = await prisma.pcBanner
+      // category default가 -1 일경우 필터링을 위해
+      .count({
+        where: whereCondition,
+      });
+    console.log("get-pcBanner-count : ", response);
     return response;
   } catch (error) {
     console.error(error);
   }
 }
-
 type Data = {
-  items?: any[];
+  items?: any;
   message: string;
 };
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const { skip, take, category, orderBy, contains, startday, lastday } =
-    req.query;
-
-  if (skip == null || take == null) {
-    res.status(400).json({ message: "no skip or take" });
-    return;
-  }
-
+  const { contains, startday, lastday } = req.query; //있어도그만 없어도그만인값
   try {
-    const products = await getProducts({
-      skip: Number(skip),
-      take: Number(take),
-      orderBy: String(orderBy),
+    const pcBannerCounts = await getPcbannerCount({
       contains: contains ? String(contains) : "",
       startday: startday !== "null" ? String(startday) : null,
       lastday: lastday !== "null" ? String(lastday) : null,
     });
 
-    if (startday && (!products || products.length === 0)) {
+    if (startday && (!pcBannerCounts || pcBannerCounts === 0)) {
       res.status(200).json({ items: [], message: "No items found" });
     } else {
-      res.status(200).json({ items: products || [], message: "Success" });
+      res.status(200).json({ items: pcBannerCounts || [], message: "Success" });
     }
   } catch (error) {
     res.status(400).json({ message: "Failed" });

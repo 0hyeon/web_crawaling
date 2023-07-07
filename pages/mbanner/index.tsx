@@ -25,7 +25,6 @@ const MoBanner = () => {
     null,
     null,
   ]);
-  const [currentValue, setCurrentValue] = useState<any>(null);
   const getDate = useCallback(
     (startDay: string | null, lastDay: string | null) => {
       setDate([startDay, lastDay]);
@@ -36,8 +35,6 @@ const MoBanner = () => {
     setKeyword(e.target.value);
   };
   const debouncedKeword = useDebounce<string>(keyword);
-  const debouncedStartDate = useDebounce<string | null>(isDate[0]);
-  const debouncedLastDate = useDebounce<string | null>(isDate[1]);
 
   const { data: banners, refetch } = useQuery<
     { items: Banner[] },
@@ -47,14 +44,17 @@ const MoBanner = () => {
     [
       `/api/get-mobanner?skip=${
         TAKE * (activePage - 1)
-      }&take=${TAKE}&orderBy=${selectedFilter}&contains=${debouncedKeword}`,
+      }&take=${TAKE}&orderBy=${selectedFilter}&contains=${debouncedKeword}&startday=${
+        isDate[0]
+      }&lastday=${isDate[1]}`,
     ],
     () =>
       fetch(
         `/api/get-mobanner?skip=${
           TAKE * (activePage - 1)
-          //}&take=${TAKE}&orderBy=${selectedFilter}&contains=${debouncedKeword}`
-        }&take=${TAKE}&orderBy=${selectedFilter}&contains=${debouncedKeword}&startday=${debouncedStartDate}&lastday=${debouncedLastDate}`
+        }&take=${TAKE}&orderBy=${selectedFilter}&contains=${debouncedKeword}&startday=${
+          isDate[0]
+        }&lastday=${isDate[1]}`
       ).then((res) => res.json()),
     {
       select: (data) => data.items,
@@ -63,12 +63,17 @@ const MoBanner = () => {
 
   useEffect(() => {
     refetch();
-  }, [debouncedStartDate, debouncedLastDate, refetch]);
+    setPage(1);
+  }, [isDate, refetch]);
 
   const { data: total } = useQuery(
-    [`/api/get-products-count?&contains=${debouncedKeword}`],
+    [
+      `/api/get-mobanner-count?&contains=${debouncedKeword}&startday=${isDate[0]}&lastday=${isDate[1]}`,
+    ],
     () =>
-      fetch(`/api/get-products-count?&contains=${debouncedKeword}`)
+      fetch(
+        `/api/get-mobanner-count?&contains=${debouncedKeword}&startday=${isDate[0]}&lastday=${isDate[1]}`
+      )
         .then((res) => res.json())
         .then((data) => Math.ceil(data.items / TAKE))
   );
