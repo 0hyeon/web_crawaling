@@ -97,7 +97,7 @@ const MoBanner = () => {
       <div className="h-[100%] w-full bg-[#dee2e6] pl-64">
         <div className="h-16 w-full bg-white px-12"></div>
         <div className="mx-4 mt-4 bg-white px-4 py-6">
-          <div className="flex justify-between gap-5">
+          <div className="flex justify-between">
             {/* 셀렉바 */}
             <div className="w-52">
               <Select
@@ -139,11 +139,14 @@ const MoBanner = () => {
           </div>
           {/* banner */}
           {banners && (
-            <div className="mt-7 grid grid-cols-2 gap-10">
+            <div className="  mt-7 grid grid-cols-1 gap-10 ">
               {banners?.map(
                 (item: any) =>
                   item?.src && (
-                    <div key={item.id}>
+                    <div
+                      key={item.id}
+                      className="mx-auto w-[50%] border-b-2 pb-12 pt-12"
+                    >
                       <Image
                         className="min-w-full rounded"
                         alt={item.alt}
