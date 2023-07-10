@@ -66,11 +66,11 @@ const MoBanner = () => {
 
   const { data: total } = useQuery(
     [
-      `/api/get-mobanner-count?&contains=${debouncedKeword}&startday=${isDate[0]}&lastday=${isDate[1]}`,
+      `/api/get-mobanner-count?&contains=${debouncedKeword}&startday=${startDate}&lastday=${lastDate}`,
     ],
     () =>
       fetch(
-        `/api/get-mobanner-count?&contains=${debouncedKeword}&startday=${isDate[0]}&lastday=${isDate[1]}`
+        `/api/get-mobanner-count?&contains=${debouncedKeword}&startday=${startDate}&lastday=${lastDate}`
       )
         .then((res) => res.json())
         .then((data) => Math.ceil(data.items / TAKE))
@@ -137,13 +137,13 @@ const MoBanner = () => {
           </div>
           {/* banner */}
           {banners && (
-            <div className="  mt-7 grid grid-cols-1 gap-10 ">
+            <div className="  mt-7 grid grid-cols-1 gap-5 ">
               {banners?.map(
                 (item: any) =>
                   item?.src && (
                     <div
                       key={item.id}
-                      className="mx-auto w-[40%] border-b-2 pb-12"
+                      className="mx-auto w-[30%] border-b-2 pb-5"
                     >
                       <Image
                         className="min-w-full rounded"
@@ -155,20 +155,20 @@ const MoBanner = () => {
                             : ""
                         }
                         width={800}
-                        height={390}
+                        height={290}
                         placeholder="blur"
                         blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mPUUNWoBwAB6AD2lTrGfwAAAABJRU5ErkJggg==="
                       />
-                      <div className="mt-5 flex flex-col gap-2">
-                        <div>
+                      <div className="mt-3 flex flex-col">
+                        <div className="mb-1 text-sm">
                           {format(
                             new Date(item.createdAt),
                             // "yyyy년 M월 d일 HH시mm분"
                             "yyyy년 M월 d일 HH시"
                           )}
                         </div>
-                        <div className="text-lg font-bold">{item.title}</div>
-                        <div className="font-light tracking-tight">
+                        <div className="text-base font-bold">{item.title}</div>
+                        <div className="text-sm font-light tracking-tight">
                           {item.alt}
                         </div>
                       </div>

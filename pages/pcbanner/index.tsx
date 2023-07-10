@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React, { useState, useEffect, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Banner } from "@prisma/client";
+import { Banner, PcBanner } from "@prisma/client";
 import { Input, Pagination, SegmentedControl, Select } from "@mantine/core";
 import MenubarLeft from "@components/MenubarLeft";
 import useDebounce from "@libs/client/useDebounce";
@@ -13,11 +13,14 @@ import Link from "next/link";
 // import Pie from "@components/Pie";
 // import { pieData } from "@constants/data";
 
-interface UploadProductMutation {
-  ok: boolean;
-  banner: Banner;
+interface BannerPc extends Banner {
+  alt: string;
+  bannerId: number;
+  href: string;
+  src: string;
+  title: string;
 }
-const PcBanner = () => {
+const PcBannerPage = () => {
   const router = useRouter();
   const [keyword, setKeyword] = useState("");
   const [activePage, setPage] = useState(1);
@@ -36,6 +39,8 @@ const PcBanner = () => {
     setKeyword(e.target.value);
   };
   const debouncedKeword = useDebounce<string>(keyword);
+  const startDate = useDebounce<string | null>(isDate[0]);
+  const lastDate = useDebounce<string | null>(isDate[1]);
   const { data: banners, refetch } = useQuery<
     { items: Banner[] },
     unknown,
@@ -44,23 +49,19 @@ const PcBanner = () => {
     [
       `/api/get-pcbanner?skip=${
         TAKE * (activePage - 1)
-      }&take=${TAKE}&orderBy=${selectedFilter}&contains=${debouncedKeword}&startday=${
-        isDate[0]
-      }&lastday=${isDate[1]}`,
+      }&take=${TAKE}&orderBy=${selectedFilter}&contains=${debouncedKeword}&startday=${startDate}&lastday=${lastDate}`,
     ],
     () =>
       fetch(
         `/api/get-pcbanner?skip=${
           TAKE * (activePage - 1)
-        }&take=${TAKE}&orderBy=${selectedFilter}&contains=${debouncedKeword}&startday=${
-          isDate[0]
-        }&lastday=${isDate[1]}`
+        }&take=${TAKE}&orderBy=${selectedFilter}&contains=${debouncedKeword}&startday=${startDate}&lastday=${lastDate}`
       ).then((res) => res.json()),
     {
       select: (data) => data.items,
     }
   );
-
+  console.log("banners : ", banners);
   useEffect(() => {
     refetch();
     setPage(1);
@@ -68,11 +69,11 @@ const PcBanner = () => {
 
   const { data: total } = useQuery(
     [
-      `/api/get-pcbanner-count?&contains=${debouncedKeword}&startday=${isDate[0]}&lastday=${isDate[1]}`,
+      `/api/get-pcbanner-count?&contains=${debouncedKeword}&startday=${startDate}&lastday=${lastDate}`,
     ],
     () =>
       fetch(
-        `/api/get-pcbanner-count?&contains=${debouncedKeword}&startday=${isDate[0]}&lastday=${isDate[1]}`
+        `/api/get-pcbanner-count?&contains=${debouncedKeword}&startday=${startDate}&lastday=${lastDate}`
       )
         .then((res) => res.json())
         .then((data) => Math.ceil(data.items / TAKE))
@@ -139,13 +140,13 @@ const PcBanner = () => {
           </div>
           {/* banner */}
           {banners && (
-            <div className="  mt-7 grid grid-cols-1 gap-10 ">
+            <div className="  mt-7 grid grid-cols-1 gap-5 ">
               {banners?.map(
                 (item: any) =>
                   item?.src && (
                     <div
                       key={item.id}
-                      className="mx-auto w-[50%] border-b-2 pb-12 pt-12"
+                      className="mx-auto w-[40%] border-b-2 pb-5"
                     >
                       <a
                         href={item.href}
@@ -167,16 +168,16 @@ const PcBanner = () => {
                           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mPUUNWoBwAB6AD2lTrGfwAAAABJRU5ErkJggg==="
                         />
                       </a>
-                      <div className="mt-5 flex flex-col gap-2">
-                        <div>
+                      <div className="mt-3 flex flex-col">
+                        <div className="mb-1 text-sm">
                           {format(
                             new Date(item.createdAt),
                             // "yyyy년 M월 d일 HH시mm분"
                             "yyyy년 M월 d일 HH시"
                           )}
                         </div>
-                        <div className="text-lg font-bold">{item.title}</div>
-                        <div className="font-light tracking-tight">
+                        <div className="text-base font-bold">{item.title}</div>
+                        <div className="text-sm font-light tracking-tight">
                           {item.alt}
                         </div>
                       </div>
@@ -203,4 +204,4 @@ const PcBanner = () => {
   );
 };
 
-export default PcBanner;
+export default PcBannerPage;

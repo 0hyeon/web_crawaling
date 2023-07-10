@@ -24,7 +24,7 @@ function DateSchedule({ getDate }: any) {
         <Group position="center">
           <Group position="center">
             <DatePicker
-              className="absolute left-[-500px] top-10 rounded-lg bg-white p-[10px] drop-shadow-lg"
+              className="absolute left-[-250px] top-10 rounded-lg bg-white p-[10px] drop-shadow-lg"
               type="range"
               // numberOfColumns={2}
               value={value}
