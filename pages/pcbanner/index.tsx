@@ -140,14 +140,30 @@ const PcBannerPage = () => {
           </div>
           {/* banner */}
           {banners && (
-            <div className="  mt-7 grid grid-cols-1 gap-5 ">
+            <div className="  mt-7 grid grid-cols-1">
               {banners?.map(
-                (item: any) =>
+                (item: any, idx) =>
                   item?.src && (
                     <div
                       key={item.id}
-                      className="mx-auto w-[40%] border-b-2 pb-5"
+                      className="relative mx-auto w-[40%] border-b-2 border-l-[3px] pl-3 pt-3"
                     >
+                      {idx > 0 &&
+                      item.createdAt === banners[idx - 1].createdAt ? null : (
+                        <div
+                          key={idx}
+                          className="absolute left-[-11px] top-[-11px] h-[20px] w-[20px] rounded-xl border border-gray-300 bg-white"
+                        >
+                          <span className="absolute left-[-74px] top-[-3px]  w-[74px] text-sm text-gray-400">
+                            {format(
+                              new Date(item.createdAt),
+                              // "yyyy년 M월 d일 HH시mm분"
+                              "d일 HH시"
+                            )}
+                          </span>
+                        </div>
+                      )}
+
                       <a
                         href={item.href}
                         target="_blank"
@@ -177,7 +193,7 @@ const PcBannerPage = () => {
                           )}
                         </div>
                         <div className="text-base font-bold">{item.title}</div>
-                        <div className="text-sm font-light tracking-tight">
+                        <div className="pb-3 text-sm font-light tracking-tight">
                           {item.alt}
                         </div>
                       </div>
