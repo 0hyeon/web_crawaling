@@ -1,4 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from "next";
 import withHandler from "@libs/server/withHandler";
 import client from "@libs/server/clients";
 import { checkEnvironment } from "@libs/server/useCheckEnvironment";
@@ -12,95 +12,66 @@ interface MobileBanner {
 
 interface PCBanner extends MobileBanner {}
 
-async function handler(req: NextApiRequest, res: NextApiResponse) {
-  let url;
-  if (process.env.NODE_ENV === "development") {
-    url = "http://127.0.0.1/hello";
-  } else {
-    url = "http://43.202.29.183/hello";
-  }
+async function uploadImageAndGetId(url: string, replaceName: string) {
+  const { uploadURL } = await (await fetch(url)).json();
+  const response = await fetch(url);
 
+  const blob = await response.blob();
+  const form = new FormData();
+  form.append("file", blob, replaceName);
+  const {
+    result: { id },
+  } = await (await fetch(uploadURL, { method: "POST", body: form })).json();
+  return id;
+}
+
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {
     try {
-      // Step 1: Fetch the data
-      const response = await (
-        await fetch(`${url}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
+      const url =
+        process.env.NODE_ENV === "development"
+          ? "http://43.202.29.183/hello"
+          : "http://43.202.29.183/hello";
+
+      const response = await fetch(url);
+      // console.log("response  :", response);
+      // console.log("await response.text() : ", await response.text());
+      const data = await response.text(); // Retrieve response body as text
+
+      const { PC, Mobile } = JSON.parse(data); // Parse the response manually
+
+      const pcbanners: PCBanner[] = await Promise.all(
+        PC?.map(async (item: PCBanner) => {
+          const { alt, title, src, href } = item;
+          const id = await uploadImageAndGetId(
+            checkEnvironment().concat("/api/files"),
+            src
+          );
+          return {
+            src: id,
+            alt,
+            title,
+            href,
+          };
         })
-      ).json();
-      const { ok, PC, Mobile } = response;
-      const pcbanners: PCBanner[] = [];
-      for (let i = 0; i < (PC?.length ?? 0); i++) {
-        const { alt, title, src, replaceName, href } = PC[i];
+      );
 
-        /*cloudfalre에 업로드 요청할 빈url 요청*/
-        const { uploadURL } = await (
-          await fetch(checkEnvironment().concat("/api/files"))
-        ).json();
+      const mobilebanners: MobileBanner[] = await Promise.all(
+        Mobile?.map(async (item: MobileBanner) => {
+          const { alt, title, src, href } = item;
+          const id = await uploadImageAndGetId(
+            checkEnvironment().concat("/api/files"),
+            src
+          );
+          return {
+            src: id,
+            alt,
+            title,
+            href,
+          };
+        })
+      );
 
-        /* 이미지 저장할 폼데이터 */
-        const form = new FormData();
-
-        /* 파일을 서버에 업로드하기 위해 폼에 첨부 */
-        const response = await fetch(src);
-        const blob = await response.blob();
-        form.append("file", blob, replaceName);
-
-        /* cloudflare로 이미지전송 post로 한 response, id는 이미지 조회시 필요 */
-        const {
-          result: { id },
-        } = await (
-          await fetch(uploadURL, { method: "POST", body: form })
-        ).json();
-
-        console.log("pc result id : ", id);
-        /* 메인db에 push */
-        pcbanners.push({
-          src: id,
-          alt,
-          title,
-          href,
-        });
-      }
-
-      const mobilebanners: MobileBanner[] = [];
-      for (let i = 0; i < (Mobile?.length ?? 0); i++) {
-        const { alt, title, src, replaceName, href } = Mobile[i];
-
-        /*빈url 요청*/
-        const { uploadURL } = await (
-          await fetch(checkEnvironment().concat("/api/files"))
-        ).json();
-
-        /* 이미지 저장할 폼데이터 */
-        const form = new FormData();
-
-        /* 파일을 서버에 업로드하기 위해 폼에 첨부 */
-        const response = await fetch(src);
-        const blob = await response.blob();
-        form.append("file", blob, replaceName);
-
-        /* cloudflare로 이미지전송 post로 한 response, id는 이미지 조회시 필요 */
-        const {
-          result: { id },
-        } = await (
-          await fetch(uploadURL, { method: "POST", body: form })
-        ).json();
-
-        //console.log("mobile result id : ", id);
-
-        mobilebanners.push({
-          src: id,
-          alt,
-          title,
-          href,
-        });
-      }
-
-      // Step 3: Create the record in the database
       const banners = await client.banner.create({
         data: {
           pcbanners: {
@@ -119,8 +90,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           mobilebanners: true,
         },
       });
-      console.log("error create banner : ", banners);
-      // Step 4: Send the response
+
       res.json({
         ok: true,
         banners,

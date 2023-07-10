@@ -2,7 +2,7 @@
   "crons": [
     {
       "path": "/api/add-webcrawaling",
-      "schedule": "0,5,10,15,20,* * * *"
+      "schedule": "5 * * * *"
     }
   ],
   "functions": {
