@@ -78,18 +78,18 @@ const PcBannerPage = () => {
         .then((res) => res.json())
         .then((data) => Math.ceil(data.items / TAKE))
   );
-  const CRAWALING_QUERY_KEY = "/api/add-webcrawaling";
-  const { data: fetchData } = useQuery<{ items: any[] }, unknown, any[]>(
-    [CRAWALING_QUERY_KEY],
-    () => fetch(CRAWALING_QUERY_KEY).then((res) => res.json())
-    // .then((res) => res.json())
-    // .then((data) => data)
-  );
-  console.log("fetchData : ", fetchData);
-  useEffect(() => {
-    console.log("useEffect실행");
-  }, [fetchData]);
-  console.log(banners);
+  // const CRAWALING_QUERY_KEY = "/api/add-webcrawaling";
+  // const { data: fetchData } = useQuery<{ items: any[] }, unknown, any[]>(
+  //   [CRAWALING_QUERY_KEY],
+  //   () => fetch(CRAWALING_QUERY_KEY).then((res) => res.json())
+  //   // .then((res) => res.json())
+  //   // .then((data) => data)
+  // );
+  // console.log("fetchData : ", fetchData);
+  // useEffect(() => {
+  //   console.log("useEffect실행");
+  // }, [fetchData]);
+  // console.log(banners);
   return (
     <>
       {/* 메뉴바 */}
