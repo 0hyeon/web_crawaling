@@ -24,6 +24,7 @@ model PcBanner {
   src       String?
   alt       String?
   title     String?
+  href      String?  @db.LongText
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   banner    Banner?  @relation(fields: [bannerId], references: [id], onDelete: Cascade)
@@ -37,6 +38,7 @@ model MobieBanner {
   src       String?
   alt       String?
   title     String?
+  href      String?  @db.LongText
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   banner    Banner?  @relation(fields: [bannerId], references: [id], onDelete: Cascade)

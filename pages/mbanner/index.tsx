@@ -35,6 +35,8 @@ const MoBanner = () => {
     setKeyword(e.target.value);
   };
   const debouncedKeword = useDebounce<string>(keyword);
+  const startDate = useDebounce<string | null>(isDate[0]);
+  const lastDate = useDebounce<string | null>(isDate[1]);
 
   const { data: banners, refetch } = useQuery<
     { items: Banner[] },
@@ -44,17 +46,13 @@ const MoBanner = () => {
     [
       `/api/get-mobanner?skip=${
         TAKE * (activePage - 1)
-      }&take=${TAKE}&orderBy=${selectedFilter}&contains=${debouncedKeword}&startday=${
-        isDate[0]
-      }&lastday=${isDate[1]}`,
+      }&take=${TAKE}&orderBy=${selectedFilter}&contains=${debouncedKeword}&startday=${startDate}&lastday=${lastDate}`,
     ],
     () =>
       fetch(
         `/api/get-mobanner?skip=${
           TAKE * (activePage - 1)
-        }&take=${TAKE}&orderBy=${selectedFilter}&contains=${debouncedKeword}&startday=${
-          isDate[0]
-        }&lastday=${isDate[1]}`
+        }&take=${TAKE}&orderBy=${selectedFilter}&contains=${debouncedKeword}&startday=${startDate}&lastday=${lastDate}`
       ).then((res) => res.json()),
     {
       select: (data) => data.items,
@@ -145,7 +143,7 @@ const MoBanner = () => {
                   item?.src && (
                     <div
                       key={item.id}
-                      className="mx-auto w-[50%] border-b-2 pb-12 pt-12"
+                      className="mx-auto w-[40%] border-b-2 pb-12"
                     >
                       <Image
                         className="min-w-full rounded"
@@ -156,7 +154,7 @@ const MoBanner = () => {
                             ? `https://imagedelivery.net/tUnns8TnvEqxOzjreCbU6w/${item.src}/public`
                             : ""
                         }
-                        width={1000}
+                        width={800}
                         height={390}
                         placeholder="blur"
                         blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mPUUNWoBwAB6AD2lTrGfwAAAABJRU5ErkJggg==="

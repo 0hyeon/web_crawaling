@@ -7,6 +7,7 @@ interface MobileBanner {
   src: string;
   alt: string;
   title: string;
+  href?: string;
 }
 
 interface PCBanner extends MobileBanner {}
@@ -26,7 +27,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       const { ok, PC, Mobile } = response;
       const pcbanners: PCBanner[] = [];
       for (let i = 0; i < (PC?.length ?? 0); i++) {
-        const { alt, src, title, replaceName } = PC[i];
+        const { alt, title, src, replaceName, href } = PC[i];
 
         /*cloudfalre에 업로드 요청할 빈url 요청*/
         const { uploadURL } = await (
@@ -54,12 +55,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           src: id,
           alt,
           title,
+          href,
         });
       }
 
       const mobilebanners: MobileBanner[] = [];
       for (let i = 0; i < (Mobile?.length ?? 0); i++) {
-        const { alt, title, src, replaceName } = Mobile[i];
+        const { alt, title, src, replaceName, href } = Mobile[i];
 
         /*빈url 요청*/
         const { uploadURL } = await (
@@ -87,11 +89,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           src: id,
           alt,
           title,
+          href,
         });
       }
 
       // Step 3: Create the record in the database
-      const banner = await client.banner.create({
+      const banners = await client.banner.create({
         data: {
           pcbanners: {
             createMany: {
@@ -109,11 +112,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           mobilebanners: true,
         },
       });
-
+      console.log("error create banner : ", banners);
       // Step 4: Send the response
       res.json({
         ok: true,
-        banner,
+        banners,
       });
     } catch (error) {
       console.log(error);

@@ -26,7 +26,7 @@ function DateSchedule({ getDate }: any) {
             <DatePicker
               className="absolute left-[-500px] top-10 rounded-lg bg-white p-[10px] drop-shadow-lg"
               type="range"
-              numberOfColumns={2}
+              // numberOfColumns={2}
               value={value}
               onChange={setValue}
             />
