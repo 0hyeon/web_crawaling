@@ -9,6 +9,7 @@ import { FILTERS, TAKE } from "@constants/banners";
 import { useRouter } from "next/router";
 import { format } from "date-fns";
 import DateSchedule from "@components/DateSchedule";
+import Link from "next/link";
 // import Pie from "@components/Pie";
 // import { pieData } from "@constants/data";
 
@@ -146,20 +147,26 @@ const PcBanner = () => {
                       key={item.id}
                       className="mx-auto w-[50%] border-b-2 pb-12 pt-12"
                     >
-                      <Image
-                        className="min-w-full rounded"
-                        alt={item.alt}
-                        key={item.id}
-                        src={
-                          item.src
-                            ? `https://imagedelivery.net/tUnns8TnvEqxOzjreCbU6w/${item.src}/public`
-                            : ""
-                        }
-                        width={1000}
-                        height={390}
-                        placeholder="blur"
-                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mPUUNWoBwAB6AD2lTrGfwAAAABJRU5ErkJggg==="
-                      />
+                      <a
+                        href={item.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Image
+                          className="min-w-full rounded"
+                          alt={item.alt}
+                          key={item.id}
+                          src={
+                            item.src
+                              ? `https://imagedelivery.net/tUnns8TnvEqxOzjreCbU6w/${item.src}/public`
+                              : ""
+                          }
+                          width={1000}
+                          height={390}
+                          placeholder="blur"
+                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mPUUNWoBwAB6AD2lTrGfwAAAABJRU5ErkJggg==="
+                        />
+                      </a>
                       <div className="mt-5 flex flex-col gap-2">
                         <div>
                           {format(
