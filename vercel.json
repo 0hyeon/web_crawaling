@@ -2,13 +2,13 @@
   "crons": [
     {
       "path": "/api/add-webcrawaling",
-      "schedule": "0 * * * *"
+      "schedule": "*/5 * * * *"
     }
   ],
   "functions": {
     "pages/api/add-webcrawaling.ts": {
       "memory": 1024,
-      "maxDuration": 30
+      "maxDuration": 60
     }
   }
 }
