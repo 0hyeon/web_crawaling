@@ -9,7 +9,6 @@ import { FILTERS, TAKE } from "@constants/banners";
 import { useRouter } from "next/router";
 import { format } from "date-fns";
 import DateSchedule from "@components/DateSchedule";
-import { DateTrans } from "@libs/client/DateTrans";
 // import Pie from "@components/Pie";
 // import { pieData } from "@constants/data";
 
@@ -142,8 +141,7 @@ const MoBanner = () => {
                       key={item.id}
                       className="relative mx-auto w-[40%] border-b-2 border-l-[3px] p-3"
                     >
-                      {idx > 0 &&
-                      item.createdAt === banners[idx - 1].createdAt ? null : (
+                      {idx > 0 && item.date === banners[idx - 1].date ? null : (
                         <div
                           key={idx}
                           className="absolute left-[-11px] top-[-11px] h-[20px] w-[20px] rounded-xl border border-gray-300 bg-white"
@@ -154,7 +152,6 @@ const MoBanner = () => {
                               // "yyyy년 M월 d일 HH시mm분"
                               "d일 HH시"
                             )}
-                            {/* {DateTrans(item.createdAt)} */}
                           </span>
                         </div>
                       )}

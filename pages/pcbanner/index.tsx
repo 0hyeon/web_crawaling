@@ -141,8 +141,7 @@ const PcBannerPage = () => {
                       key={item.id}
                       className="relative mx-auto w-[40%] border-b-2 border-l-[3px] pl-3 pt-3"
                     >
-                      {idx > 0 &&
-                      item.createdAt === banners[idx - 1].createdAt ? null : (
+                      {idx > 0 && item.date === banners[idx - 1].date ? null : (
                         <div
                           key={idx}
                           className="absolute left-[-11px] top-[-11px] h-[20px] w-[20px] rounded-xl border border-gray-300 bg-white"

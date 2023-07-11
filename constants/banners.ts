@@ -7,9 +7,9 @@ export const FILTERS = [
 export const getOrderBy = (orderBy?: string) => {
   return orderBy
     ? orderBy === "latest"
-      ? { orderBy: { createdAt: "desc" } }
-      : { orderBy: { createdAt: "asc" } }
-    : { orderBy: { createdAt: "asc" } };
+      ? { orderBy: { date: "desc" } }
+      : { orderBy: { date: "asc" } }
+    : { orderBy: { date: "asc" } };
 };
 // getOrderBy 함수 수정
 // export const getOrderBy = (orderBy?: string) => {

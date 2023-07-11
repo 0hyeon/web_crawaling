@@ -48,7 +48,7 @@ async function getProducts({
       gte: startDate,
       lt: endDate,
     };
-    orderByCondition = { orderBy: { createdAt: "asc" } };
+    orderByCondition = { orderBy: { date: "asc" } };
   }
 
   if (startday !== null && lastday !== null) {
@@ -70,7 +70,7 @@ async function getProducts({
       gte: startDate,
       lt: endDate,
     };
-    orderByCondition = { orderBy: { createdAt: "asc" } };
+    orderByCondition = { orderBy: { date: "asc" } };
   }
   console.log("startday: ", startday);
   console.log("lastday: ", lastday);
