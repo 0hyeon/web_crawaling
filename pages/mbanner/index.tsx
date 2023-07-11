@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React, { useState, useEffect, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Banner } from "@prisma/client";
+import { MobieBanner } from "@prisma/client";
 import { Input, Pagination, SegmentedControl, Select } from "@mantine/core";
 import MenubarLeft from "@components/MenubarLeft";
 import useDebounce from "@libs/client/useDebounce";
@@ -12,10 +12,6 @@ import DateSchedule from "@components/DateSchedule";
 // import Pie from "@components/Pie";
 // import { pieData } from "@constants/data";
 
-interface UploadProductMutation {
-  ok: boolean;
-  banner: Banner;
-}
 const MoBanner = () => {
   const router = useRouter();
   const [keyword, setKeyword] = useState("");
@@ -39,9 +35,9 @@ const MoBanner = () => {
   const lastDate = useDebounce<string | null>(isDate[1]);
 
   const { data: banners, refetch } = useQuery<
-    { items: Banner[] },
+    { items: MobieBanner[] },
     unknown,
-    Banner[]
+    MobieBanner[]
   >(
     [
       `/api/get-mobanner?skip=${
@@ -75,7 +71,7 @@ const MoBanner = () => {
         .then((res) => res.json())
         .then((data) => Math.ceil(data.items / TAKE))
   );
-  // const CRAWALING_QUERY_KEY = "/api/add-webcrawaling";
+  // const CRAWALING_QUERY_KEY = "/api/add-moWebcrawaling";
   // const { data: fetchData } = useQuery<{ items: any[] }, unknown, any[]>(
   //   [CRAWALING_QUERY_KEY],
   //   () => fetch(CRAWALING_QUERY_KEY).then((res) => res.json())

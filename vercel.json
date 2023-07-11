@@ -1,16 +1,12 @@
 {
   "crons": [
     {
-      "path": "/api/add-webcrawaling",
-      "schedule": "0 * * * *"
-    },
-    {
       "path": "/api/add-pcWebcrawaling",
-      "schedule": "10 * * * *"
+      "schedule": "5 * * * *"
     },
     {
       "path": "/api/add-moWebcrawaling",
-      "schedule": "5 * * * *"
+      "schedule": "0 * * * *"
     }
   ],
   "functions": {

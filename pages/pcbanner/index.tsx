@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React, { useState, useEffect, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Banner, PcBanner } from "@prisma/client";
+import { PcBanner } from "@prisma/client";
 import { Input, Pagination, SegmentedControl, Select } from "@mantine/core";
 import MenubarLeft from "@components/MenubarLeft";
 import useDebounce from "@libs/client/useDebounce";
@@ -13,13 +13,6 @@ import Link from "next/link";
 // import Pie from "@components/Pie";
 // import { pieData } from "@constants/data";
 
-interface BannerPc extends Banner {
-  alt: string;
-  bannerId: number;
-  href: string;
-  src: string;
-  title: string;
-}
 const PcBannerPage = () => {
   const router = useRouter();
   const [keyword, setKeyword] = useState("");
@@ -42,9 +35,9 @@ const PcBannerPage = () => {
   const startDate = useDebounce<string | null>(isDate[0]);
   const lastDate = useDebounce<string | null>(isDate[1]);
   const { data: banners, refetch } = useQuery<
-    { items: Banner[] },
+    { items: PcBanner[] },
     unknown,
-    Banner[]
+    PcBanner[]
   >(
     [
       `/api/get-pcbanner?skip=${
@@ -78,7 +71,7 @@ const PcBannerPage = () => {
         .then((res) => res.json())
         .then((data) => Math.ceil(data.items / TAKE))
   );
-  // const CRAWALING_QUERY_KEY = "/api/add-webcrawaling";
+  // const CRAWALING_QUERY_KEY = "/api/add-pcWebcrawaling";
   // const { data: fetchData } = useQuery<{ items: any[] }, unknown, any[]>(
   //   [CRAWALING_QUERY_KEY],
   //   () => fetch(CRAWALING_QUERY_KEY).then((res) => res.json())

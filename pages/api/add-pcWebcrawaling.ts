@@ -64,7 +64,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           href,
         });
       }
-      const banners = await client.mobieBanner.createMany({
+      const banners = await client.pcBanner.createMany({
         data: pcbanners,
       });
       console.log("error create banner : ", banners);
