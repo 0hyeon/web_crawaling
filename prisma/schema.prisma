@@ -17,6 +17,7 @@ model PcBanner {
   alt       String?
   title     String?
   href      String?  @db.LongText
+  date      String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -27,6 +28,7 @@ model MobieBanner {
   alt       String?
   title     String?
   href      String?  @db.LongText
+  date      String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

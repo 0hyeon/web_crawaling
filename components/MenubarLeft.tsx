@@ -8,9 +8,9 @@ import { Router, useRouter } from "next/router";
 function MenubarLeft() {
   const router = useRouter();
   const onClickRouterLink = (menu: string) => {
-    if (menu === "PC") {
+    if (menu === "타임보드") {
       router.push("/pcbanner");
-    } else if (menu === "Mobile") {
+    } else if (menu === "스페셜DM") {
       router.push("/mbanner");
     }
   };
@@ -48,14 +48,14 @@ function MenubarLeft() {
             <ImageIcon width={25} height={25} />
           </div>
           <Accordion summary={"Banner"}>
-            {["PC", "Mobile"].map((el, idx) => {
+            {["타임보드", "스페셜DM"].map((el, idx) => {
               return (
                 <ul key={idx} className="cursor-pointer rounded-sm pl-3 ">
                   <li
                     onClick={() => onClickRouterLink(el)}
                     className="py-4 text-[#000] transition-colors duration-75 hover:text-[#228ae6]"
                   >
-                    네이버 {el} 배너
+                    {el}
                   </li>
                 </ul>
               );
@@ -69,11 +69,11 @@ function MenubarLeft() {
             <SettingIcon width={25} height={25} />
           </div>
           <Accordion summary={"Service"}>
-            {[1, 2, 3, 4, 5].map((el, idx) => {
+            {[1].map((el, idx) => {
               return (
                 <ul key={idx}>
                   <li className="cursor-pointer py-4 duration-75 hover:text-[#228ae6]">
-                    {idx + 1}menu(서비스예정)
+                    {/* {idx + 1}menu(서비스예정) */}
                   </li>
                 </ul>
               );

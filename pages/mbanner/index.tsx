@@ -9,6 +9,7 @@ import { FILTERS, TAKE } from "@constants/banners";
 import { useRouter } from "next/router";
 import { format } from "date-fns";
 import DateSchedule from "@components/DateSchedule";
+import { DateTrans } from "@libs/client/DateTrans";
 // import Pie from "@components/Pie";
 // import { pieData } from "@constants/data";
 
@@ -33,7 +34,7 @@ const MoBanner = () => {
   const debouncedKeword = useDebounce<string>(keyword);
   const startDate = useDebounce<string | null>(isDate[0]);
   const lastDate = useDebounce<string | null>(isDate[1]);
-
+  console.log(debouncedKeword);
   const { data: banners, refetch } = useQuery<
     { items: MobieBanner[] },
     unknown,
@@ -153,6 +154,7 @@ const MoBanner = () => {
                               // "yyyy년 M월 d일 HH시mm분"
                               "d일 HH시"
                             )}
+                            {/* {DateTrans(item.createdAt)} */}
                           </span>
                         </div>
                       )}
@@ -176,7 +178,7 @@ const MoBanner = () => {
                           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mPUUNWoBwAB6AD2lTrGfwAAAABJRU5ErkJggg==="
                         />
                       </a>
-                      <div className="mt-3 flex flex-col">
+                      <div className="col-2 mt-3 flex flex-col">
                         <div className="mb-1 text-sm">
                           {format(
                             new Date(item.createdAt),

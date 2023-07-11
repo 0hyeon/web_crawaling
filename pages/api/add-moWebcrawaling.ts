@@ -8,6 +8,7 @@ interface MobileBanner {
   alt: string;
   title: string;
   href?: string;
+  date?: string;
 }
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -31,7 +32,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       const { Mobile } = response;
       const mobilebanners: MobileBanner[] = [];
       for (let i = 0; i < (Mobile?.length ?? 0); i++) {
-        const { alt, title, src, replaceName, href } = Mobile[i];
+        const { alt, title, src, replaceName, href, date } = Mobile[i];
 
         /*빈url 요청*/
         const { uploadURL } = await (
@@ -57,6 +58,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           alt,
           title,
           href,
+          date,
         });
       }
       const banners = await client.mobieBanner.createMany({

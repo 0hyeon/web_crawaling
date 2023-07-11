@@ -8,6 +8,7 @@ interface MobileBanner {
   alt: string;
   title: string;
   href?: string;
+  date?: string;
 }
 
 interface PCBanner extends MobileBanner {}
@@ -33,7 +34,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       const { PC } = response;
       const pcbanners: PCBanner[] = [];
       for (let i = 0; i < (PC?.length ?? 0); i++) {
-        const { alt, title, src, replaceName, href } = PC[i];
+        const { alt, title, src, replaceName, href, date } = PC[i];
 
         /*cloudfalre에 업로드 요청할 빈url 요청*/
         const { uploadURL } = await (
@@ -62,6 +63,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           alt,
           title,
           href,
+          date,
         });
       }
       const banners = await client.pcBanner.createMany({
