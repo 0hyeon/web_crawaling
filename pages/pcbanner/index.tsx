@@ -133,7 +133,7 @@ const PcBannerPage = () => {
           </div>
           {/* banner */}
           {banners && (
-            <div className="  mt-7 grid grid-cols-1">
+            <div className="mt-7 grid grid-cols-1">
               {banners?.map(
                 (item: any, idx) =>
                   item?.src && (
