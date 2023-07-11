@@ -10,7 +10,11 @@
     }
   ],
   "functions": {
-    "pages/api/add-webcrawaling.ts": {
+    "pages/api/add-pcWebcrawaling.ts": {
+      "memory": 250,
+      "maxDuration": 60
+    },
+    "pages/api/add-moWebcrawaling.ts": {
       "memory": 250,
       "maxDuration": 60
     }
