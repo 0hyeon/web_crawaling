@@ -2,12 +2,20 @@
   "crons": [
     {
       "path": "/api/add-webcrawaling",
+      "schedule": "0 * * * *"
+    },
+    {
+      "path": "/api/add-pcWebcrawaling",
+      "schedule": "10 * * * *"
+    },
+    {
+      "path": "/api/add-moWebcrawaling",
       "schedule": "5 * * * *"
     }
   ],
   "functions": {
     "pages/api/add-webcrawaling.ts": {
-      "memory": 1024,
+      "memory": 250,
       "maxDuration": 60
     }
   }
