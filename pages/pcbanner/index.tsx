@@ -179,7 +179,7 @@ const PcBannerPage = () => {
                       <div className="mt-3 flex flex-col">
                         <div className="mb-1 text-sm">
                           {format(
-                            new Date(item.createdAt),
+                            new Date(item.date),
                             // "yyyy년 M월 d일 HH시mm분"
                             "yyyy년 M월 d일 HH시"
                           )}
