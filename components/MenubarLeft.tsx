@@ -13,6 +13,8 @@ function MenubarLeft() {
       router.push("/pcbanner");
     } else if (menu === "스페셜DM") {
       router.push("/mbanner");
+    } else if (menu === "앱스플라이어 & 잡코리아") {
+      router.push("/exceltrans");
     }
   };
 
@@ -70,11 +72,14 @@ function MenubarLeft() {
             <Chartbar width={25} height={25} />
           </div>
           <Accordion summary={"Service"}>
-            {[1].map((el, idx) => {
+            {["앱스플라이어 & 잡코리아"].map((el, idx) => {
               return (
                 <ul key={idx}>
-                  <li className="cursor-pointer py-4 duration-75 hover:text-[#228ae6]">
-                    {/* {idx + 1}menu(서비스예정) */}
+                  <li
+                    onClick={() => onClickRouterLink(el)}
+                    className="cursor-pointer py-4 duration-75 hover:text-[#228ae6]"
+                  >
+                    {el}
                   </li>
                 </ul>
               );

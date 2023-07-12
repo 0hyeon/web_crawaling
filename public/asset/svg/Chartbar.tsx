@@ -15,10 +15,10 @@ function Chartbar({
       fill={"none"}
       viewBox="0 0 24 24"
       strokeWidth={1}
-      stroke={fill}
+      stroke="currentColor"
       width={width}
       height={height}
-      className="inline"
+      className="mr-3 inline"
     >
       <path
         strokeLinecap="round"

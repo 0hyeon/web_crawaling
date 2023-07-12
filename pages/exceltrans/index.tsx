@@ -1,0 +1,157 @@
+import MenubarLeft from "@components/MenubarLeft";
+import React, { useState, useEffect } from "react";
+import { FileInput, FileInputProps, Group, Center, rem } from "@mantine/core";
+import { IconPhoto } from "@tabler/icons-react";
+import { Box, Button } from "@mantine/core";
+import { useQuery } from "@tanstack/react-query";
+
+function Exceltrans() {
+  const [files, setFiles] = useState<File[]>([]);
+
+  function handleFileChange(value: File | File[] | null) {
+    if (Array.isArray(value)) {
+      setFiles((prevFiles) => [...prevFiles, ...value]);
+    } else if (value === null) {
+      setFiles([]);
+    } else {
+      setFiles((prevFiles) => [...prevFiles, value]);
+    }
+  }
+  /*비우기*/
+  const handleRemove = () => {
+    setFiles([]);
+  };
+  /*보내기*/
+  function handleSubmit() {
+    const formData = new FormData();
+    files.forEach((file, index) => {
+      formData.append(`file${index + 1}`, file);
+    });
+    const file1 = formData.get("file1");
+    const file2 = formData.get("file2");
+    const file3 = formData.get("file3");
+    const file4 = formData.get("file4");
+    console.log(file1, file2, file3, file4);
+
+    // fetch("API_ENDPOINT_URL", {
+    //   method: "POST",
+    //   body: formData,
+    // })
+    //   .then((response) => {
+    //     // Handle the response
+    //     console.log("Response:", response);
+    //   })
+    //   .catch((error) => {
+    //     // Handle any errors
+    //     console.error("Error:", error);
+    //   });
+    // const CRAWALING_QUERY_KEY = "/api/add-moWebcrawaling";
+    // const { data: fetchData } = useQuery<{ items: any[] }, unknown, any[]>(
+    //   [CRAWALING_QUERY_KEY],
+    //   () => fetch(CRAWALING_QUERY_KEY)
+    //   .then((res) => res.json())
+    //   // .then((res) => res.json())
+    //   // .then((data) => data)
+    // );
+    // console.log("fetchData : ", fetchData);
+  }
+  //   useEffect(() => {
+  //     console.log("fetchData");
+  //   }, [fetchData]);
+
+  function Value({ file }: { file: File | null }) {
+    return (
+      <Center
+        inline
+        sx={(theme) => ({
+          backgroundColor:
+            theme.colorScheme === "dark"
+              ? theme.colors.dark[7]
+              : theme.colors.gray[1],
+          fontSize: theme.fontSizes.xs,
+          padding: `${rem(3)} ${rem(7)}`,
+          borderRadius: theme.radius.sm,
+        })}
+      >
+        <IconPhoto size={rem(14)} style={{ marginRight: rem(5) }} />
+        <span
+          style={{
+            whiteSpace: "nowrap",
+            textOverflow: "ellipsis",
+            overflow: "hidden",
+            maxWidth: rem(200),
+            display: "inline-block",
+          }}
+        >
+          {file?.name}
+        </span>
+      </Center>
+    );
+  }
+
+  const ValueComponent: FileInputProps["valueComponent"] = ({ value }) => {
+    if (Array.isArray(value)) {
+      return (
+        <Group spacing="sm" py="xs">
+          {value.map((file, index) => (
+            <Value file={file} key={index} />
+          ))}
+        </Group>
+      );
+    }
+
+    return <Value file={value} />;
+  };
+
+  const labels = [
+    "AOS-유저유입-논오가닉",
+    "AOS-리타겟팅-논오가닉",
+    "IOS-유저유입-논오가닉",
+    "IOS-리타겟팅-논오가닉",
+  ];
+  const FileInputs = labels.map((el, index) => (
+    <Box key={index} maw={520} mx="auto">
+      <FileInput
+        mt="md"
+        label={`${el}`}
+        placeholder={`${el}을 업로드하세요.`}
+        valueComponent={ValueComponent}
+        onChange={handleFileChange}
+      />
+    </Box>
+  ));
+
+  return (
+    <>
+      {/* 메뉴바 */}
+      <MenubarLeft />
+
+      <div className="h-[100%] min-h-[100vh] w-full bg-[#dee2e6] pl-64">
+        <div className="h-16 w-full bg-white px-12"></div>
+        <div className="mx-4 mt-4 bg-white px-4 py-6">
+          <div className="p-8">
+            {FileInputs}
+            <Box
+              maw={520}
+              mx="auto"
+              mt="md"
+              className="mt-8 flex items-center justify-between"
+            >
+              <Button className="bg-black" onClick={handleSubmit}>
+                전송
+              </Button>
+              <Button
+                className="bg-whie border-[2px] border-black text-black"
+                onClick={handleRemove}
+              >
+                비우기
+              </Button>
+            </Box>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+export default Exceltrans;
