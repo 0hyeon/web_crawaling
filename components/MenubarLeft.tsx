@@ -5,6 +5,7 @@ import Accordion from "./Accordian";
 import SettingIcon from "public/asset/svg/SettingIcon";
 import ImageIcon from "public/asset/svg/ImageIcon";
 import { Router, useRouter } from "next/router";
+import Chartbar from "public/asset/svg/Chartbar";
 function MenubarLeft() {
   const router = useRouter();
   const onClickRouterLink = (menu: string) => {
@@ -66,7 +67,7 @@ function MenubarLeft() {
       <div className="px-4">
         <div className="flex">
           <div className="mt-[19px] flex">
-            <SettingIcon width={25} height={25} />
+            <Chartbar width={25} height={25} />
           </div>
           <Accordion summary={"Service"}>
             {[1].map((el, idx) => {

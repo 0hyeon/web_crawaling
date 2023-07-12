@@ -34,9 +34,9 @@ async function getMobannerCount({
     );
     const endDate = new Date(startDate.getTime() + 24 * 60 * 60 * 1000); // 다음 날짜의 00:00:00
 
-    whereCondition.createdAt = {
-      gte: startDate,
-      lt: endDate,
+    whereCondition.date = {
+      gte: startDate.toISOString(),
+      lt: endDate.toISOString(),
     };
   }
 
@@ -55,9 +55,9 @@ async function getMobannerCount({
     );
     endDate.setDate(endDate.getDate() + 1); // 다음 날 자정까지로 설정
 
-    whereCondition.createdAt = {
-      gte: startDate,
-      lt: endDate,
+    whereCondition.date = {
+      gte: startDate.toISOString(),
+      lt: endDate.toISOString(),
     };
   }
 
