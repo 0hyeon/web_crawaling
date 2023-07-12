@@ -6,7 +6,8 @@ import Calendar from "public/asset/svg/Calendar";
 import { formatDate } from "@libs/client/FormData";
 function DateSchedule({ getDate }: any) {
   const dropDownRef = useRef();
-  const [isOpen, setIsOpen] = useDetectClose(dropDownRef, false);
+  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useDetectClose(dropDownRef, false);
   const [value, setValue] = useState<[Date | null, Date | null]>([null, null]);
 
   useEffect(() => {

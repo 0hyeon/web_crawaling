@@ -148,7 +148,7 @@ const MoBanner = () => {
                         >
                           <span className="absolute left-[-74px] top-[-3px]  w-[74px] text-sm text-gray-400">
                             {format(
-                              new Date(item.createdAt),
+                              new Date(item.date),
                               // "yyyy년 M월 d일 HH시mm분"
                               "d일 HH시"
                             )}
