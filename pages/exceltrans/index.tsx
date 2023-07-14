@@ -18,9 +18,9 @@ function Exceltrans() {
     }
   }
   /*비우기*/
-  const handleRemove = () => {
-    setFiles([]);
-  };
+  //   const handleRemove = () => {
+  //     setFiles([]);
+  //   };
   /*보내기*/
   function handleSubmit() {
     const formData = new FormData();
@@ -31,20 +31,19 @@ function Exceltrans() {
     const file2 = formData.get("file2");
     const file3 = formData.get("file3");
     const file4 = formData.get("file4");
-    console.log(file1, file2, file3, file4);
+    const file5 = formData.get("file5");
+    const file6 = formData.get("file6");
+    const file7 = formData.get("file7");
+    const file8 = formData.get("file8");
+    console.log(file1, file2, file3, file4, file5, file6, file7, file8);
 
-    // fetch("API_ENDPOINT_URL", {
-    //   method: "POST",
-    //   body: formData,
-    // })
-    //   .then((response) => {
-    //     // Handle the response
-    //     console.log("Response:", response);
-    //   })
-    //   .catch((error) => {
-    //     // Handle any errors
-    //     console.error("Error:", error);
-    //   });
+    fetch("http://127.0.0.1/exceltrans", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.error(error));
     // const CRAWALING_QUERY_KEY = "/api/add-moWebcrawaling";
     // const { data: fetchData } = useQuery<{ items: any[] }, unknown, any[]>(
     //   [CRAWALING_QUERY_KEY],
@@ -104,8 +103,12 @@ function Exceltrans() {
   };
 
   const labels = [
-    "AOS-유저유입-논오가닉",
-    "AOS-리타겟팅-논오가닉",
+    "AOS-리타겟팅-인앱-1pick_view_jobposting",
+    "AOS-리타겟팅-인앱-job_apply_complete_homepage +9",
+    "AOS-UA-인앱-1pick_view_jobposting",
+    "AOS-UA-인앱-1st_update_complete +9",
+    "IOS-유저유입-논오가닉",
+    "IOS-리타겟팅-논오가닉",
     "IOS-유저유입-논오가닉",
     "IOS-리타겟팅-논오가닉",
   ];
@@ -135,17 +138,17 @@ function Exceltrans() {
               maw={520}
               mx="auto"
               mt="md"
-              className="mt-8 flex items-center justify-between"
+              className="mt-8 flex items-center justify-start"
             >
               <Button className="bg-black" onClick={handleSubmit}>
                 전송
               </Button>
-              <Button
+              {/* <Button
                 className="bg-whie border-[2px] border-black text-black"
                 onClick={handleRemove}
               >
                 비우기
-              </Button>
+              </Button> */}
             </Box>
           </div>
         </div>
