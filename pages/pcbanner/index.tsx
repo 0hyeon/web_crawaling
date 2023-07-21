@@ -141,7 +141,10 @@ const PcBannerPage = () => {
                       key={item.id}
                       className="relative mx-auto w-[40%] border-b-2 border-l-[3px] pl-3 pt-3"
                     >
-                      {idx > 0 && item.date === banners[idx - 1].date ? null : (
+                      {idx > 0 &&
+                      item.date.slice(0, 13) ===
+                        banners[idx - 1].date?.slice(0, 13) ? null : (
+                        // {idx > 0 && item.date === banners[idx - 1].date ? null : (
                         <div
                           key={idx}
                           className="absolute left-[-11px] top-[-11px] h-[20px] w-[20px] rounded-xl border border-gray-300 bg-white"
@@ -173,7 +176,7 @@ const PcBannerPage = () => {
                           width={1000}
                           height={390}
                           placeholder="blur"
-                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mPUUNWoBwAB6AD2lTrGfwAAAABJRU5ErkJggg==="
+                          blurDataURL="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg=="
                         />
                       </a>
                       <div className="mt-3 flex flex-col">
@@ -202,6 +205,7 @@ const PcBannerPage = () => {
                 value={activePage}
                 onChange={setPage}
                 total={total}
+                siblings={6}
               />
             )}
           </div>
