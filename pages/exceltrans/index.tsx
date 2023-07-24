@@ -42,10 +42,10 @@ function Exceltrans() {
 
     let url;
     if (process.env.NODE_ENV !== "development") {
-      url = "https://43.202.29.183/exceltrans";
+      url = "https://sparta-yh.store/exceltrans";
       // url = "https://127.0.0.1/exceltrans";
     } else {
-      url = "https://43.202.29.183/exceltrans";
+      url = "https://sparta-yh.store/exceltrans";
     }
 
     setSate(() => ({ loading: true }));
