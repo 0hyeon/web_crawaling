@@ -71,7 +71,7 @@ function MenubarLeft() {
           <div className="mt-[19px] flex">
             <Chartbar width={25} height={25} />
           </div>
-          <Accordion summary={"Service"}>
+          <Accordion summary={"AutoReportTool"}>
             {["앱스플라이어 & 잡코리아"].map((el, idx) => {
               return (
                 <ul key={idx}>

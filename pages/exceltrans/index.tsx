@@ -37,7 +37,14 @@ function Exceltrans() {
     const file8 = formData.get("file8");
     console.log(file1, file2, file3, file4, file5, file6, file7, file8);
 
-    fetch("http://127.0.0.1/exceltrans", {
+    let url;
+    if (process.env.NODE_ENV !== "development") {
+      url = "http://127.0.0.1/exceltrans";
+    } else {
+      url = "http://43.202.29.183/exceltrans";
+    }
+
+    fetch(url, {
       method: "POST",
       body: formData,
     })
@@ -136,8 +143,7 @@ function Exceltrans() {
       <MenubarLeft />
 
       <div className="h-[100%] min-h-[100vh] w-full bg-[#dee2e6] pl-64">
-        <div className="h-16 w-full bg-white px-12"></div>
-        <div className="mx-4 mt-4 bg-white px-4 py-6">
+        <div className="mx-4 bg-white px-4 py-16">
           <div className="p-8">
             {FileInputs}
             <Box

@@ -88,9 +88,8 @@ const PcBannerPage = () => {
       {/* 메뉴바 */}
       <MenubarLeft />
 
-      <div className="h-[100%] w-full bg-[#dee2e6] pl-64">
-        <div className="h-16 w-full bg-white px-12"></div>
-        <div className="mx-4 mt-4 bg-white px-4 py-6">
+      <div className="h-[100%] min-h-[100vh] w-full bg-[#dee2e6] pl-64">
+        <div className="mx-4 bg-white px-4 py-16">
           <div className="flex justify-between">
             {/* 셀렉바 */}
             <div className="w-52">
