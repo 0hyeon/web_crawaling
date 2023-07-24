@@ -4,10 +4,13 @@ import { FileInput, FileInputProps, Group, Center, rem } from "@mantine/core";
 import { IconPhoto } from "@tabler/icons-react";
 import { Box, Button } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
-
+import styled from "styled-components";
+import Loading from "public/asset/svg/Logo";
 function Exceltrans() {
   const [files, setFiles] = useState<File[]>([]);
-
+  const [state, setSate] = useState({
+    loading: false,
+  });
   function handleFileChange(value: File | File[] | null) {
     if (Array.isArray(value)) {
       setFiles((prevFiles) => [...prevFiles, ...value]);
@@ -39,11 +42,13 @@ function Exceltrans() {
 
     let url;
     if (process.env.NODE_ENV !== "development") {
+      // url = "http://43.202.29.183/exceltrans";
       url = "http://127.0.0.1/exceltrans";
     } else {
       url = "http://43.202.29.183/exceltrans";
     }
 
+    setSate(() => ({ loading: true }));
     fetch(url, {
       method: "POST",
       body: formData,
@@ -55,8 +60,12 @@ function Exceltrans() {
         a.href = url;
         a.download = "combined.xlsx";
         a.click();
+        setSate({ loading: false });
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error(error);
+        setSate({ loading: false });
+      });
     // const CRAWALING_QUERY_KEY = "/api/add-moWebcrawaling";
     // const { data: fetchData } = useQuery<{ items: any[] }, unknown, any[]>(
     //   [CRAWALING_QUERY_KEY],
@@ -100,7 +109,6 @@ function Exceltrans() {
       </Center>
     );
   }
-
   const ValueComponent: FileInputProps["valueComponent"] = ({ value }) => {
     if (Array.isArray(value)) {
       return (
@@ -126,15 +134,17 @@ function Exceltrans() {
     "IOS-리타겟팅-논오가닉",
   ];
   const FileInputs = labels.map((el, index) => (
-    <Box key={index} maw={520} mx="auto">
-      <FileInput
-        mt="md"
-        label={`${el}`}
-        placeholder={`${el}을 업로드하세요.`}
-        valueComponent={ValueComponent}
-        onChange={handleFileChange}
-      />
-    </Box>
+    <>
+      <Box key={index} maw={520} mx="auto">
+        <FileInput
+          mt="md"
+          label={`${el}`}
+          placeholder={`${el}을 업로드하세요.`}
+          valueComponent={ValueComponent}
+          onChange={handleFileChange}
+        />
+      </Box>
+    </>
   ));
 
   return (
@@ -143,30 +153,68 @@ function Exceltrans() {
       <MenubarLeft />
 
       <div className="h-[100%] min-h-[100vh] w-full bg-[#dee2e6] pl-64">
-        <div className="mx-4 bg-white px-4 py-16">
-          <div className="p-8">
-            {FileInputs}
-            <Box
-              maw={520}
-              mx="auto"
-              mt="md"
-              className="mt-8 flex items-center justify-start"
-            >
-              <Button className="bg-black" onClick={handleSubmit}>
-                전송
-              </Button>
-              {/* <Button
+        <div className="mx-4 min-h-[100vh] bg-white px-4 pt-16">
+          {state?.loading === true ? (
+            <>
+              <Svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 448 512"
+                width={100}
+                height={100}
+              >
+                <Loading />
+              </Svg>
+              <LoadingText>Loading...</LoadingText>
+            </>
+          ) : (
+            <div className="p-8">
+              <div className="mb-14 text-center text-2xl font-extrabold">
+                AutoReportTool 앱스플라이어 & 잡코리아
+              </div>
+              {FileInputs}
+              <Box
+                maw={520}
+                mx="auto"
+                mt="md"
+                className="mt-8 flex items-center justify-start"
+              >
+                <Button className="bg-black" onClick={handleSubmit}>
+                  전송
+                </Button>
+                {/* <Button
                 className="bg-whie border-[2px] border-black text-black"
                 onClick={handleRemove}
               >
                 비우기
               </Button> */}
-            </Box>
-          </div>
+              </Box>
+            </div>
+          )}
         </div>
       </div>
     </>
   );
 }
-
+const LoadingText = styled.div`
+  font-size: 30px;
+  z-index: 100;
+  overflow: visible;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(80%, -50%);
+  font-weight: bold;
+`;
+const Svg = styled.svg`
+  z-index: 100;
+  overflow: visible;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-150%, -50%);
+  g path {
+    stroke: black;
+    stroke-width: 20;
+  }
+`;
 export default Exceltrans;
