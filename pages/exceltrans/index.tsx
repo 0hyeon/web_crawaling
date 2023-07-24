@@ -42,10 +42,10 @@ function Exceltrans() {
 
     let url;
     if (process.env.NODE_ENV !== "development") {
-      url = "http://43.202.29.183/exceltrans";
-      // url = "http://127.0.0.1/exceltrans";
+      url = "https://43.202.29.183/exceltrans";
+      // url = "https://127.0.0.1/exceltrans";
     } else {
-      url = "http://43.202.29.183/exceltrans";
+      url = "https://43.202.29.183/exceltrans";
     }
 
     setSate(() => ({ loading: true }));
