@@ -42,8 +42,8 @@ function Exceltrans() {
 
     let url;
     if (process.env.NODE_ENV !== "development") {
-      // url = "http://43.202.29.183/exceltrans";
-      url = "http://127.0.0.1/exceltrans";
+      url = "http://43.202.29.183/exceltrans";
+      // url = "http://127.0.0.1/exceltrans";
     } else {
       url = "http://43.202.29.183/exceltrans";
     }
@@ -163,7 +163,7 @@ function Exceltrans() {
             <LoadingText>Loading...</LoadingText>
           </>
         ) : (
-          <div className="p-8">
+          <div className="p-16">
             <div className="mb-14 text-center text-2xl font-extrabold">
               AutoReportTool 앱스플라이어 & 잡코리아
             </div>
