@@ -40,5 +40,5 @@ export default function Products() {
     };
   }, []);
 
-  return <div className="mb-36 mt-36">Hello World</div>;
+  return <div className=""></div>;
 }

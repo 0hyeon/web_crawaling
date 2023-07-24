@@ -84,13 +84,10 @@ const PcBannerPage = () => {
   // }, [fetchData]);
   // console.log(banners);
   return (
-    <>
-      {/* 메뉴바 */}
-      <MenubarLeft />
-
-      <div className="h-[100%] min-h-[100vh] w-full bg-[#dee2e6] pl-64">
-        <div className="mx-4 min-h-[100vh] bg-white px-4 py-16">
-          <div className="flex justify-between">
+    <div className="mx-auto w-[90%] pl-64">
+      {banners && (
+        <>
+          <div className="flex justify-between py-16">
             {/* 셀렉바 */}
             <div className="w-52">
               <Select
@@ -130,88 +127,84 @@ const PcBannerPage = () => {
               </div>
             </div>
           </div>
-          {/* banner */}
-          {banners && (
-            <div className="mt-7 grid grid-cols-1">
-              {banners?.map(
-                (item: any, idx) =>
-                  item?.src && (
-                    <div
-                      key={item.id}
-                      className="relative mx-auto w-[40%] border-b-2 border-l-[3px] pl-3 pt-3"
-                    >
-                      {idx > 0 &&
-                      item.date.slice(0, 13) ===
-                        banners[idx - 1].date?.slice(0, 13) ? null : (
-                        // {idx > 0 && item.date === banners[idx - 1].date ? null : (
-                        <div
-                          key={idx}
-                          className="absolute left-[-11px] top-[-11px] h-[20px] w-[20px] rounded-xl border border-gray-300 bg-white"
-                        >
-                          <span className="absolute left-[-74px] top-[-3px]  w-[74px] text-sm text-gray-400">
-                            {format(
-                              new Date(item.date),
-                              // "yyyy년 M월 d일 HH시mm분"
-                              "d일 HH시"
-                            )}
-                          </span>
-                        </div>
-                      )}
-
-                      <a
-                        href={item.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
+          <div className="grid grid-cols-1">
+            {banners?.map(
+              (item: any, idx) =>
+                item?.src && (
+                  <div
+                    key={item.id}
+                    className="relative mx-auto w-[40%] border-b-2 border-l-[3px] pl-3 pt-3"
+                  >
+                    {idx > 0 &&
+                    item.date.slice(0, 13) ===
+                      banners[idx - 1].date?.slice(0, 13) ? null : (
+                      // {idx > 0 && item.date === banners[idx - 1].date ? null : (
+                      <div
+                        key={idx}
+                        className="absolute left-[-11px] top-[-11px] h-[20px] w-[20px] rounded-xl border border-gray-300 bg-white"
                       >
-                        <Image
-                          className="min-w-full rounded"
-                          alt={item.alt}
-                          key={item.id}
-                          src={
-                            item.src
-                              ? `https://imagedelivery.net/tUnns8TnvEqxOzjreCbU6w/${item.src}/public`
-                              : ""
-                          }
-                          width={500}
-                          height={290}
-                          placeholder="blur"
-                          blurDataURL="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg=="
-                        />
-                      </a>
-                      <div className="mt-3 flex flex-col">
-                        <div className="mb-1 text-sm">
+                        <span className="absolute left-[-74px] top-[-3px]  w-[74px] text-sm text-gray-400">
                           {format(
                             new Date(item.date),
                             // "yyyy년 M월 d일 HH시mm분"
-                            "yyyy년 M월 d일 HH시"
+                            "d일 HH시"
                           )}
-                        </div>
-                        <div className="text-base font-bold">{item.title}</div>
-                        <div className="pb-3 text-sm font-light tracking-tight">
-                          {item.alt}
-                        </div>
+                        </span>
+                      </div>
+                    )}
+
+                    <a
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Image
+                        className="min-w-full rounded"
+                        alt={item.alt}
+                        key={item.id}
+                        src={
+                          item.src
+                            ? `https://imagedelivery.net/tUnns8TnvEqxOzjreCbU6w/${item.src}/public`
+                            : ""
+                        }
+                        width={500}
+                        height={290}
+                        placeholder="blur"
+                        blurDataURL="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg=="
+                      />
+                    </a>
+                    <div className="mt-3 flex flex-col">
+                      <div className="mb-1 text-sm">
+                        {format(
+                          new Date(item.date),
+                          // "yyyy년 M월 d일 HH시mm분"
+                          "yyyy년 M월 d일 HH시"
+                        )}
+                      </div>
+                      <div className="text-base font-bold">{item.title}</div>
+                      <div className="pb-3 text-sm font-light tracking-tight">
+                        {item.alt}
                       </div>
                     </div>
-                  )
-              )}
-            </div>
-          )}
-          {/*페이지네이션*/}
-          <div className="mt-20 flex w-full">
-            {total && (
-              <Pagination
-                className="m-auto"
-                value={activePage}
-                onChange={setPage}
-                total={total}
-                siblings={6}
-              />
+                  </div>
+                )
             )}
           </div>
-        </div>
-        <div>{/* <Pie data={pieData} /> */}</div>
+        </>
+      )}
+      {/*페이지네이션*/}
+      <div className="my-20 flex w-full">
+        {total && (
+          <Pagination
+            className="m-auto"
+            value={activePage}
+            onChange={setPage}
+            total={total}
+            siblings={6}
+          />
+        )}
       </div>
-    </>
+    </div>
   );
 };
 
