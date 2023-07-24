@@ -173,8 +173,8 @@ const PcBannerPage = () => {
                               ? `https://imagedelivery.net/tUnns8TnvEqxOzjreCbU6w/${item.src}/public`
                               : ""
                           }
-                          width={1000}
-                          height={390}
+                          width={500}
+                          height={290}
                           placeholder="blur"
                           blurDataURL="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg=="
                         />

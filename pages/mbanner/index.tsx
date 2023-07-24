@@ -203,6 +203,7 @@ const MoBanner = () => {
                 value={activePage}
                 onChange={setPage}
                 total={total}
+                siblings={6}
               />
             )}
           </div>

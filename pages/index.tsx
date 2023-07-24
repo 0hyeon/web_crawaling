@@ -11,14 +11,14 @@ const Home: NextPage = () => {
   const ArrayData: BannerInfo[] = [];
   splitBanner.map((el) => {
     const splitData = el.split(`,"`)[0].slice(2).slice(0, -2).split(",");
-    console.log(splitData);
+    // console.log(splitData);
     ArrayData.push({
       src: splitData[2].slice(2).slice(0, -1),
       date: splitData[8].slice(2).slice(0, -1),
       replaceName: splitData[3].slice(2).slice(0, -1),
     });
   });
-  console.log(ArrayData);
+  // console.log(ArrayData);
   //const productData = [...bannerDate];
   return null;
 };

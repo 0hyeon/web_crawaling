@@ -11,7 +11,7 @@ function DateSchedule({ getDate }: any) {
   const [value, setValue] = useState<[Date | null, Date | null]>([null, null]);
 
   useEffect(() => {
-    console.log("value  :", value);
+    // console.log("value  :", value);
     if (value[0] !== null || (value[0] === null && value[1] === null)) {
       getDate(formatDate(value[0]), formatDate(value[1]));
     }
