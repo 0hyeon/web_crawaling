@@ -19,14 +19,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (process.env.NODE_ENV === "development") {
     url = "http://127.0.0.1/add-moWebcrawaling";
   } else {
-    url = "http://43.202.29.183/add-moWebcrawaling";
+    url = "https://sparta-yh.store/add-moWebcrawaling";
   }
 
   if (req.method === "GET") {
     try {
       const response = await (
         await fetch(BEcheckEnvironment().concat("/add-moWebcrawaling"), {
-          // await fetch(`${url}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -34,6 +33,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         })
       ).json();
       const { Mobile } = response;
+      console.log("response : ", Mobile);
       const mobilebanners: MobileBanner[] = [];
       for (let i = 0; i < (Mobile?.length ?? 0); i++) {
         const { alt, title, src, replaceName, href, date } = Mobile[i];
@@ -74,7 +74,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         banners,
       });
     } catch (error) {
-      console.log(error);
+      console.log("error : ", error);
       res.status(500).json({ error });
     }
   }
