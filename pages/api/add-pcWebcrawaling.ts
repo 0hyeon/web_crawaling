@@ -19,6 +19,7 @@ interface PCBanner extends MobileBanner {}
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {
     try {
+      // await fetch(BEcheckEnvironment().concat("/add-pcWebcrawaling"), {
       const response = await (
         await fetch(BEcheckEnvironment().concat("/add-pcWebcrawaling"), {
           method: "GET",
