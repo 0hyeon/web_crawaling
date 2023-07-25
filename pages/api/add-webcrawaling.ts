@@ -1,7 +1,7 @@
 // import type { NextApiRequest, NextApiResponse } from "next";
 // import withHandler from "@libs/server/withHandler";
 // import client from "@libs/server/clients";
-// import { FEcheckEnvironment } from "@libs/server/useFEcheckEnvironment";
+// import { FEcheckEnvironment } from "@libs/server/useCheckEnvironment";
 
 // interface MobileBanner {
 //   src: string;
