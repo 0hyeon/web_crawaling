@@ -1,16 +1,16 @@
 export const FEcheckEnvironment = () => {
   let base_url =
     process.env.NODE_ENV === "development"
-      ? "https://web-crawaling.vercel.app"
-      : "http://localhost:3000";
+      ? "http://localhost:3000"
+      : "https://web-crawaling.vercel.app";
 
   return base_url;
 };
 export const BEcheckEnvironment = () => {
   let base_url =
     process.env.NODE_ENV === "development"
-      ? "https://sparta-yh.store"
-      : "http://127.0.0.1";
+      ? "http://127.0.0.1"
+      : "https://sparta-yh.store";
   return base_url;
 };
 //사용법

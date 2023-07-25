@@ -18,7 +18,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {
     try {
       const response = await (
-        await fetch(BEcheckEnvironment().concat("/add-moWebcrawaling"), {
+        await fetch("https://sparta-yh.store/add-moWebcrawaling", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
