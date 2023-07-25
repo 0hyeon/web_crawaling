@@ -1,7 +1,7 @@
 // import type { NextApiRequest, NextApiResponse } from "next";
 // import withHandler from "@libs/server/withHandler";
 // import client from "@libs/server/clients";
-// import { checkEnvironment } from "@libs/server/useCheckEnvironment";
+// import { FEcheckEnvironment } from "@libs/server/useFEcheckEnvironment";
 
 // interface MobileBanner {
 //   src: string;
@@ -38,7 +38,7 @@
 
 //         /*cloudfalre에 업로드 요청할 빈url 요청*/
 //         const { uploadURL } = await (
-//           await fetch(checkEnvironment().concat("/api/files"))
+//           await fetch(FEcheckEnvironment().concat("/api/files"))
 //         ).json();
 
 //         /* 이미지 저장할 폼데이터 */
@@ -72,7 +72,7 @@
 
 //         /*빈url 요청*/
 //         const { uploadURL } = await (
-//           await fetch(checkEnvironment().concat("/api/files"))
+//           await fetch(FEcheckEnvironment().concat("/api/files"))
 //         ).json();
 
 //         /* 이미지 저장할 폼데이터 */

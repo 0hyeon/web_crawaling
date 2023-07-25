@@ -1,7 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import withHandler from "@libs/server/withHandler";
 import client from "@libs/server/clients";
-import { checkEnvironment } from "@libs/server/useCheckEnvironment";
+import {
+  BEcheckEnvironment,
+  FEcheckEnvironment,
+} from "@libs/server/useCheckEnvironment";
 
 interface MobileBanner {
   src: string;
@@ -14,17 +17,10 @@ interface MobileBanner {
 interface PCBanner extends MobileBanner {}
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  let url;
-  if (process.env.NODE_ENV === "development") {
-    url = "http://127.0.0.1/add-pcWebcrawaling";
-  } else {
-    url = "https://sparta-yh.store/exceltrans/add-pcWebcrawaling";
-  }
-
   if (req.method === "GET") {
     try {
       const response = await (
-        await fetch(`${url}`, {
+        await fetch(BEcheckEnvironment().concat("/add-pcWebcrawaling"), {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -38,7 +34,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
         /*cloudfalre에 업로드 요청할 빈url 요청*/
         const { uploadURL } = await (
-          await fetch(checkEnvironment().concat("/api/files"))
+          await fetch(FEcheckEnvironment().concat("/api/files"))
         ).json();
 
         /* 이미지 저장할 폼데이터 */

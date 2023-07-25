@@ -1,6 +1,6 @@
 import { PrismaClient, Prisma, PcBanner } from "@prisma/client";
 import { bannerDate } from "./bannerData";
-import { checkEnvironment } from "@libs/server/useCheckEnvironment";
+import { FEcheckEnvironment } from "@libs/server/useFEcheckEnvironment";
 const prisma = new PrismaClient();
 
 async function main() {

@@ -6,6 +6,7 @@ import { Box, Button } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
 import Loading from "public/asset/svg/Logo";
+import { BEcheckEnvironment } from "@libs/server/useCheckEnvironment";
 function Exceltrans() {
   const [files, setFiles] = useState<File[]>([]);
   const [state, setSate] = useState({
@@ -40,16 +41,16 @@ function Exceltrans() {
     const file8 = formData.get("file8");
     console.log(file1, file2, file3, file4, file5, file6, file7, file8);
 
-    let url;
-    if (process.env.NODE_ENV !== "development") {
-      url = "https://sparta-yh.store/exceltrans";
-      // url = "https://127.0.0.1/exceltrans";
-    } else {
-      url = "https://sparta-yh.store/exceltrans";
-    }
+    // let url;
+    // if (process.env.NODE_ENV !== "development") {
+    //   url = "https://sparta-yh.store/exceltrans";
+    //   // url = "https://127.0.0.1/exceltrans";
+    // } else {
+    //   url = "https://sparta-yh.store/exceltrans";
+    // }
 
     setSate(() => ({ loading: true }));
-    fetch(url, {
+    fetch(BEcheckEnvironment().concat("/exceltrans"), {
       method: "POST",
       body: formData,
     })
