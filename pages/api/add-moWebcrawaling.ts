@@ -16,7 +16,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (process.env.NODE_ENV === "development") {
     url = "http://127.0.0.1/add-moWebcrawaling";
   } else {
-    url = "http://43.202.29.183/add-moWebcrawaling";
+    url = "https://sparta-yh.store/exceltrans/add-moWebcrawaling";
   }
 
   if (req.method === "GET") {
