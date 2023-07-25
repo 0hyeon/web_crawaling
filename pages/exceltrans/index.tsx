@@ -150,43 +150,49 @@ function Exceltrans() {
 
   return (
     <>
-      <div className="mx-auto w-[90%] pl-64">
-        {state?.loading === true ? (
-          <>
-            <Svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 448 512"
-              width={100}
-              height={100}
-            >
-              <Loading />
-            </Svg>
-            <LoadingText>Loading...</LoadingText>
-          </>
-        ) : (
-          <div className="p-16">
-            <div className="mb-14 text-center text-2xl font-extrabold">
-              AutoReportTool 앱스플라이어 & 잡코리아
-            </div>
-            {FileInputs}
-            <Box
-              maw={520}
-              mx="auto"
-              mt="md"
-              className="mt-8 flex items-center justify-center"
-            >
-              <Button className="bg-black" onClick={handleSubmit}>
-                전송
-              </Button>
-              {/* <Button
+      <MenubarLeft />
+
+      <div className="h-[100%] min-h-[100vh] w-full bg-[#dee2e6] pl-64">
+        <div className="mx-4 min-h-[100vh] bg-white px-4 pt-16">
+          <div className="mx-auto w-[90%] pl-64">
+            {state?.loading === true ? (
+              <>
+                <Svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 448 512"
+                  width={100}
+                  height={100}
+                >
+                  <Loading />
+                </Svg>
+                <LoadingText>Loading...</LoadingText>
+              </>
+            ) : (
+              <div className="p-16">
+                <div className="mb-14 text-center text-2xl font-extrabold">
+                  AutoReportTool 앱스플라이어 & 잡코리아
+                </div>
+                {FileInputs}
+                <Box
+                  maw={520}
+                  mx="auto"
+                  mt="md"
+                  className="mt-8 flex items-center justify-center"
+                >
+                  <Button className="bg-black" onClick={handleSubmit}>
+                    전송
+                  </Button>
+                  {/* <Button
                 className="bg-whie border-[2px] border-black text-black"
                 onClick={handleRemove}
               >
                 비우기
               </Button> */}
-            </Box>
+                </Box>
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
     </>
   );

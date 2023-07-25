@@ -15,10 +15,18 @@ interface MobileBanner {
 }
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
+  let url;
+  if (process.env.NODE_ENV === "development") {
+    url = "http://127.0.0.1/add-moWebcrawaling";
+  } else {
+    url = "http://43.202.29.183/add-moWebcrawaling";
+  }
+
   if (req.method === "GET") {
     try {
       const response = await (
         await fetch(BEcheckEnvironment().concat("/add-moWebcrawaling"), {
+          // await fetch(`${url}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

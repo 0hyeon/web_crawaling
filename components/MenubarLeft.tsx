@@ -19,7 +19,7 @@ function MenubarLeft() {
   };
 
   return (
-    <div className="fix fixed top-0 h-[100vh] w-64 border-r-2 bg-white">
+    <div className="fix fixed h-[100vh] w-64 border-r-2 bg-white">
       <div className="bg align-center flex h-16 justify-center bg-[#efefef] py-4">
         <Image
           priority={true}
