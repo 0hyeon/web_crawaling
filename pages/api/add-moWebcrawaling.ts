@@ -15,13 +15,6 @@ interface MobileBanner {
 }
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  let url;
-  if (process.env.NODE_ENV === "development") {
-    url = "http://127.0.0.1/add-moWebcrawaling";
-  } else {
-    url = "https://sparta-yh.store/add-moWebcrawaling";
-  }
-
   if (req.method === "GET") {
     try {
       const response = await (

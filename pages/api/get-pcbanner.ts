@@ -71,7 +71,7 @@ async function getProducts({
       targetStartDate.getMonth(),
       targetStartDate.getDate()
     );
-    const targetEndDate = new Date(adjustedStartday as any);
+    const targetEndDate = new Date(adjustedLastday as any);
     const endDate = new Date(
       targetEndDate.getFullYear(),
       targetEndDate.getMonth(),
