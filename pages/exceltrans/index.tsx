@@ -50,7 +50,7 @@ function Exceltrans() {
     // }
 
     setSate(() => ({ loading: true }));
-    fetch(BEcheckEnvironment().concat("/exceltrans"), {
+    fetch(BEcheckEnvironment().concat("/api/exceltrans"), {
       method: "POST",
       body: formData,
     })
