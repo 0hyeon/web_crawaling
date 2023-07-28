@@ -36,12 +36,12 @@ function MenubarLeft() {
             priority={true}
             alt="LogoImage"
             src={"/images/logo.ico"}
-            width={40}
-            height={200}
+            width={30}
+            height={100}
             className="mx-auto"
           />
         </div>
-        <div className="align-center flex justify-center p-2 text-lg font-bold text-gray-500">
+        <div className="align-center flex justify-center p-2 text-sm font-bold text-gray-500">
           그린브릭스컴퍼니
         </div>
       </div>

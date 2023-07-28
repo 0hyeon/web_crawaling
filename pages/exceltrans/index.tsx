@@ -151,10 +151,9 @@ function Exceltrans() {
   return (
     <>
       <MenubarLeft />
-
       <div className="h-[100%] min-h-[100vh] w-full bg-[#dee2e6] pl-64">
         <div className="mx-4 min-h-[100vh] bg-white px-4 pt-16">
-          <div className="mx-auto w-[90%] pl-64">
+          <div className="mx-auto w-[90%]">
             {state?.loading === true ? (
               <>
                 <Svg

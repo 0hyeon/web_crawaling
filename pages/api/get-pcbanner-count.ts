@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient, Prisma } from "@prisma/client";
+import { adjustDateForVercel } from "@libs/client/YesterDay";
 const prisma = new PrismaClient();
 
 async function getPcbannerCount({
@@ -24,9 +25,18 @@ async function getPcbannerCount({
   const whereCondition: Prisma.PcBannerWhereInput = {
     ...containsCondition,
   };
-
-  if (startday && lastday === null) {
-    const targetStartDate = new Date(startday);
+  let adjustedStartday, adjustedLastday;
+  if (process.env.NODE_ENV === "production") {
+    // Vercel 환경에서만 보정된 날짜를 사용
+    adjustedStartday = adjustDateForVercel(startday);
+    adjustedLastday = adjustDateForVercel(lastday);
+  } else {
+    // 개발 환경에서는 보정하지 않은 날짜를 사용
+    adjustedStartday = startday;
+    adjustedLastday = lastday;
+  }
+  if (adjustedStartday && adjustedLastday === null) {
+    const targetStartDate = new Date(adjustedStartday);
     const startDate = new Date(
       targetStartDate.getFullYear(),
       targetStartDate.getMonth(),
@@ -40,14 +50,14 @@ async function getPcbannerCount({
     };
   }
 
-  if (startday !== null && lastday !== null) {
-    const targetStartDate = new Date(startday as any);
+  if (adjustedStartday !== null && adjustedLastday !== null) {
+    const targetStartDate = new Date(adjustedStartday as any);
     const startDate = new Date(
       targetStartDate.getFullYear(),
       targetStartDate.getMonth(),
       targetStartDate.getDate()
     );
-    const targetEndDate = new Date(lastday as any);
+    const targetEndDate = new Date(adjustedLastday as any);
     const endDate = new Date(
       targetEndDate.getFullYear(),
       targetEndDate.getMonth(),
