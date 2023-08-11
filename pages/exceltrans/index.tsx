@@ -12,14 +12,30 @@ function Exceltrans() {
   const [state, setSate] = useState({
     loading: false,
   });
+  const [formData, setFormData] = useState<FormData>(new FormData());
+
   function handleFileChange(value: File | File[] | null) {
+    const newFormData = new FormData();
+
+    let newFiles: File[] = [];
     if (Array.isArray(value)) {
-      setFiles((prevFiles) => [...prevFiles, ...value]);
+      newFiles = value;
+      value.forEach((file, index) => {
+        newFormData.append(`file${files.length + index + 1}`, file);
+      });
     } else if (value === null) {
-      setFiles([]);
+      // Remove all keys from formData
+      for (let key of formData.keys()) {
+        newFormData.delete(key);
+      }
+      newFiles = [];
     } else {
-      setFiles((prevFiles) => [...prevFiles, value]);
+      newFiles = [value];
+      newFormData.append(`file${files.length + 1}`, value);
     }
+
+    setFiles(newFiles);
+    setFormData(newFormData);
   }
   /*비우기*/
   //   const handleRemove = () => {
@@ -27,18 +43,18 @@ function Exceltrans() {
   //   };
   /*보내기*/
   function handleSubmit() {
-    const formData = new FormData();
+    const formDataToSend = new FormData();
     files.forEach((file, index) => {
-      formData.append(`file${index + 1}`, file);
+      formDataToSend.append(`file${index + 1}`, file);
     });
-    const file1 = formData.get("file1");
-    const file2 = formData.get("file2");
-    const file3 = formData.get("file3");
-    const file4 = formData.get("file4");
-    const file5 = formData.get("file5");
-    const file6 = formData.get("file6");
-    const file7 = formData.get("file7");
-    const file8 = formData.get("file8");
+    const file1 = formDataToSend.get("file1");
+    const file2 = formDataToSend.get("file2");
+    const file3 = formDataToSend.get("file3");
+    const file4 = formDataToSend.get("file4");
+    const file5 = formDataToSend.get("file5");
+    const file6 = formDataToSend.get("file6");
+    const file7 = formDataToSend.get("file7");
+    const file8 = formDataToSend.get("file8");
     console.log(file1, file2, file3, file4, file5, file6, file7, file8);
 
     // let url;
@@ -124,25 +140,17 @@ function Exceltrans() {
     return <Value file={value} />;
   };
 
-  const labels = [
-    "AOS-리타겟팅-인앱-1pick_view_jobposting",
-    "AOS-리타겟팅-인앱-job_apply_complete_homepage +9",
-    "AOS-UA-인앱-1pick_view_jobposting",
-    "AOS-UA-인앱-1st_update_complete +9",
-    "IOS-유저유입-논오가닉",
-    "IOS-리타겟팅-논오가닉",
-    "IOS-유저유입-논오가닉",
-    "IOS-리타겟팅-논오가닉",
-  ];
+  const labels = ["AOS,IOS"];
   const FileInputs = labels.map((el, index) => (
     <>
       <Box key={index} maw={520} mx="auto">
         <FileInput
           mt="md"
           label={`${el}`}
-          placeholder={`${el}을 업로드하세요.`}
+          placeholder={`${el} 멀티 업로드하세요.`}
           valueComponent={ValueComponent}
           onChange={handleFileChange}
+          multiple
         />
       </Box>
     </>
