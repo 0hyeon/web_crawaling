@@ -4,7 +4,7 @@ import Image from "next/image";
 const Home: NextPage = () => {
   return (
     <>
-      <div id="header_wrap">
+      <div id="header_wrap" className="w-full">
         <div id="video-wrap" className="a-center">
           <video
             src="https://greenbricks.co.kr/images/211224_greenbricks_4.mp4"
@@ -37,7 +37,14 @@ const Home: NextPage = () => {
                   className="size"
                 />
               </li>
-              <li className="about_pb3 pb-[137px] text-lg">
+              <li
+                className="about_pb3 pb-[137px]"
+                style={{
+                  fontFamily: "Pretendard-Regular",
+                  color: "#000000",
+                  fontSize: "1.4rem",
+                }}
+              >
                 블록의 Base Plate를 생각하고 만든 회사 ‘그린브릭스’는
                 <br />
                 그 위에 어떤 색깔, 어떤 모양의 블록이든 차곡차곡 신중하게
@@ -129,7 +136,7 @@ const Home: NextPage = () => {
             <div id="campaign_01SSG_img">
               <ul
                 id="campaign"
-                className="a-center flex justify-between"
+                className="a-center flex flex-wrap justify-between"
                 style={{ listStyle: "none" }}
               >
                 <li
@@ -178,7 +185,7 @@ const Home: NextPage = () => {
             <div id="campaign_02_img">
               <ul
                 id="campaign"
-                className="a-center flex justify-between"
+                className="a-center flex flex-wrap justify-between"
                 style={{ listStyle: "none" }}
               >
                 <li
@@ -225,7 +232,7 @@ const Home: NextPage = () => {
             <div id="campaign_03_img">
               <ul
                 id="campaign"
-                className="a-center flex justify-between"
+                className="a-center flex flex-wrap justify-between"
                 style={{ listStyle: "none" }}
               >
                 <li
@@ -247,8 +254,8 @@ const Home: NextPage = () => {
                   <Image
                     src="https://greenbricks.co.kr/images/campaign_03_img.png"
                     alt="campaign_03_img.png"
-                    width={640}
-                    height={443}
+                    width={1138}
+                    height={787}
                   />
                 </li>
               </ul>
@@ -273,7 +280,7 @@ const Home: NextPage = () => {
             <div id="campaign_04_img">
               <ul
                 id="campaign"
-                className="a-center flex justify-between"
+                className="a-center flex flex-wrap justify-between"
                 style={{ listStyle: "none" }}
               >
                 <li
@@ -298,7 +305,7 @@ const Home: NextPage = () => {
                     src="https://greenbricks.co.kr/images/campaign_04_img.png"
                     alt="campaign_04_img.png"
                     width={1076}
-                    height={756}
+                    height={765}
                   />
                 </li>
               </ul>
@@ -323,7 +330,7 @@ const Home: NextPage = () => {
             <div id="campaign_05_img">
               <ul
                 id="campaign"
-                className="a-center flex justify-between"
+                className="a-center flex flex-wrap justify-between"
                 style={{ listStyle: "none" }}
               >
                 <li
@@ -346,13 +353,13 @@ const Home: NextPage = () => {
                   <Image
                     src="https://greenbricks.co.kr/images/campaign_05_img.png"
                     alt="campaign_05_img.png"
-                    width={640}
-                    height={756}
+                    width={1064}
+                    height={1257}
                   />
                 </li>
               </ul>
             </div>
-            <div id="campaign_06_app" className="pt160">
+            <div id="campaign_06_app" className="pt-[160px]">
               <ul
                 id="campaign"
                 className="a-center flex justify-between"
@@ -372,7 +379,7 @@ const Home: NextPage = () => {
             <div id="campaign_06_img">
               <ul
                 id="campaign"
-                className="a-center flex justify-between"
+                className="a-center flex flex-wrap justify-between"
                 style={{ listStyle: "none" }}
               >
                 <li
@@ -396,8 +403,8 @@ const Home: NextPage = () => {
                   <Image
                     src="https://greenbricks.co.kr/images/campaign_06_img.png"
                     alt="campaign_06_img.png"
-                    width={640}
-                    height={457}
+                    width={1073}
+                    height={766}
                   />
                 </li>
               </ul>
@@ -422,7 +429,7 @@ const Home: NextPage = () => {
             <div id="campaign_07_img">
               <ul
                 id="campaign"
-                className="a-center flex justify-between"
+                className="a-center flex flex-wrap justify-between"
                 style={{ listStyle: "none" }}
               >
                 <li
@@ -446,8 +453,8 @@ const Home: NextPage = () => {
                   <Image
                     src="https://greenbricks.co.kr/images/campaign_07_img.png"
                     alt="campaign_07_img"
-                    width={640}
-                    height={640}
+                    width={1064}
+                    height={765}
                   />
                 </li>
               </ul>
@@ -455,7 +462,7 @@ const Home: NextPage = () => {
             <div id="campaign_08_app">
               <ul
                 id="campaign"
-                className="a-center flex justify-between"
+                className="a-center flex justify-between "
                 style={{ listStyle: "none" }}
               >
                 <li>
@@ -472,7 +479,7 @@ const Home: NextPage = () => {
             <div id="campaign_08_img">
               <ul
                 id="campaign"
-                className="a-center flex justify-between"
+                className="a-center flex flex-wrap justify-between"
                 style={{ listStyle: "none" }}
               >
                 <li
@@ -498,6 +505,7 @@ const Home: NextPage = () => {
                     alt="campaign_08_img.png"
                     width={934}
                     height={471}
+                    className="mb-[160px] mr-[110px]"
                   />
                 </li>
               </ul>
@@ -521,7 +529,7 @@ const Home: NextPage = () => {
             <div id="campaign_09_img">
               <ul
                 id="campaign"
-                className="a-center flex justify-between"
+                className="a-center flex flex-wrap justify-between"
                 style={{ listStyle: "none" }}
               >
                 <li
@@ -541,8 +549,9 @@ const Home: NextPage = () => {
                   <Image
                     src="https://greenbricks.co.kr/images/campaign_09_img.png"
                     alt="campaign_09_img.png"
-                    width={640}
-                    height={288}
+                    width={1012}
+                    height={455}
+                    className="mb-[160px] mr-[110px]"
                   />
                 </li>
               </ul>
@@ -567,7 +576,7 @@ const Home: NextPage = () => {
             <div id="campaign_10_img">
               <ul
                 id="campaign"
-                className="a-center flex justify-between"
+                className="a-center flex flex-wrap justify-between"
                 style={{ listStyle: "none" }}
               >
                 <li
@@ -587,8 +596,9 @@ const Home: NextPage = () => {
                   <Image
                     src="https://greenbricks.co.kr/images/campaign_10_img.png"
                     alt="campaign_10_img.png"
-                    width={640}
-                    height={209}
+                    width={1021}
+                    height={334}
+                    className="mb-[160px] mr-[110px]"
                   />
                 </li>
               </ul>
@@ -613,7 +623,7 @@ const Home: NextPage = () => {
             <div id="campaign_11_img">
               <ul
                 id="campaign"
-                className="a-center flex justify-between"
+                className="a-center flex flex-wrap justify-between"
                 style={{ listStyle: "none" }}
               >
                 <li
@@ -633,8 +643,9 @@ const Home: NextPage = () => {
                   <Image
                     src="https://greenbricks.co.kr/images/campaign_11_img.png"
                     alt="campaign_11_img.png"
-                    width={640}
-                    height={210}
+                    width={1022}
+                    height={336}
+                    className="mb-[160px] mr-[110px]"
                   />
                 </li>
               </ul>
@@ -662,7 +673,7 @@ const Home: NextPage = () => {
                 style={{ listStyle: "none" }}
               >
                 <li
-                  className="campaign_name pb53 "
+                  className="campaign_name pb53 flex-wrap"
                   style={{
                     textAlign: "left",
                     letterSpacing: "-1px",
@@ -678,18 +689,28 @@ const Home: NextPage = () => {
                   <Image
                     src="https://greenbricks.co.kr/images/campaign_12_img.png"
                     alt="campaign_12_img.png"
-                    width={541}
-                    height={1026}
+                    width={1021}
+                    height={335}
+                    className="mb-[160px] mr-[110px]"
                   />
                 </li>
               </ul>
             </div>
           </div>
         </div>
-        <div id="business_wrap">
-          <div id="business_title">
+        <div
+          id="business_wrap"
+          style={{
+            width: "100%",
+            backgroundImage:
+              "url(https://greenbricks.co.kr/images/business_bg01.png)",
+            backgroundRepeat: "no-repeat",
+            backgroundColor: "#f5f5f5",
+          }}
+        >
+          <div id="business_title" className="pl-[204px] pt-[230px]">
             <ul style={{ listStyle: "none" }}>
-              <li className="business_bt1">
+              <li className="business_bt1 pb-[91px]">
                 <Image
                   src="https://greenbricks.co.kr/images/business_title_01.png"
                   alt="business_title_01.png"
@@ -697,15 +718,15 @@ const Home: NextPage = () => {
                   height={1026}
                 />
               </li>
-              <li className="business_bt2">
+              <li className="business_bt2 pb-[37px]">
                 <Image
                   src="https://greenbricks.co.kr/images/business_title_02.png"
                   alt="business_title_02.png"
-                  width={541}
-                  height={1026}
+                  width={673}
+                  height={49}
                 />
               </li>
-              <li className="business_bt3">
+              <li className="business_bt3 pb-[130px]">
                 <a
                   href="https://drive.google.com/file/d/1Ps1pfl2zxgcXne2TNNXZHuBf9PpGIx9J/view?usp=share_link"
                   target="_blank"
@@ -722,50 +743,53 @@ const Home: NextPage = () => {
           </div>
 
           <div id="business_img">
-            <ul id="business_img_c" className="row justify-content-center">
+            <ul id="business_img_c" className="flex flex-row justify-center">
               <li>
                 <Image
                   src="https://greenbricks.co.kr/images/business_01.png"
                   alt="business_01.png"
-                  width={600}
-                  height={600}
+                  width={240}
+                  height={240}
                 />
               </li>
               <li>
                 <Image
                   src="https://greenbricks.co.kr/images/business_02.png"
                   alt="business_02.png"
-                  width={600}
-                  height={600}
+                  width={240}
+                  height={240}
                 />
               </li>
               <li>
                 <Image
                   src="https://greenbricks.co.kr/images/business_03.png"
                   alt="business_03.png"
-                  width={600}
-                  height={600}
+                  width={240}
+                  height={240}
                 />
               </li>
               <li>
                 <Image
                   src="https://greenbricks.co.kr/images/business_04.png"
                   alt="business_04.png"
-                  width={600}
-                  height={600}
+                  width={240}
+                  height={240}
                 />
               </li>
               <li>
                 <Image
                   src="https://greenbricks.co.kr/images/business_05.png"
                   alt="business_05.png"
-                  width={600}
-                  height={600}
+                  width={240}
+                  height={240}
                 />
               </li>
             </ul>
           </div>
-          <div id="recruit_wrap" className="row justify-content-center">
+          <div
+            id="recruit_wrap"
+            className="row justify-content-center mx-auto my-0 flex w-[80%] max-w-[1400px] flex-col pt-[230px] xl:flex-row"
+          >
             <div id="recruit_img">
               <Image
                 src="https://greenbricks.co.kr/images/recruit_img_left.png"
@@ -774,23 +798,30 @@ const Home: NextPage = () => {
                 height={541}
               />
             </div>
-            <div id="recruit_title">
+            <div id="recruit_title" className="pb-[180px] pl-[180px]">
               <div>
                 <Image
                   src="https://greenbricks.co.kr/images/recruit_title01.png"
                   alt="recruit_title01.png"
-                  width={483}
+                  width={408}
                   height={43}
                 />
               </div>
-              <div className="recruit_pt1">
+              <div
+                className="recruit_pt1 pt-[95px]"
+                style={{
+                  fontFamily: "Pretendard-Regular",
+                  color: "#000000",
+                  fontSize: "17pt",
+                }}
+              >
                 그린브릭스에서는 구성원마다 새로운 경험을 만들어 가길 바라는
                 마음으로 시작했습니다.
                 <br />
                 일하기 즐거운 회사 그린브릭스에서 함께 블록을 쌓아 주실 여러분을
                 기다립니다.
               </div>
-              <div className="recruit_pt2">
+              <div className="recruit_pt2 pt-[37px]">
                 <a href="mailto:recruit@greenbricks.co.kr" target="_blank">
                   <Image
                     src="https://greenbricks.co.kr/images/recruit_btn.png"
@@ -802,8 +833,20 @@ const Home: NextPage = () => {
               </div>
 
               <div id="recruit_box">
-                <ul id="recruit" style={{ listStyle: "none" }}>
-                  <li>
+                <ul
+                  id="recruit"
+                  style={{ listStyle: "none", minWidth: "776.14px" }}
+                  className="pt-[45px]"
+                >
+                  <li
+                    className="float-left mr-[50px]"
+                    style={{
+                      fontFamily: "Pretendard-Regular",
+                      color: "#000000",
+                      fontSize: "12pt",
+                      letterSpacing: "-1px",
+                    }}
+                  >
                     · 탄력근무제 (9시~10시 출근)
                     <br />
                     · 퇴직연금 / 재직자 내일 채움 공제
@@ -823,7 +866,15 @@ const Home: NextPage = () => {
                     · 10주간 온보딩 프로그램 진행
                     <br />· 필요시 재택근무 시행(업무환경지원)
                   </li>
-                  <li>
+                  <li
+                    className="float-left mr-[50px]"
+                    style={{
+                      fontFamily: "Pretendard-Regular",
+                      color: "#000000",
+                      fontSize: "12pt",
+                      letterSpacing: "-1px",
+                    }}
+                  >
                     · 한달에 한번 4시간 근무-그린데이
                     <br />
                     · 3년, 5년 만근 유급휴가
@@ -839,7 +890,15 @@ const Home: NextPage = () => {
                     · 임직원 리조트 회원권 이용 가능
                     <br />· 법인차량 이용 가능 (사전예약)
                   </li>
-                  <li>
+                  <li
+                    className="float-left mr-[50px]"
+                    style={{
+                      fontFamily: "Pretendard-Regular",
+                      color: "#000000",
+                      fontSize: "12pt",
+                      letterSpacing: "-1px",
+                    }}
+                  >
                     · 장기 근속자 인센티브
                     <br />
                     · 승진 인센티브
@@ -858,10 +917,10 @@ const Home: NextPage = () => {
             </div>
           </div>
         </div>
-        <div id="contact_wrap">
-          <div id="contact_title">
-            <ul style={{ listStyle: "none" }}>
-              <li className="contact_pb1">
+        <div id="contact_wrap" className="bg-black">
+          <div id="contact_title" className="pl-[197px] pt-[230px]">
+            <ul style={{ listStyle: "none" }} className="mb-[1rem]">
+              <li className="contact_pb1 pb-[91px]">
                 <Image
                   src="https://greenbricks.co.kr/images/contact_title01.png"
                   alt="contact_title01.png"
@@ -869,7 +928,14 @@ const Home: NextPage = () => {
                   height={43}
                 />
               </li>
-              <li className="contact_pb2">
+              <li
+                className="contact_pb2"
+                style={{
+                  fontFamily: "Pretendard-Regular",
+                  color: "#FFFFFF",
+                  fontSize: "17pt",
+                }}
+              >
                 평균 9년 업력의 퍼포먼스 마케터들이 모였습니다.
                 <br />
                 클라이언트와 같은 마음으로 고민하고 성과를 낼 수 있는 마케팅
@@ -878,15 +944,19 @@ const Home: NextPage = () => {
             </ul>
           </div>
 
-          <div id="contact_box">
-            <ul id="contact" style={{ listStyle: "none" }}>
+          <div id="contact_box" className="pb-[76px] pl-[197px]">
+            <ul
+              id="contact"
+              style={{ listStyle: "none" }}
+              className="flex gap-[50px]"
+            >
               <li>
                 <a href="mailto:mkt_gb@greenbricks.co.kr" target="_blank">
                   <Image
                     src="https://greenbricks.co.kr/images/contact_btn01.png"
                     alt="이메일문의"
-                    width={233}
-                    height={223}
+                    width={205}
+                    height={42}
                   />
                 </a>
               </li>
@@ -895,8 +965,8 @@ const Home: NextPage = () => {
                   <Image
                     src="https://greenbricks.co.kr/images/contact_btn02.png"
                     alt="전화문의"
-                    width={233}
-                    height={223}
+                    width={205}
+                    height={42}
                   />
                 </a>
               </li>
@@ -914,8 +984,15 @@ const Home: NextPage = () => {
             ></iframe>
           </div>
 
-          <div id="footer" className="footer_img">
-            <ul className="text_footer">
+          <div
+            id="footer"
+            className="footer_img px-[197px] py-[30px]"
+            style={{
+              fontFamily: "Pretendard-Regular",
+              color: "#787878",
+            }}
+          >
+            <ul className="text_footer mb-[1rem]">
               <li>서울시 금천구 가산디지털1로 181, 가산더블유센터 1105~06호</li>
               <li>T +82 2 6395 0501</li>
               <li>F +82 2 6395 0528</li>
