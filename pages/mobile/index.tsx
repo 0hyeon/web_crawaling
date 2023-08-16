@@ -47,7 +47,7 @@ const Mobile: NextPage = () => {
                   textAlign: "left",
                   fontFamily: "Pretendard-Regular",
                   color: "#000000",
-                  fontSize: "1.4rem",
+                  fontSize: "1.2rem",
                   lineHeight: "1.8rem",
                 }}
               >
