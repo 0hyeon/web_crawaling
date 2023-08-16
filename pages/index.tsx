@@ -4,7 +4,7 @@ import Image from "next/image";
 const Home: NextPage = () => {
   return (
     <>
-      <div id="header_wrap" className="w-full">
+      <div id="header_wrap">
         <div id="video-wrap" className="a-center">
           <video
             src="https://greenbricks.co.kr/images/211224_greenbricks_4.mp4"
@@ -42,7 +42,7 @@ const Home: NextPage = () => {
                 style={{
                   fontFamily: "Pretendard-Regular",
                   color: "#000000",
-                  fontSize: "1.4rem",
+                  fontSize: "17pt",
                 }}
               >
                 블록의 Base Plate를 생각하고 만든 회사 ‘그린브릭스’는
