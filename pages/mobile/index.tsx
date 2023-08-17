@@ -189,6 +189,7 @@ const Mobile: NextPage = () => {
                   className="campaign_name"
                   style={{
                     paddingTop: "1.2rem",
+                    paddingBottom: "1.0rem",
                     textAlign: "left",
                     letterSpacing: "-0.5px",
                     fontFamily: "Pretendard-Regular",
@@ -243,6 +244,7 @@ const Mobile: NextPage = () => {
                   className="campaign_name"
                   style={{
                     paddingTop: "1.2rem",
+                    paddingBottom: "1.0rem",
                     textAlign: "left",
                     letterSpacing: "-0.5px",
                     fontFamily: "Pretendard-Regular",
@@ -294,6 +296,7 @@ const Mobile: NextPage = () => {
                   className="campaign_name"
                   style={{
                     paddingTop: "1.2rem",
+                    paddingBottom: "1.0rem",
                     textAlign: "left",
                     letterSpacing: "-0.5px",
                     fontFamily: "Pretendard-Regular",
@@ -346,6 +349,7 @@ const Mobile: NextPage = () => {
                   className="campaign_name"
                   style={{
                     paddingTop: "1.2rem",
+                    paddingBottom: "1.0rem",
                     textAlign: "left",
                     letterSpacing: "-0.5px",
                     fontFamily: "Pretendard-Regular",
@@ -400,6 +404,7 @@ const Mobile: NextPage = () => {
                   className="campaign_name"
                   style={{
                     paddingTop: "1.2rem",
+                    paddingBottom: "1.0rem",
                     textAlign: "left",
                     letterSpacing: "-0.5px",
                     fontFamily: "Pretendard-Regular",
@@ -454,6 +459,7 @@ const Mobile: NextPage = () => {
                   className="campaign_name"
                   style={{
                     paddingTop: "1.2rem",
+                    paddingBottom: "1.0rem",
                     textAlign: "left",
                     letterSpacing: "-0.5px",
                     fontFamily: "Pretendard-Regular",
@@ -508,6 +514,7 @@ const Mobile: NextPage = () => {
                   className="campaign_name"
                   style={{
                     paddingTop: "1.2rem",
+                    paddingBottom: "1.0rem",
                     textAlign: "left",
                     letterSpacing: "-0.5px",
                     fontFamily: "Pretendard-Regular",
@@ -562,7 +569,7 @@ const Mobile: NextPage = () => {
                   className="campaign_name pb53"
                   style={{
                     paddingTop: "1.2rem",
-                    paddingBottom: "1.2rem",
+                    paddingBottom: "1.0rem",
                     textAlign: "left",
                     letterSpacing: "-0.5px",
                     fontFamily: "Pretendard-Regular",
@@ -617,7 +624,7 @@ const Mobile: NextPage = () => {
                   className="campaign_name pb53"
                   style={{
                     paddingTop: "1.2rem",
-                    paddingBottom: "1.2rem",
+                    paddingBottom: "1.0rem",
                     textAlign: "left",
                     letterSpacing: "-0.5px",
                     fontFamily: "Pretendard-Regular",
@@ -719,6 +726,7 @@ const Mobile: NextPage = () => {
                   className="campaign_name pb53"
                   style={{
                     paddingTop: "1.2rem",
+                    paddingBottom: "1.2rem",
                     textAlign: "left",
                     letterSpacing: "-0.5px",
                     fontFamily: "Pretendard-Regular",
@@ -769,6 +777,7 @@ const Mobile: NextPage = () => {
                   className="campaign_name pb53"
                   style={{
                     paddingTop: "1.2rem",
+                    paddingBottom: "1.2rem",
                     textAlign: "left",
                     letterSpacing: "-0.5px",
                     fontFamily: "Pretendard-Regular",
