@@ -15,6 +15,8 @@ function MenubarLeft() {
       router.push("/mbanner");
     } else if (menu === "앱스플라이어 & 잡코리아") {
       router.push("/exceltrans");
+    } else if (menu === "앱스플라이어 & 알바몬") {
+      router.push("/exceltransAlbamon");
     }
   };
 
@@ -71,19 +73,21 @@ function MenubarLeft() {
           <div className="mt-[19px] flex">
             <Chartbar width={25} height={25} />
           </div>
-          <Accordion summary={"AutoReportTool"}>
-            {["앱스플라이어 & 잡코리아"].map((el, idx) => {
-              return (
-                <ul key={idx}>
-                  <li
-                    onClick={() => onClickRouterLink(el)}
-                    className="cursor-pointer py-4 duration-75 hover:text-[#228ae6]"
-                  >
-                    {el}
-                  </li>
-                </ul>
-              );
-            })}
+          <Accordion summary={"Daily Report"}>
+            {["앱스플라이어 & 잡코리아", "앱스플라이어 & 알바몬"].map(
+              (el, idx) => {
+                return (
+                  <ul key={idx}>
+                    <li
+                      onClick={() => onClickRouterLink(el)}
+                      className="cursor-pointer py-4 duration-75 hover:text-[#228ae6]"
+                    >
+                      {el}
+                    </li>
+                  </ul>
+                );
+              }
+            )}
           </Accordion>
         </div>
       </div>

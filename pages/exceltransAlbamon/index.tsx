@@ -66,7 +66,7 @@ function Exceltrans() {
     // }
 
     setSate(() => ({ loading: true }));
-    fetch(BEcheckEnvironment().concat("/api/exceltrans"), {
+    fetch(BEcheckEnvironment().concat("/api/exceltransAlbamon"), {
       method: "POST",
       body: formData,
     })
@@ -140,7 +140,7 @@ function Exceltrans() {
     return <Value file={value} />;
   };
 
-  const labels = ["[잡코리아] AOS,IOS"];
+  const labels = ["[알바몬] AOS,IOS"];
   const FileInputs = labels.map((el, index) => (
     <>
       <Box key={index} maw={520} mx="auto">
@@ -177,7 +177,7 @@ function Exceltrans() {
             ) : (
               <div className="p-16">
                 <div className="mb-14 text-center text-2xl font-extrabold">
-                  AutoReportTool 앱스플라이어 & 잡코리아
+                  AutoReportTool 앱스플라이어 & 알바몬
                 </div>
                 {FileInputs}
                 <Box
