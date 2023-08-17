@@ -193,7 +193,7 @@ const Mobile: NextPage = () => {
                     letterSpacing: "-0.5px",
                     fontFamily: "Pretendard-Regular",
                     color: "#000000",
-                    fontSize: "0.9rem",
+                    fontSize: "1rem",
                     lineHeight: "1.4rem",
                   }}
                 >
@@ -247,7 +247,7 @@ const Mobile: NextPage = () => {
                     letterSpacing: "-0.5px",
                     fontFamily: "Pretendard-Regular",
                     color: "#000000",
-                    fontSize: "0.9rem",
+                    fontSize: "1rem",
                     lineHeight: "1.4rem",
                   }}
                 >
@@ -298,7 +298,7 @@ const Mobile: NextPage = () => {
                     letterSpacing: "-0.5px",
                     fontFamily: "Pretendard-Regular",
                     color: "#000000",
-                    fontSize: "0.9rem",
+                    fontSize: "1rem",
                     lineHeight: "1.4rem",
                   }}
                 >
@@ -350,7 +350,7 @@ const Mobile: NextPage = () => {
                     letterSpacing: "-0.5px",
                     fontFamily: "Pretendard-Regular",
                     color: "#000000",
-                    fontSize: "0.9rem",
+                    fontSize: "1rem",
                     lineHeight: "1.4rem",
                   }}
                 >
@@ -404,7 +404,7 @@ const Mobile: NextPage = () => {
                     letterSpacing: "-0.5px",
                     fontFamily: "Pretendard-Regular",
                     color: "#000000",
-                    fontSize: "0.9rem",
+                    fontSize: "1rem",
                     lineHeight: "1.4rem",
                   }}
                 >
@@ -458,7 +458,7 @@ const Mobile: NextPage = () => {
                     letterSpacing: "-0.5px",
                     fontFamily: "Pretendard-Regular",
                     color: "#000000",
-                    fontSize: "0.9rem",
+                    fontSize: "1rem",
                     lineHeight: "1.4rem",
                   }}
                 >
@@ -512,7 +512,7 @@ const Mobile: NextPage = () => {
                     letterSpacing: "-0.5px",
                     fontFamily: "Pretendard-Regular",
                     color: "#000000",
-                    fontSize: "0.9rem",
+                    fontSize: "1rem",
                     lineHeight: "1.4rem",
                   }}
                 >
@@ -567,7 +567,7 @@ const Mobile: NextPage = () => {
                     letterSpacing: "-0.5px",
                     fontFamily: "Pretendard-Regular",
                     color: "#000000",
-                    fontSize: "0.9rem",
+                    fontSize: "1rem",
                     lineHeight: "1.4rem",
                   }}
                 >
@@ -622,7 +622,7 @@ const Mobile: NextPage = () => {
                     letterSpacing: "-0.5px",
                     fontFamily: "Pretendard-Regular",
                     color: "#000000",
-                    fontSize: "0.9rem",
+                    fontSize: "1rem",
                     lineHeight: "1.4rem",
                   }}
                 >
@@ -673,7 +673,7 @@ const Mobile: NextPage = () => {
                     letterSpacing: "-0.5px",
                     fontFamily: "Pretendard-Regular",
                     color: "#000000",
-                    fontSize: "0.9rem",
+                    fontSize: "1rem",
                     lineHeight: "1.4rem",
                   }}
                 >
@@ -723,7 +723,7 @@ const Mobile: NextPage = () => {
                     letterSpacing: "-0.5px",
                     fontFamily: "Pretendard-Regular",
                     color: "#000000",
-                    fontSize: "0.9rem",
+                    fontSize: "1rem",
                     lineHeight: "1.4rem",
                   }}
                 >
@@ -773,7 +773,7 @@ const Mobile: NextPage = () => {
                     letterSpacing: "-0.5px",
                     fontFamily: "Pretendard-Regular",
                     color: "#000000",
-                    fontSize: "0.9rem",
+                    fontSize: "1rem",
                     lineHeight: "1.4rem",
                   }}
                 >
@@ -799,10 +799,9 @@ const Mobile: NextPage = () => {
             width: "100%",
             backgroundImage:
               "url(https://greenbricks.co.kr/images/business_bg01.png)",
-            backgroundSize: "contain",
+            backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
-            backgroundPosition: "center center",
-            background: "#000",
+            backgroundPosition: "33%",
           }}
         >
           <div id="business_title" className="pt-28">
@@ -855,71 +854,69 @@ const Mobile: NextPage = () => {
           </div>
 
           <div id="business_img">
-            <ul id="business_img_c" className="a-center pb300 text-center">
-              <li className="inline-block w-1/3">
-                <Image
+            <ul
+              id="business_img_c"
+              className="a-center pb300 p-[1.5%] text-center"
+            >
+              <li className="inline">
+                <img
                   src="https://greenbricks.co.kr/images/business_01.png"
                   alt="business_01.png"
-                  data-fixed-width="300"
-                  width={300}
-                  height={300}
-                  sizes="100vw"
                   style={{
-                    width: "100%",
+                    width: "31.33%",
+                    display: "inline-block",
+                    marginBottom: "1.5%",
+                    // paddingLeft: "5px",
+                    // paddingRight: "5px",
                   }}
                 />
               </li>
-              <li className="inline-block w-1/3">
-                <Image
+              <li className="inline">
+                <img
                   src="https://greenbricks.co.kr/images/business_02.png"
                   alt="business_02.png"
-                  data-fixed-width="300"
-                  width={300}
-                  height={300}
-                  sizes="100vw"
                   style={{
-                    width: "100%",
+                    width: "31.33%",
+                    display: "inline-block",
+                    marginBottom: "1.5%",
+                    marginLeft: "1.5%",
+                    marginRight: "1.5%",
                   }}
                 />
               </li>
-              <li className="inline-block w-1/3">
-                <Image
+              <li className="inline">
+                <img
                   src="https://greenbricks.co.kr/images/business_03.png"
                   alt="business_03.png"
-                  data-fixed-width="300"
-                  width={300}
-                  height={300}
-                  sizes="100vw"
                   style={{
-                    width: "100%",
+                    width: "31.33%",
+                    display: "inline-block",
+                    marginBottom: "1.5%",
+                    // paddingLeft: "5px",
+                    // paddingRight: "5px",
                   }}
                 />
               </li>
-              <li className="inline-block w-1/3">
-                <Image
+              <li className="inline">
+                <img
                   src="https://greenbricks.co.kr/images/business_04.png"
                   alt="business_04.png"
-                  data-fixed-width="300"
-                  width={300}
-                  height={300}
-                  sizes="100vw"
                   style={{
-                    width: "100%",
-                    margin: "0 auto",
+                    width: "31.33%",
+                    display: "inline-block",
+                    marginBottom: "1.5%",
+                    marginRight: "1.5%",
                   }}
                 />
               </li>
-              <li className="inline-block w-1/3">
-                <Image
+              <li className="inline">
+                <img
                   src="https://greenbricks.co.kr/images/business_05.png"
                   alt="business_05.png"
-                  data-fixed-width="300"
-                  width={300}
-                  height={300}
-                  sizes="100vw"
                   style={{
-                    width: "100%",
-                    margin: "0 auto",
+                    width: "31.33%",
+                    display: "inline-block",
+                    marginBottom: "1.5%",
                   }}
                 />
               </li>
@@ -980,23 +977,46 @@ const Mobile: NextPage = () => {
             </ul>
           </div>
 
-          <div id="recruit_img" className="a-center sizeup">
+          <div
+            id="recruit_img"
+            className="a-center sizeup mx-auto my-0 w-[70%] pb-12"
+          >
             <Image
               src="https://greenbricks.co.kr/images/recruit_img_left.png"
               alt="recruit_img_left.png"
-              style={{ padding: "100px 0 50px 0" }}
+              className="pb-12 pt-16"
+              sizes="100vw"
+              style={{
+                width: "80%",
+                // padding: "100px 0 50px 0",
+                margin: "0 auto",
+              }}
               width={549}
               height={712}
             />
           </div>
-          <div id="recruit_box">
+          <div id="recruit_box" className="mx-auto my-0 w-[70%] pb-28">
             <ul
               id="recruit"
               style={{ textAlign: "left", color: "#000000" }}
               className="a-center"
             >
-              <li className="recruit_line"></li>
-              <li>
+              <li
+                className="recruit_line "
+                style={{
+                  borderBottom: "1px solid #17d492",
+                }}
+              ></li>
+              <li
+                style={{
+                  fontFamily: "Pretendard-Regular",
+                  color: "#000000",
+                  fontSize: "0.9rem",
+                  lineHeight: "1.4rem",
+                  paddingTop: "1.5rem",
+                  paddingBottom: "3rem",
+                }}
+              >
                 · 탄력근무제 (9시~10시 출근)
                 <br />
                 · 퇴직연금 / 재직자 내일 채움 공제
@@ -1016,8 +1036,22 @@ const Mobile: NextPage = () => {
                 <br />· 필요시 재택근무 시행(업무환경지원)
               </li>
 
-              <li className="recruit_line"></li>
-              <li>
+              <li
+                className="recruit_line "
+                style={{
+                  borderBottom: "1px solid #17d492",
+                }}
+              ></li>
+              <li
+                style={{
+                  fontFamily: "Pretendard-Regular",
+                  color: "#000000",
+                  fontSize: "0.9rem",
+                  lineHeight: "1.4rem",
+                  paddingTop: "1.5rem",
+                  paddingBottom: "3rem",
+                }}
+              >
                 · 한달에 한번 4시간 근무-그린데이
                 <br />
                 · 3년, 5년 만근 유급휴가
@@ -1034,8 +1068,22 @@ const Mobile: NextPage = () => {
                 <br />· 법인차량 이용 가능 (사전예약)
               </li>
 
-              <li className="recruit_line"></li>
-              <li>
+              <li
+                className="recruit_line"
+                style={{
+                  borderBottom: "1px solid #17d492",
+                }}
+              ></li>
+              <li
+                style={{
+                  fontFamily: "Pretendard-Regular",
+                  color: "#000000",
+                  fontSize: "0.9rem",
+                  lineHeight: "1.4rem",
+                  paddingTop: "1.5rem",
+                  paddingBottom: "3rem",
+                }}
+              >
                 · 장기 근속자 인센티브
                 <br />
                 · 승진 인센티브
@@ -1053,13 +1101,13 @@ const Mobile: NextPage = () => {
           </div>
         </div>
 
-        <div id="contact_wrap">
-          <div id="contact_title">
+        <div id="contact_wrap" className="bg-black">
+          <div id="contact_title" className="pt-32">
             <ul
               id="contact_title_c"
               style={{ listStyle: "none", width: "90%", margin: "0 auto" }}
             >
-              <li className="contact_pb1">
+              <li className="contact_pb1 pb-8">
                 <Image
                   src="https://greenbricks.co.kr/images/contact_title01.png"
                   alt="contact_title01.png"
@@ -1067,7 +1115,15 @@ const Mobile: NextPage = () => {
                   height={53}
                 />
               </li>
-              <li className="contact_pb2">
+              <li
+                className="contact_pb2 pb-12"
+                style={{
+                  fontFamily: "Pretendard-Regular",
+                  color: "#fff",
+                  fontSize: "1.4rem",
+                  lineHeight: "1.8rem",
+                }}
+              >
                 평균 9년 업력의 퍼포먼스 마케터들이 모였습니다.
                 <br />
                 클라이언트와 같은 마음으로 고민하고 성과를 낼 수 있는 마케팅
@@ -1077,8 +1133,12 @@ const Mobile: NextPage = () => {
           </div>
 
           <div id="contact_box">
-            <ul id="contact" style={{ listStyle: "none" }}>
-              <li>
+            <ul
+              id="contact"
+              className="mx-auto my-0 flex w-[85%] gap-2 pb-8"
+              style={{ listStyle: "none" }}
+            >
+              <li className="w-1/2">
                 <a href="mailto:mkt_gb@greenbricks.co.kr" target="_blank">
                   <Image
                     src="https://greenbricks.co.kr/images/contact_btn01.png"
@@ -1088,7 +1148,7 @@ const Mobile: NextPage = () => {
                   />
                 </a>
               </li>
-              <li>
+              <li className="w-1/2">
                 <a href="tel:0263950525" target="_blank">
                   <Image
                     src="https://greenbricks.co.kr/images/contact_btn02.png"
@@ -1113,10 +1173,17 @@ const Mobile: NextPage = () => {
           ></iframe>
         </div>
 
-        <div id="footer">
+        <div id="footer" className="bg-black text-[#787878]">
           <ul
             className="text_footer"
-            style={{ width: "90%", margin: "0 auto", padding: "50px 0 50px 0" }}
+            style={{
+              width: "90%",
+              margin: "0 auto",
+              padding: "50px 0 50px 0",
+              fontFamily: "Pretendard-Regular",
+              fontSize: "1.1rem",
+              lineHeight: "1.3rem",
+            }}
           >
             <li>서울시 금천구 가산디지털1로 181, 가산더블유센터 1105~06호</li>
             <li>T +82 2 6395 0501</li>
