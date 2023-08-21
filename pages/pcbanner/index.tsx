@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import { format } from "date-fns";
 import DateSchedule from "@components/DateSchedule";
 import Link from "next/link";
+
 // import Pie from "@components/Pie";
 // import { pieData } from "@constants/data";
 
@@ -31,7 +32,6 @@ const PcBannerPage = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
   };
-
   const debouncedKeword = useDebounce<string>(keyword);
   const startDate = useDebounce<string | null>(isDate[0]);
   const lastDate = useDebounce<string | null>(isDate[1]);

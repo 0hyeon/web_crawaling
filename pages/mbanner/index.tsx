@@ -13,7 +13,6 @@ import DateSchedule from "@components/DateSchedule";
 // import { pieData } from "@constants/data";
 
 const MoBanner = () => {
-  const router = useRouter();
   const [keyword, setKeyword] = useState("");
   const [activePage, setPage] = useState(1);
   const [selectedFilter, setFilter] = useState<string | null>(FILTERS[0].value);
@@ -59,7 +58,6 @@ const MoBanner = () => {
     refetch();
     setPage(1);
   }, [isDate, refetch]);
-
   const { data: total } = useQuery(
     [
       `/api/get-mobanner-count?&contains=${debouncedKeword}&startday=${startDate}&lastday=${lastDate}`,

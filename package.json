@@ -26,6 +26,7 @@
     "dayjs": "^1.11.9",
     "download-chromium": "^3.0.0",
     "framer-motion": "^10.13.0",
+    "iron-session": "^6.3.1",
     "next": "13.4.6",
     "prisma": "^4.16.1",
     "puppeteer": "^20.7.3",

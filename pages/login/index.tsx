@@ -1,12 +1,22 @@
+import useMutation from "@libs/client/useMutation";
+import { FEcheckEnvironment } from "@libs/server/useCheckEnvironment";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
+interface MutationResult {
+  ok: boolean;
+}
 const Login = () => {
   const [isName, setName] = useState<string | undefined>();
   const [isPassWord, setPassWord] = useState<string | undefined>();
 
   const router = useRouter();
+
+  const [enter, { loading, data: userData, error }] =
+    useMutation<MutationResult>(
+      FEcheckEnvironment().concat("/api/users/sign-up")
+    );
   const LoginOnClick = (name: string | undefined, pw: string | undefined) => {
+    if (loading) return;
     if (name === "") {
       alert("ID를 입력해주세요 ");
       return;
@@ -23,9 +33,17 @@ const Login = () => {
       alert("비밀번호가 틀렸습니다.");
       return;
     }
+    enter({ name, pw });
     alert("로그인성공");
-    router.push("/pcbanner");
+    window.location.href = "/pcbanner";
   };
+  // useEffect(() => {
+  //   console.log("userData : ", userData);
+  //   if (userData?.ok === true) {
+  //     router.push("/");
+  //   }
+  // }, [userData]);
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-900">
       <video
