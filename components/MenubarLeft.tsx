@@ -17,6 +17,8 @@ function MenubarLeft() {
       router.push("/exceltrans");
     } else if (menu === "앱스플라이어 & 알바몬") {
       router.push("/exceltransAlbamon");
+    } else if (menu === "잡코리아 시각화(작업중)") {
+      router.push("/exceltransGraph");
     }
   };
 
@@ -74,20 +76,22 @@ function MenubarLeft() {
             <Chartbar width={25} height={25} />
           </div>
           <Accordion summary={"Daily Report"}>
-            {["앱스플라이어 & 잡코리아", "앱스플라이어 & 알바몬"].map(
-              (el, idx) => {
-                return (
-                  <ul key={idx}>
-                    <li
-                      onClick={() => onClickRouterLink(el)}
-                      className="cursor-pointer py-4 duration-75 hover:text-[#228ae6]"
-                    >
-                      {el}
-                    </li>
-                  </ul>
-                );
-              }
-            )}
+            {[
+              "앱스플라이어 & 잡코리아",
+              "잡코리아 시각화(작업중)",
+              "앱스플라이어 & 알바몬",
+            ].map((el, idx) => {
+              return (
+                <ul key={idx}>
+                  <li
+                    onClick={() => onClickRouterLink(el)}
+                    className="cursor-pointer py-4 duration-75 hover:text-[#228ae6]"
+                  >
+                    {el}
+                  </li>
+                </ul>
+              );
+            })}
           </Accordion>
         </div>
       </div>
