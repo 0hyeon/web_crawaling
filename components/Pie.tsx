@@ -16,6 +16,7 @@ const MyResponsivePie = ({ data }: any) => (
     arcLinkLabelsColor={{ from: "color" }}
     arcLabelsSkipAngle={10}
     arcLabelsTextColor={{ from: "color", modifiers: [["darker", 2]] }}
+    colors={{ scheme: "blue_green" }}
     defs={[
       {
         id: "dots",

@@ -9,7 +9,7 @@ export const pieData = [
     id: "EventName2",
     label: "EventName2",
     value: 534,
-    color: "hsl(110, 70%, 50%)",
+    color: "hsl(215, 100%, 50%)",
   },
   {
     id: "EventName3",
@@ -32,7 +32,7 @@ export const pieData = [
 ];
 export const barData = [
   {
-    country: "EventName",
+    Data: "EventName",
     ApplyCompletes: 33,
     ApplyCompletesColor: "hsl(230, 70%, 50%)",
     onePick_view_jobposting: 4,
@@ -47,7 +47,7 @@ export const barData = [
     ResumeNewCompletesColor: "hsl(141, 70%, 50%)",
   },
   {
-    country: "AE",
+    Data: "AE",
     ApplyCompletes: 33,
     ApplyCompletesColor: "hsl(282, 70%, 50%)",
     onePick_view_jobposting: 12,
@@ -62,7 +62,7 @@ export const barData = [
     ResumeNewCompletesColor: "hsl(226, 70%, 50%)",
   },
   {
-    country: "AF",
+    Data: "AF",
     ApplyCompletes: 41,
     ApplyCompletesColor: "hsl(22, 70%, 50%)",
     onePick_view_jobposting: 196,
@@ -77,7 +77,7 @@ export const barData = [
     ResumeNewCompletesColor: "hsl(335, 70%, 50%)",
   },
   {
-    country: "AG",
+    Data: "AG",
     ApplyCompletes: 27,
     ApplyCompletesColor: "hsl(287, 70%, 50%)",
     onePick_view_jobposting: 68,
@@ -92,7 +92,7 @@ export const barData = [
     ResumeNewCompletesColor: "hsl(242, 70%, 50%)",
   },
   {
-    country: "AI",
+    Data: "AI",
     ApplyCompletes: 21,
     ApplyCompletesColor: "hsl(148, 70%, 50%)",
     onePick_view_jobposting: 114,
@@ -107,7 +107,7 @@ export const barData = [
     ResumeNewCompletesColor: "hsl(261, 70%, 50%)",
   },
   {
-    country: "AL",
+    Data: "AL",
     ApplyCompletes: 49,
     ApplyCompletesColor: "hsl(22, 70%, 50%)",
     onePick_view_jobposting: 114,
@@ -122,7 +122,7 @@ export const barData = [
     ResumeNewCompletesColor: "hsl(347, 70%, 50%)",
   },
   {
-    country: "AM",
+    Data: "AM",
     ApplyCompletes: 120,
     ApplyCompletesColor: "hsl(39, 70%, 50%)",
     onePick_view_jobposting: 48,

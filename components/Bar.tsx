@@ -16,12 +16,12 @@ const MyResponsiveBar = ({ data /* see data tab */ }: any) => (
       "CallContactApply",
       "ResumeNewCompletes",
     ]}
-    indexBy="country"
+    indexBy="Data"
     margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
     padding={0.3}
     valueScale={{ type: "linear" }}
     indexScale={{ type: "band", round: true }}
-    colors={{ scheme: "nivo" }}
+    colors={{ scheme: "blue_green" }}
     defs={[
       {
         id: "dots",
@@ -66,7 +66,7 @@ const MyResponsiveBar = ({ data /* see data tab */ }: any) => (
       tickSize: 5,
       tickPadding: 5,
       tickRotation: 0,
-      legend: "country",
+      legend: "Data",
       legendPosition: "middle",
       legendOffset: 32,
     }}
@@ -111,7 +111,7 @@ const MyResponsiveBar = ({ data /* see data tab */ }: any) => (
     role="application"
     ariaLabel="Nivo bar chart demo"
     barAriaLabel={(e) =>
-      e.id + ": " + e.formattedValue + " in country: " + e.indexValue
+      e.id + ": " + e.formattedValue + " in Data: " + e.indexValue
     }
   />
 );
