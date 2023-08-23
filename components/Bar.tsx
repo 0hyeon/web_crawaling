@@ -110,7 +110,7 @@ const MyResponsiveBar = ({ data /* see data tab */ }: any) => (
     ]}
     role="application"
     ariaLabel="Nivo bar chart demo"
-    barAriaLabel={(e) =>
+    barAriaLabel={(e: any) =>
       e.id + ": " + e.formattedValue + " in Data: " + e.indexValue
     }
   />

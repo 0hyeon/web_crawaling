@@ -30,6 +30,102 @@ export const pieData = [
     color: "hsl(16, 70%, 50%)",
   },
 ];
+export const pieData2 = [
+  {
+    id: "EventName1",
+    label: "EventName1",
+    value: 2,
+    color: "hsl(23, 70%, 50%)",
+  },
+  {
+    id: "EventName2",
+    label: "EventName2",
+    value: 534,
+    color: "hsl(215, 100%, 50%)",
+  },
+  {
+    id: "EventName3",
+    label: "EventName3",
+    value: 398,
+    color: "hsl(24, 70%, 50%)",
+  },
+  {
+    id: "EventName4",
+    label: "EventName4",
+    value: 104,
+    color: "hsl(64, 70%, 50%)",
+  },
+  {
+    id: "EventName5",
+    label: "EventName5",
+    value: 537,
+    color: "hsl(16, 70%, 50%)",
+  },
+];
+export const pieData3 = [
+  {
+    id: "EventName1",
+    label: "EventName1",
+    value: 2,
+    color: "hsl(23, 70%, 50%)",
+  },
+  {
+    id: "EventName2",
+    label: "EventName2",
+    value: 534,
+    color: "hsl(215, 100%, 50%)",
+  },
+  {
+    id: "EventName3",
+    label: "EventName3",
+    value: 398,
+    color: "hsl(24, 70%, 50%)",
+  },
+  {
+    id: "EventName4",
+    label: "EventName4",
+    value: 104,
+    color: "hsl(64, 70%, 50%)",
+  },
+  {
+    id: "EventName5",
+    label: "EventName5",
+    value: 537,
+    color: "hsl(16, 70%, 50%)",
+  },
+];
+export const pieData4 = [
+  {
+    id: "EventName1",
+    label: "EventName1",
+    value: 2,
+    color: "hsl(23, 70%, 50%)",
+  },
+  {
+    id: "EventName2",
+    label: "EventName2",
+    value: 534,
+    color: "hsl(215, 100%, 50%)",
+  },
+  {
+    id: "EventName3",
+    label: "EventName3",
+    value: 398,
+    color: "hsl(24, 70%, 50%)",
+  },
+  {
+    id: "EventName4",
+    label: "EventName4",
+    value: 104,
+    color: "hsl(64, 70%, 50%)",
+  },
+  {
+    id: "EventName5",
+    label: "EventName5",
+    value: 537,
+    color: "hsl(16, 70%, 50%)",
+  },
+];
 export const barData = [
   {
     Data: "EventName",
