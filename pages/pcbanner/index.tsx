@@ -55,7 +55,7 @@ const PcBannerPage = () => {
       select: (data) => data.items,
     }
   );
-  console.log("banners : ", banners);
+  // console.log("banners : ", banners);
   useEffect(() => {
     refetch();
     setPage(1);
@@ -144,7 +144,6 @@ const PcBannerPage = () => {
                       {idx > 0 &&
                       item.date.slice(0, 13) ===
                         banners[idx - 1].date?.slice(0, 13) ? null : (
-                        // {idx > 0 && item.date === banners[idx - 1].date ? null : (
                         <div
                           key={idx}
                           className="absolute left-[-11px] top-[-11px] h-[20px] w-[20px] rounded-xl border border-gray-300 bg-white"

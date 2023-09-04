@@ -20,3 +20,4 @@ export function withSsrSession(handler: any) {
   //ssr에서 쿠기값을 저장하는 헬퍼함수
   return withIronSessionSsr(handler, cookieOptions);
 }
+//클라이언트 측에서 쿠키를 사용하여 세션 데이터를 저장하고 관리합니다.

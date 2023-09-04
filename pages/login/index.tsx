@@ -21,7 +21,7 @@ const Login = () => {
       alert("ID를 입력해주세요 ");
       return;
     }
-    if (name !== "admin") {
+    if (name !== "admin" && name !== "greenbricks") {
       alert("존재하지 않는 아이디입니다. 관리자에게 문의해주세요");
       return;
     }

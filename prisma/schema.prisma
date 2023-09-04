@@ -1,6 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
-//yarn ts-node prisma/bannerCreate.ts
+//yarn ts-node prisma/bannerMoCreate.ts
 generator client {
   provider = "prisma-client-js"
 }
@@ -51,4 +51,13 @@ model Token {
   updatedAt DateTime @updatedAt
 
   @@index([userId])
+}
+
+model Tracking {
+  id        Int      @id @default(autoincrement())
+  originId  String?
+  hashedId  String?
+  eventName String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

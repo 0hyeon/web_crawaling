@@ -19,6 +19,8 @@ function MenubarLeft() {
       router.push("/exceltransAlbamon");
     } else if (menu === "잡코리아 시각화(작업중)") {
       router.push("/exceltransGraph");
+    } else if (menu === "트래킹조회") {
+      router.push("/trackingPage");
     }
   };
 
@@ -78,8 +80,9 @@ function MenubarLeft() {
           <Accordion summary={"Daily Report"}>
             {[
               "앱스플라이어 & 잡코리아",
-              "잡코리아 시각화(작업중)",
               "앱스플라이어 & 알바몬",
+              "잡코리아 시각화(작업중)",
+              "트래킹조회",
             ].map((el, idx) => {
               return (
                 <ul key={idx}>

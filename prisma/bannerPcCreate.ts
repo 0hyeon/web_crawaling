@@ -25,7 +25,6 @@ async function main() {
     });
   });
   const productData: Prisma.PcBannerCreateInput[] = [...ArrayData];
-  let count = 0;
   for (const p of ArrayData) {
     const pcbanners: BannerInfo[] = [];
 
@@ -56,7 +55,7 @@ async function main() {
       });
       for (const d of pcbanners) {
         const banner = await prisma.pcBanner.createMany({ data: d });
-        console.log(`Created Id ${count}`);
+        console.log(`Created Id ${(d.date, d.id)}`);
       }
     } catch (error) {
       console.error(error);

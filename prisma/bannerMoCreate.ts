@@ -25,7 +25,6 @@ async function main() {
     });
   });
   const productData: Prisma.MobieBannerCreateInput[] = [...ArrayData];
-  let count = 0;
   for (const p of ArrayData) {
     const mobilebanners: BannerInfo[] = [];
 
@@ -56,7 +55,7 @@ async function main() {
       });
       for (const d of mobilebanners) {
         const banner = await prisma.mobieBanner.createMany({ data: d });
-        console.log(`Created Id ${count}`);
+        console.log(`Create M banner :  ${d}`);
       }
     } catch (error) {
       console.error(error);
