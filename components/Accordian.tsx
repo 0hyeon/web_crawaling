@@ -1,9 +1,5 @@
-import { ReactNode, useEffect, useRef, useState } from "react";
-
-interface Props {
-  summary: ReactNode;
-  children: ReactNode;
-}
+import { useEffect, useRef, useState } from "react";
+import { Props } from "types/type";
 
 function Accordion({ summary, children }: Props) {
   const contentRef = useRef<HTMLDivElement>(null);

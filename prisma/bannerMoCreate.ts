@@ -1,17 +1,12 @@
 import { PrismaClient, Prisma, PcBanner } from "@prisma/client";
 import { bannerDate } from "./bannerData";
 import { FEcheckEnvironment } from "@libs/server/useCheckEnvironment";
+import { BannerInfo } from "types/type";
 const prisma = new PrismaClient();
 
 async function main() {
   const splitBanner = bannerDate.split("\n");
-  interface BannerInfo {
-    id?: number;
-    src: string;
-    date: string;
-    replaceName?: string;
-    href: string;
-  }
+
   // console.log("splitBanner :", splitBanner);
   const ArrayData: BannerInfo[] = [];
   splitBanner.map((el) => {

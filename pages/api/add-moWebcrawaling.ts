@@ -5,14 +5,7 @@ import {
   BEcheckEnvironment,
   FEcheckEnvironment,
 } from "@libs/server/useCheckEnvironment";
-
-interface MobileBanner {
-  src: string;
-  alt: string;
-  title: string;
-  href?: string;
-  date?: string;
-}
+import { MobileBanner } from "types/type";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {

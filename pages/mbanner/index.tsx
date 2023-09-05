@@ -132,55 +132,63 @@ const MoBanner = () => {
           {banners && (
             <div className="mt-7 grid grid-cols-1">
               {banners?.map(
-                (item: any, idx) =>
+                (item: MobieBanner, idx) =>
                   item?.src && (
                     <div
                       key={item.id}
                       className="relative mx-auto w-[40%] border-b-2 border-l-[3px] p-3"
                     >
                       {idx > 0 &&
-                      item.date.slice(0, 13) ===
+                      item.date?.slice(0, 13) ===
                         banners[idx - 1].date?.slice(0, 13) ? null : (
                         <div
                           key={idx}
                           className="absolute left-[-11px] top-[-11px] h-[20px] w-[20px] rounded-xl border border-gray-300 bg-white"
                         >
                           <span className="absolute left-[-74px] top-[-3px]  w-[74px] text-sm text-gray-400">
-                            {format(
-                              new Date(item.date),
-                              // "yyyy년 M월 d일 HH시mm분"
-                              "d일 HH시"
-                            )}
+                            {item.date
+                              ? format(
+                                  new Date(item.date),
+                                  // "yyyy년 M월 d일 HH시mm분"
+                                  "d일 HH시"
+                                )
+                              : ""}
                           </span>
                         </div>
                       )}
-                      <a
-                        href={item.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <Image
-                          className="min-w-full rounded"
-                          alt={item.alt}
-                          key={item.id}
-                          src={
-                            item.src
-                              ? `https://imagedelivery.net/tUnns8TnvEqxOzjreCbU6w/${item.src}/public`
-                              : ""
-                          }
-                          width={800}
-                          height={290}
-                          placeholder="blur"
-                          blurDataURL="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg=="
-                        />
-                      </a>
+                      {item.href ? (
+                        <a
+                          href={item.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <Image
+                            className="min-w-full rounded"
+                            alt={item.alt ? item.alt : ""}
+                            key={item.id}
+                            src={
+                              item.src
+                                ? `https://imagedelivery.net/tUnns8TnvEqxOzjreCbU6w/${item.src}/public`
+                                : ""
+                            }
+                            width={800}
+                            height={290}
+                            placeholder="blur"
+                            blurDataURL="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg=="
+                          />
+                        </a>
+                      ) : (
+                        ""
+                      )}
                       <div className="col-2 mt-3 flex flex-col">
                         <div className="mb-1 text-sm">
-                          {format(
-                            new Date(item.date),
-                            // "yyyy년 M월 d일 HH시mm분"
-                            "yyyy년 M월 d일 HH시"
-                          )}
+                          {item.date
+                            ? format(
+                                new Date(item.date),
+                                // "yyyy년 M월 d일 HH시mm분"
+                                "yyyy년 M월 d일 HH시"
+                              )
+                            : ""}
                         </div>
                         <div className="text-base font-bold">{item.title}</div>
                         <div className="text-sm font-light tracking-tight">

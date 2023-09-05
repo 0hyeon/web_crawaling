@@ -1,10 +1,6 @@
 import { useState } from "react";
+import { UseMutationState } from "types/type";
 
-interface UseMutationState<T> {
-  loading: boolean;
-  data?: T;
-  error?: object;
-}
 type UseMutationResult<T> = [(data: any) => void, UseMutationState<T>];
 
 export default function useMutation<T = any>(

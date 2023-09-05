@@ -2,9 +2,8 @@ import useMutation from "@libs/client/useMutation";
 import { FEcheckEnvironment } from "@libs/server/useCheckEnvironment";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-interface MutationResult {
-  ok: boolean;
-}
+import { MutationResult } from "types/type";
+
 const Login = () => {
   const [isName, setName] = useState<string | undefined>();
   const [isPassWord, setPassWord] = useState<string | undefined>();
