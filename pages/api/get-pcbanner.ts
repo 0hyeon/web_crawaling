@@ -62,7 +62,6 @@ async function getProducts({
       gte: startDate.toISOString(),
       lt: endDate.toISOString(),
     };
-    orderByCondition = { orderBy: { date: "asc" } };
   }
 
   if (adjustedStartday !== null && adjustedLastday !== null) {
@@ -84,7 +83,6 @@ async function getProducts({
       gte: startDate.toISOString(),
       lt: endDate.toISOString(),
     };
-    orderByCondition = { orderBy: { date: "asc" } };
   }
   try {
     const response = await prisma.pcBanner.findMany({
