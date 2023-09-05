@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient, Prisma } from "@prisma/client";
-import { getOrderBy } from "@constants/banners";
+import { OrderByCondition, getOrderBy } from "@constants/banners";
 import { adjustDateForVercel } from "@libs/client/YesterDay";
 
 const prisma = new PrismaClient();
@@ -34,7 +34,7 @@ async function getProducts({
     ...containsCondition,
   };
 
-  let orderByCondition: any = getOrderBy(orderBy);
+  let orderByCondition: OrderByCondition = getOrderBy(orderBy);
   console.log(startday, lastday);
 
   let adjustedStartday, adjustedLastday;
