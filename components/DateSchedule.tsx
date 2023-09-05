@@ -4,8 +4,12 @@ import { DatePicker } from "@mantine/dates";
 import useDetectClose from "@libs/client/useDetectClose";
 import Calendar from "public/asset/svg/Calendar";
 import { formatDate } from "@libs/client/FormData";
-function DateSchedule({ getDate }: any) {
-  const dropDownRef = useRef();
+function DateSchedule({
+  getDate,
+}: {
+  getDate: (startDay: string | null, lastDay: string | null) => void;
+}) {
+  const dropDownRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   // const [isOpen, setIsOpen] = useDetectClose(dropDownRef, false);
   const [value, setValue] = useState<[Date | null, Date | null]>([null, null]);
@@ -19,7 +23,7 @@ function DateSchedule({ getDate }: any) {
   return (
     <div
       className="absolute left-[-50px] z-[1] mr-5 flex cursor-pointer items-center justify-center border-b-2 bg-white "
-      ref={dropDownRef as any}
+      ref={dropDownRef}
     >
       {isOpen ? (
         <Group position="center">
