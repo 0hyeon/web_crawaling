@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient, Prisma } from "@prisma/client";
-import { OrderByCondition, getOrderBy } from "@constants/banners";
+import { getOrderBy } from "@constants/banners";
 import { adjustDateForVercel } from "@libs/client/YesterDay";
+import { OrderByCondition } from "types/type";
 
 const prisma = new PrismaClient();
 
@@ -35,7 +36,8 @@ async function getProducts({
   };
 
   let orderByCondition: OrderByCondition = getOrderBy(orderBy);
-  console.log(startday, lastday);
+  console.log("startday, lastday : ", startday, lastday);
+  console.log("orderByCondition : ", orderByCondition);
 
   let adjustedStartday, adjustedLastday;
   if (process.env.NODE_ENV === "production") {
@@ -60,7 +62,6 @@ async function getProducts({
       gte: startDate.toISOString(),
       lt: endDate.toISOString(),
     };
-    orderByCondition = { orderBy: { date: "asc" } };
   }
 
   if (adjustedStartday !== null && adjustedLastday !== null) {
@@ -82,7 +83,6 @@ async function getProducts({
       gte: startDate.toISOString(),
       lt: endDate.toISOString(),
     };
-    orderByCondition = { orderBy: { date: "asc" } };
   }
 
   try {

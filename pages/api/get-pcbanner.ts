@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient, Prisma } from "@prisma/client";
-import { OrderByCondition, getOrderBy } from "@constants/banners";
+import { getOrderBy } from "@constants/banners";
 import { adjustDateForVercel } from "@libs/client/YesterDay";
+import { OrderByCondition } from "types/type";
 
 const prisma = new PrismaClient();
 

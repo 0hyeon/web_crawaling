@@ -32,7 +32,6 @@ const MoBanner = () => {
   const debouncedKeword = useDebounce<string>(keyword);
   const startDate = useDebounce<string | null>(isDate[0]);
   const lastDate = useDebounce<string | null>(isDate[1]);
-  console.log(debouncedKeword);
   const { data: banners, refetch } = useQuery<
     { items: MobieBanner[] },
     unknown,
@@ -57,7 +56,8 @@ const MoBanner = () => {
   useEffect(() => {
     refetch();
     setPage(1);
-  }, [isDate, refetch]);
+    console.log("selectedFilter :", selectedFilter);
+  }, [isDate, refetch, selectedFilter]);
   const { data: total } = useQuery(
     [
       `/api/get-mobanner-count?&contains=${debouncedKeword}&startday=${startDate}&lastday=${lastDate}`,
