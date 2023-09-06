@@ -142,18 +142,16 @@ function Exceltrans() {
 
   const labels = ["[잡코리아] AOS,IOS"];
   const FileInputs = labels.map((el, index) => (
-    <>
-      <Box key={index} maw={520} mx="auto">
-        <FileInput
-          mt="md"
-          label={`${el}`}
-          placeholder={`${el} 멀티 업로드하세요.`}
-          valueComponent={ValueComponent}
-          onChange={handleFileChange}
-          multiple
-        />
-      </Box>
-    </>
+    <Box key={index} maw={520} mx="auto">
+      <FileInput
+        mt="md"
+        label={`${el}`}
+        placeholder={`${el} 멀티 업로드하세요.`}
+        valueComponent={ValueComponent}
+        onChange={handleFileChange}
+        multiple
+      />
+    </Box>
   ));
   return (
     <>

@@ -3,6 +3,7 @@ import React from "react";
 import { Table } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { Tracking } from "@prisma/client";
+import { format } from "date-fns";
 function TrackingPage() {
   const { data: datas, refetch } = useQuery<
     { items: Tracking[] },
@@ -22,8 +23,11 @@ function TrackingPage() {
       <td>{element.originId}</td>
       <td>{element.hashedId}</td>
       <td>{element.eventName}</td>
-      {/* <td>{element.createdAt}</td>
-      <td>{element.updatedAt}</td> */}
+      <td>
+        {element.createdAt
+          ? format(new Date(element.createdAt), "yyyy년 M월 d일 HH시mm분")
+          : ""}
+      </td>
     </tr>
   ));
   return (
@@ -44,8 +48,7 @@ function TrackingPage() {
                       <th>OriginId</th>
                       <th>HashedId</th>
                       <th>EventName</th>
-                      {/* <th>CreateDate</th>
-                      <th>UpdateDate</th> */}
+                      <th>CreateDate</th>
                     </tr>
                   </thead>
                   <tbody>{rows}</tbody>
