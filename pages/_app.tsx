@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "../styles/globals.css";
+import { RecoilRoot } from "recoil";
 import type { AppProps } from "next/app";
 import "../public/fonts/style.css";
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
@@ -8,9 +9,11 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   });
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="">
-        <Component {...pageProps} />
-      </div>
+      <RecoilRoot>
+        <div className="">
+          <Component {...pageProps} />
+        </div>
+      </RecoilRoot>
     </QueryClientProvider>
   );
 }

@@ -6,6 +6,7 @@ import SettingIcon from "public/asset/svg/SettingIcon";
 import ImageIcon from "public/asset/svg/ImageIcon";
 import { Router, useRouter } from "next/router";
 import Chartbar from "public/asset/svg/Chartbar";
+import ExcelIcon from "public/asset/svg/ExcelIcon";
 function MenubarLeft() {
   const router = useRouter();
   const onClickRouterLink = (menu: string) => {
@@ -21,6 +22,8 @@ function MenubarLeft() {
       router.push("/exceltransGraph");
     } else if (menu === "트래킹조회") {
       router.push("/trackingPage");
+    } else if (menu === "엑셀로직") {
+      router.push("/excelLogic");
     }
   };
 
@@ -84,6 +87,27 @@ function MenubarLeft() {
               "잡코리아 시각화(작업중)",
               "트래킹조회",
             ].map((el, idx) => {
+              return (
+                <ul key={idx}>
+                  <li
+                    onClick={() => onClickRouterLink(el)}
+                    className="cursor-pointer py-4 duration-75 hover:text-[#228ae6]"
+                  >
+                    {el}
+                  </li>
+                </ul>
+              );
+            })}
+          </Accordion>
+        </div>
+      </div>
+      <div className="px-4">
+        <div className="flex">
+          <div className="mt-[19px] flex">
+            <ExcelIcon width={25} height={25} />
+          </div>
+          <Accordion summary={"Excel"}>
+            {["엑셀로직"].map((el, idx) => {
               return (
                 <ul key={idx}>
                   <li

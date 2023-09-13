@@ -34,14 +34,18 @@
     "puppeteer": "^20.7.3",
     "puppeteer-core": "^20.7.3",
     "react": "18.2.0",
+    "react-beautiful-dnd": "^13.1.1",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.45.0",
-    "styled-components": "^6.0.5"
+    "recoil": "^0.7.7",
+    "styled-components": "^6.0.5",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/node": "20.3.3",
     "@types/react": "18.2.13",
+    "@types/react-beautiful-dnd": "^13.1.4",
     "autoprefixer": "^10.4.14",
     "eslint": "8.43.0",
     "eslint-config-next": "13.4.6",

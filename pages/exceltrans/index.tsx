@@ -201,7 +201,7 @@ function Exceltrans() {
     </>
   );
 }
-const LoadingText = styled.div`
+export const LoadingText = styled.div`
   font-size: 30px;
   z-index: 100;
   overflow: visible;
@@ -211,7 +211,7 @@ const LoadingText = styled.div`
   transform: translate(80%, -50%);
   font-weight: bold;
 `;
-const Svg = styled.svg`
+export const Svg = styled.svg`
   z-index: 100;
   overflow: visible;
   position: fixed;
