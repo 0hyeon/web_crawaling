@@ -66,7 +66,9 @@ function ExcelLogic() {
 
     if (toDos["선택"].length > 0) {
       if (
-        toDos["선택"].some((el: any) => ["PROD(adid3회이상제거)"].includes(el))
+        toDos["선택"].some((el: any) =>
+          ["PROD(adid3회이상제거)", "특정카테고리추출"].includes(el)
+        )
       ) {
         alert("개발준비중입니다.");
         cancelBtn();
