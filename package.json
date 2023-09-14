@@ -31,6 +31,7 @@
     "framer-motion": "^10.13.0",
     "iron-session": "^6.3.1",
     "next": "13.4.6",
+    "papaparse": "^5.4.1",
     "prisma": "^4.16.1",
     "puppeteer": "^20.7.3",
     "puppeteer-core": "^20.7.3",
@@ -46,6 +47,7 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/node": "20.3.3",
+    "@types/papaparse": "^5.3.8",
     "@types/react": "18.2.13",
     "@types/react-beautiful-dnd": "^13.1.4",
     "autoprefixer": "^10.4.14",

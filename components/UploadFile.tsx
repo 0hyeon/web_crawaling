@@ -4,6 +4,8 @@ import { FileInput, FileInputProps, Group, Center, rem } from "@mantine/core";
 import { IconPhoto } from "@tabler/icons-react";
 import { BEcheckEnvironment } from "@libs/server/useCheckEnvironment";
 import * as XLSX from "xlsx";
+import Papa from "papaparse";
+
 import SelectBoxs from "./SelectBoxs";
 import { styled } from "styled-components";
 
@@ -22,6 +24,7 @@ function UploadFile({
   const [isSendVariable, setSendVariable] = useState<any>([]);
   const [isKeyData, setKeyData] = useState<any>([]);
   const [formData, setFormData] = useState<FormData>(new FormData());
+
   function handleFileChange(value: File | File[] | null) {
     //formData에 담기
     const newFormData = new FormData();
@@ -50,30 +53,42 @@ function UploadFile({
     setLogicName(toDos);
     //todos : Array(1) [0]:"하나로취합"
 
-    // console.log("value : ", value);
-    // readExcel(value);
-    readExcel(value instanceof Array ? value[0] : value);
+    console.log("value! : ", value!);
+    if (value === null) return;
+    if (Array.isArray(value)) {
+      const isAllCSV = value.every((file) => {
+        const lastDotIndex = file.name.lastIndexOf(".");
+        const fileExtension = file.name.slice(lastDotIndex + 1).toLowerCase();
+        return fileExtension === "csv";
+      });
+      console.log("1 : ", value);
+      console.log("2 : ", value[0]);
+      if (isAllCSV) {
+        toDos.includes("다중중복제거")
+          ? readCSV(value instanceof Array ? value[0] : value)
+          : null;
+      } else {
+        toDos.includes("다중중복제거")
+          ? readExcel(value instanceof Array ? value[0] : value)
+          : null;
+      }
+    }
   }
 
   //엑셀읽기
   async function readExcel(fileList: any) {
-    console.log("fileList : ", fileList);
     if (fileList === null || fileList.length === 0) {
       return;
     }
-    console.log("fileList2 : ", fileList);
-
-    const firstFile = fileList[0]; // 첫 번째 파일만 처리
-
     try {
-      const data = await readAsBinaryStringAsync(firstFile);
+      const data = await readAsBinaryStringAsync(fileList);
       console.log("data", data);
       const workBook = XLSX.read(data, { type: "binary" }) as any;
       console.log("workBook", workBook);
 
       workBook.SheetNames.forEach(function (sheetName: any) {
         const rows = XLSX.utils.sheet_to_json(workBook.Sheets[sheetName]);
-        const jsonData = JSON.stringify(rows);
+        const jsonData = JSON.stringify(rows[0]);
         const pareData = JSON.parse(jsonData);
         const keyData = Object.keys(pareData);
 
@@ -85,7 +100,49 @@ function UploadFile({
       console.error("파일 처리 중 오류 발생:", error);
     }
   }
+  async function readCSV(fileList: any) {
+    if (fileList === null || fileList.length === 0) {
+      return;
+    }
+    try {
+      const data = (await readAsTextAsync(fileList)) as any;
+      console.log("data!!", data);
 
+      // CSV 파싱
+      Papa.parse(data, {
+        header: true,
+        complete: function (result: any) {
+          if (Array.isArray(data) && data.length > 0) {
+            // 데이터가 배열이며 비어 있지 않은 경우 처리 로직 실행
+            console.log(data);
+          } else {
+            // 데이터가 비어 있거나 잘못된 경우 처리
+            console.error("데이터가 비어 있거나 구조가 잘못되었습니다.");
+          }
+          console.log("result", result);
+          const rows = result.data;
+          console.log("rows :", rows);
+
+          // CSV 데이터를 처리할 코드 작성
+          // rows 배열에는 각 행의 객체가 포함되어 있으며, 각 객체의 속성은 헤더로 지정된 열 이름과 일치합니다.
+
+          // 예: 첫 번째 행의 이름 가져오기
+          const firstName = rows[0];
+          console.log("firstName : ", firstName);
+          const keyData = Object.keys(firstName);
+          console.log("keyData : ", keyData);
+          setKeyData(keyData);
+          // 첫 번째 파일의 데이터를 처리하고 싶은 작업을 수행합니다.
+          // 다른 파일에 대한 처리 코드는 이 위치에 추가 가능
+        },
+        error: function (error: any) {
+          console.error("CSV 파싱 중 오류 발생:", error);
+        },
+      });
+    } catch (error) {
+      console.error("파일 처리 중 오류 발생:", error);
+    }
+  }
   function readAsBinaryStringAsync(file: any) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -98,7 +155,47 @@ function UploadFile({
       reader.readAsBinaryString(file);
     });
   }
+  function readAsTextAsync(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      if (!file) {
+        reject(new Error("File is undefined"));
+        return;
+      }
 
+      const CHUNK_SIZE = 1024 * 1024; // 1MB 청크 크기로 설정
+      const fileSize = file.size;
+      let offset = 0;
+      const reader = new FileReader();
+
+      reader.onload = function (event) {
+        if (event && event.target) {
+          const chunk = event.target.result as string;
+          // 읽은 데이터를 처리하거나 저장할 수 있습니다.
+          // 이 예제에서는 전체 청크를 resolve 합니다.
+          resolve(chunk);
+
+          offset += chunk.length;
+          if (offset < fileSize) {
+            readNextChunk();
+          }
+        } else {
+          reject(new Error("File reading error"));
+        }
+      };
+
+      reader.onerror = function () {
+        reject(reader.error);
+      };
+
+      function readNextChunk() {
+        const nextChunk = file.slice(offset, offset + CHUNK_SIZE);
+        reader.readAsText(nextChunk);
+      }
+
+      // 첫 번째 청크를 읽기 시작합니다.
+      readNextChunk();
+    });
+  }
   //엑셀전송
   function handleSubmit() {
     // console.log(files);
@@ -182,7 +279,6 @@ function UploadFile({
         </Group>
       );
     }
-
     return <Value file={value} />;
   };
   const messagePreviewFunc = useCallback((text: string) => {
@@ -203,7 +299,7 @@ function UploadFile({
         <FileInput
           mt="md"
           label={`파일업로드`}
-          placeholder={`파일을 하세요.(xlsx형식)`}
+          placeholder={`파일을 하세요.(xlsx,csv형식)`}
           valueComponent={ValueComponent}
           onChange={(e) => {
             handleFileChange(e);
@@ -213,7 +309,7 @@ function UploadFile({
       </Box>
       {toDos.includes("다중중복제거") ? (
         <div>
-          <Label>카테고리 선택</Label>
+          <Label>카테고리 선택(중복제거)</Label>
           <SelectBoxs
             placeholder={"--선택해주세요--"}
             className={["0", ...isKeyData.map((el: any) => el)]}
@@ -261,16 +357,6 @@ export default UploadFile;
 const SelectNameBox = styled.div`
   display: flex;
   flex-direction: row;
-`;
-const NameContents = styled.div`
-  width: 200px;
-  height: 40px;
-  font-size: 18px;
-  color: #444343;
-  font-family: "TheJamsil_Light";
-  display: flex;
-  align-items: center;
-  /* background-color: #edaf78; */
 `;
 const Label = styled.div`
   display: inline-block;
