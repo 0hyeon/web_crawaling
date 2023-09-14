@@ -10,20 +10,17 @@ import { styled } from "styled-components";
 function UploadFile({
   cancelBtn,
   toDos,
-  propFunction,
+  setLoading,
 }: {
   cancelBtn: () => void;
   toDos: any;
-  propFunction: (setState: { loading: boolean }) => void;
+  setLoading: (isLoading: boolean) => void;
 }) {
   const [files, setFiles] = useState<File[]>([]);
   const [isVariable, setVariable] = useState<any>([]);
   const [isLogicName, setLogicName] = useState<string>("");
   const [isSendVariable, setSendVariable] = useState<any>([]);
   const [isKeyData, setKeyData] = useState<any>([]);
-  const [isLoading, setLoading] = useState({
-    loading: false,
-  });
   const [formData, setFormData] = useState<FormData>(new FormData());
   function handleFileChange(value: File | File[] | null) {
     //formData에 담기
@@ -45,7 +42,7 @@ function UploadFile({
       newFiles = [value];
       newFormData.append(`file${files.length + 1}`, value);
     }
-    console.log("newFiles : ", newFiles);
+    // console.log("newFiles : ", newFiles);
 
     setFiles(newFiles); //파일 여러개 담아서 submit때활용
     setFormData(newFormData);
@@ -53,10 +50,11 @@ function UploadFile({
     setLogicName(toDos);
     //todos : Array(1) [0]:"하나로취합"
 
-    console.log("value : ", value);
+    // console.log("value : ", value);
     // readExcel(value);
     readExcel(value instanceof Array ? value[0] : value);
   }
+
   //엑셀읽기
   async function readExcel(fileList: any) {
     if (fileList === null || fileList.length === 0) {
@@ -64,33 +62,22 @@ function UploadFile({
     }
 
     try {
-      await Promise.all(
-        fileList.map(async (file: any) => {
-          const chunkSize = 2048 * 2048; // 1MB 청크 크기 (원하는 크기로 조정)
-          let offset = 0;
+      for (let i = 0; i < fileList.length; i++) {
+        const file = fileList[i];
+        const data = await readAsBinaryStringAsync(file);
+        const workBook = XLSX.read(data, { type: "binary" }) as any;
 
-          while (offset < file.size) {
-            const end = Math.min(offset + chunkSize, file.size);
-            const chunk = file.slice(offset, end); // 파일 청크 추출
+        workBook.SheetNames.forEach(function (sheetName: any) {
+          const rows = XLSX.utils.sheet_to_json(workBook.Sheets[sheetName]);
+          const jsonData = JSON.stringify(rows);
+          const pareData = JSON.parse(jsonData);
+          const keyData = Object.keys(pareData);
 
-            const data = await readAsBinaryStringAsync(chunk); // 청크를 읽고 처리
-            const workBook = XLSX.read(data, { type: "binary" }) as any;
+          setKeyData(keyData);
 
-            workBook.SheetNames.forEach(function (sheetName: any) {
-              const rows = XLSX.utils.sheet_to_json(workBook.Sheets[sheetName]);
-              const jsonData = JSON.stringify(rows);
-              const pareData = JSON.parse(jsonData);
-              const keyData = Object.keys(pareData);
-
-              setKeyData(keyData);
-
-              // setData(pareData);
-            });
-
-            offset += chunkSize;
-          }
-        })
-      );
+          // setData(pareData);
+        });
+      }
     } catch (error) {
       console.error("파일 처리 중 오류 발생:", error);
     }
@@ -110,7 +97,8 @@ function UploadFile({
   }
   //엑셀전송
   function handleSubmit() {
-    console.log(files);
+    // console.log(files);
+    setLoading(true);
     const formDataToSend = new FormData();
     files.forEach((file, index) => {
       formDataToSend.append(`file${index + 1}`, file);
@@ -119,25 +107,6 @@ function UploadFile({
     for (let index = 1; index <= files.length; index++) {
       fileVariables[`file${index}`] = formDataToSend.get(`file${index}`);
     }
-    console.log(fileVariables);
-    const file1 = formDataToSend.get("file1");
-    const file2 = formDataToSend.get("file2");
-    const file3 = formDataToSend.get("file3");
-    const file4 = formDataToSend.get("file4");
-    const file5 = formDataToSend.get("file5");
-    const file6 = formDataToSend.get("file6");
-    const file7 = formDataToSend.get("file7");
-    const file8 = formDataToSend.get("file8");
-    console.log(file1, file2, file3, file4, file5, file6, file7, file8);
-
-    setLoading({ loading: true });
-    console.log("formDataToSend :", formDataToSend);
-    console.log("files :", files);
-    //변수들 보내는 배열 isVariable과 forData 보내야함
-    console.log(formData, isVariable, "전송!");
-    // const requestData = { isVariable };
-
-    console.log("formData :", formData);
     formData.append("isVariable", JSON.stringify(isVariable));
     formData.append("isLogicName", JSON.stringify(isLogicName));
 
@@ -147,16 +116,17 @@ function UploadFile({
     })
       .then((response) => response.blob())
       .then((blob) => {
+        // 비동기 작업이 완료되면 setLoading(false)를 호출
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
         a.download = "combined.csv";
         a.click();
-        setLoading({ loading: false });
+        setLoading(false);
       })
       .catch((error) => {
         console.error(error);
-        setLoading({ loading: false });
+        throw error;
       });
   }
 
@@ -212,6 +182,7 @@ function UploadFile({
     return <Value file={value} />;
   };
   const messagePreviewFunc = useCallback((text: string) => {
+    console.log("messagePreviewFunc text : ", text);
     setVariable((prevVariable: string[]) => {
       // 이미 있는 text일 경우
       if (prevVariable.includes(text)) {
@@ -222,9 +193,6 @@ function UploadFile({
     });
   }, []);
 
-  useEffect(() => {
-    propFunction(isLoading);
-  }, [propFunction, isLoading]);
   return (
     <div className="flex flex-col items-center justify-center gap-16 text-center">
       <Box key={0} maw={520} mx="auto">
@@ -239,13 +207,12 @@ function UploadFile({
           multiple
         />
       </Box>
-      {isKeyData && isKeyData.length > 0 && toDos.includes("다중중복제거") ? (
+      {toDos.includes("다중중복제거") ? (
         <div>
           <Label>카테고리 선택</Label>
           <SelectBoxs
             placeholder={"--선택해주세요--"}
             className={["0", ...isKeyData.map((el: any) => el)]}
-            // currentCategoryValue={currentValue}
             propFunction={messagePreviewFunc}
             optionData={
               ["---선택해주세요---", ...isKeyData.map((x: any) => x)] ||

@@ -11,12 +11,11 @@ import { styled } from "styled-components";
 function ExcelLogic() {
   const [winReady, setwinReady] = useState(false);
   const [toDos, setTodos] = useRecoilState<any>(toDoState("todos"));
-  const [state, setSate] = useState({
-    loading: false,
-  });
   const [isInput, setInput] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const [isDuplicate, setDuplicate] = useState();
+  const [isLoading, setLoading] = useState(false);
+
   const onDragEnd = (Info: DropResult) => {
     // console.log(Info);
     const { destination, draggableId, source } = Info;
@@ -48,10 +47,15 @@ function ExcelLogic() {
       });
     }
   };
-  const propFunction = (a: any) => {};
+
   const cancelBtn = useCallback(() => {
     setTodos({
-      "가능 로직": ["다중중복제거", "PROD(adid3회이상제거)", "하나로취합"],
+      "가능 로직": [
+        "특정카테고리추출",
+        "다중중복제거",
+        "PROD(adid3회이상제거)",
+        "하나로취합",
+      ],
       선택: [],
     });
     setInput(false);
@@ -71,7 +75,7 @@ function ExcelLogic() {
       }
     }
     toDos["선택"].some((el: any) =>
-      ["다중중복제거", "하나로취합"].includes(el)
+      ["다중중복제거", "하나로취합", "특정카테고리추출"].includes(el)
         ? setInput(true)
         : setInput(false)
     );
@@ -95,7 +99,7 @@ function ExcelLogic() {
         <div className="h-[100%] min-h-[100vh] w-full bg-[#dee2e6] pl-64">
           <div className="mx-4 min-h-[100vh] bg-white px-4 pt-16">
             <div className="mx-auto w-[70%]">
-              {state?.loading === true ? (
+              {isLoading === true ? (
                 <>
                   <Svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -124,13 +128,11 @@ function ExcelLogic() {
                   </DragDropContext>
                   {isInput && isInput ? (
                     // <Input ref={inputRef} placeholder="변수를 입력하세요." />
-                    <>
-                      <UploadFile
-                        cancelBtn={cancelBtn}
-                        toDos={toDos["선택"]}
-                        propFunction={propFunction}
-                      />
-                    </>
+                    <UploadFile
+                      cancelBtn={cancelBtn}
+                      toDos={toDos["선택"]}
+                      setLoading={setLoading}
+                    />
                   ) : null}
                 </>
               )}
