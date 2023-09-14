@@ -24,6 +24,7 @@ function UploadFile({
   const [isSendVariable, setSendVariable] = useState<any>([]);
   const [isKeyData, setKeyData] = useState<any>([]);
   const [formData, setFormData] = useState<FormData>(new FormData());
+  const [isCsvOrXlsx, setCsvOrXlsx] = useState<string>("");
 
   function handleFileChange(value: File | File[] | null) {
     //formData에 담기
@@ -67,10 +68,12 @@ function UploadFile({
         toDos.includes("다중중복제거")
           ? readCSV(value instanceof Array ? value[0] : value)
           : null;
+        setCsvOrXlsx("csv"); //csv형식으로 post
       } else {
         toDos.includes("다중중복제거")
           ? readExcel(value instanceof Array ? value[0] : value)
           : null;
+        setCsvOrXlsx("xlsx"); //xlsx형식으로 post
       }
     }
   }
@@ -210,6 +213,7 @@ function UploadFile({
     }
     formData.append("isVariable", JSON.stringify(isVariable));
     formData.append("isLogicName", JSON.stringify(isLogicName));
+    formData.append("isCsvOrXlsx", JSON.stringify(isCsvOrXlsx));
 
     fetch(BEcheckEnvironment().concat("/api/customduplicate"), {
       method: "POST",
