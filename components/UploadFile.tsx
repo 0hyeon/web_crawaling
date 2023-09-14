@@ -57,27 +57,30 @@ function UploadFile({
 
   //엑셀읽기
   async function readExcel(fileList: any) {
+    console.log("fileList : ", fileList);
     if (fileList === null || fileList.length === 0) {
       return;
     }
+    console.log("fileList2 : ", fileList);
+
+    const firstFile = fileList[0]; // 첫 번째 파일만 처리
 
     try {
-      for (let i = 0; i < fileList.length; i++) {
-        const file = fileList[i];
-        const data = await readAsBinaryStringAsync(file);
-        const workBook = XLSX.read(data, { type: "binary" }) as any;
+      const data = await readAsBinaryStringAsync(firstFile);
+      console.log("data", data);
+      const workBook = XLSX.read(data, { type: "binary" }) as any;
+      console.log("workBook", workBook);
 
-        workBook.SheetNames.forEach(function (sheetName: any) {
-          const rows = XLSX.utils.sheet_to_json(workBook.Sheets[sheetName]);
-          const jsonData = JSON.stringify(rows);
-          const pareData = JSON.parse(jsonData);
-          const keyData = Object.keys(pareData);
+      workBook.SheetNames.forEach(function (sheetName: any) {
+        const rows = XLSX.utils.sheet_to_json(workBook.Sheets[sheetName]);
+        const jsonData = JSON.stringify(rows);
+        const pareData = JSON.parse(jsonData);
+        const keyData = Object.keys(pareData);
 
-          setKeyData(keyData);
+        setKeyData(keyData); // 첫 번째 파일의 키 값만 업데이트
 
-          // setData(pareData);
-        });
-      }
+        // 다른 파일에 대한 처리 코드는 이 위치에 추가 가능
+      });
     } catch (error) {
       console.error("파일 처리 중 오류 발생:", error);
     }
@@ -95,6 +98,7 @@ function UploadFile({
       reader.readAsBinaryString(file);
     });
   }
+
   //엑셀전송
   function handleSubmit() {
     // console.log(files);
