@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Box, Button, Input } from "@mantine/core";
 import { FileInput, FileInputProps, Group, Center, rem } from "@mantine/core";
-import { IconPhoto } from "@tabler/icons-react";
+import { IconPhoto, IconUpload } from "@tabler/icons-react";
 import { BEcheckEnvironment } from "@libs/server/useCheckEnvironment";
 import * as XLSX from "xlsx";
 import Papa from "papaparse";
@@ -305,10 +305,12 @@ function UploadFile({
           label={`파일업로드`}
           placeholder={`파일을 하세요.(xlsx,csv형식)`}
           valueComponent={ValueComponent}
+          icon={<IconUpload size={rem(14)} />}
           onChange={(e) => {
             handleFileChange(e);
           }}
           multiple
+          accept="text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         />
       </Box>
       {toDos.includes("다중중복제거") ? (
