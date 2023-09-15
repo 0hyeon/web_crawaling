@@ -76,6 +76,11 @@ function ExcelLogic() {
         return;
       }
     }
+    if (toDos["선택"].length === 2) {
+      alert("2개이상 기능은 서버가 힘들어요");
+      cancelBtn();
+      setInput(false);
+    }
     toDos["선택"].some((el: any) =>
       ["다중중복제거", "하나로취합", "특정카테고리추출"].includes(el)
         ? setInput(true)
