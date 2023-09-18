@@ -8,22 +8,21 @@ import React, { useCallback, useEffect, useState, useRef } from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { useRecoilState } from "recoil";
 import { styled } from "styled-components";
+import { IToDoState } from "types/type";
 function ExcelLogic() {
   const [winReady, setwinReady] = useState(false);
-  const [toDos, setTodos] = useRecoilState<any>(toDoState("todos"));
+  const [toDos, setTodos] = useRecoilState<IToDoState>(toDoState("todos"));
   const [isInput, setInput] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const [isDuplicate, setDuplicate] = useState();
   const [isLoading, setLoading] = useState(false);
-
   const onDragEnd = (Info: DropResult) => {
     // console.log(Info);
     const { destination, draggableId, source } = Info;
     // draggableId === "다중중복제거" ? setInput(true) : setInput(false);
     if (!destination) return;
-
     if (destination?.droppableId === source.droppableId) {
-      setTodos((allboards: any) => {
+      setTodos((allboards: IToDoState) => {
         const boardCopy = [...allboards[source.droppableId]];
         boardCopy.splice(source.index, 1);
         boardCopy.splice(destination?.index, 0, draggableId);
@@ -34,7 +33,7 @@ function ExcelLogic() {
       });
     }
     if (destination?.droppableId !== source.droppableId) {
-      setTodos((allboards: any) => {
+      setTodos((allboards: IToDoState) => {
         const sourceBoard = [...allboards[source.droppableId]];
         const destinationBoard = [...allboards[destination.droppableId]];
         sourceBoard.splice(source.index, 1);
@@ -47,7 +46,7 @@ function ExcelLogic() {
       });
     }
   };
-
+  //리셋
   const cancelBtn = useCallback(() => {
     setTodos({
       "가능 로직": [
@@ -60,13 +59,14 @@ function ExcelLogic() {
     });
     setInput(false);
   }, [setTodos]);
-  useEffect(() => {
-    console.log("2");
-    setwinReady(true);
 
+  useEffect(() => {
+    //DOM랜더링후,  beautiful-dnd사용
+    setwinReady(true);
+    //제한하기
     if (toDos["선택"].length > 0) {
       if (
-        toDos["선택"].some((el: any) =>
+        toDos["선택"].some((el: string) =>
           ["PROD(adid3회이상제거)", "특정카테고리추출"].includes(el)
         )
       ) {
@@ -81,24 +81,13 @@ function ExcelLogic() {
       cancelBtn();
       setInput(false);
     }
-    toDos["선택"].some((el: any) =>
+
+    toDos["선택"].some((el: string) =>
       ["다중중복제거", "하나로취합", "특정카테고리추출"].includes(el)
         ? setInput(true)
         : setInput(false)
     );
-    // setInput(true);
   }, [toDos, cancelBtn]);
-  // const { data: datas, refetch } = useQuery<
-  //   { items: Tracking[] },
-  //   unknown,
-  //   Tracking[]
-  // >(
-  //   [`/api/get-tracking`],
-  //   () => fetch(`/api/get-tracking`).then((res) => res.json()),
-  //   {
-  //     select: (data) => data.items,
-  //   }
-  // );
   return (
     <>
       <MenubarLeft />

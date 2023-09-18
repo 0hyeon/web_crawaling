@@ -3,7 +3,9 @@ export interface Props {
   summary: ReactNode;
   children: ReactNode;
 }
-
+export interface IToDoState {
+  [key: string]: string[];
+}
 export interface OrderByCondition {
   orderBy: {
     date: "asc" | "desc";

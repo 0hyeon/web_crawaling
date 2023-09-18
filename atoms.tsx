@@ -1,9 +1,7 @@
 import { atomFamily, atom, selector } from "recoil";
+import { IToDoState } from "types/type";
 
-interface IToDoState {
-  [key: string]: string[];
-}
-export const toDoState = atomFamily({
+export const toDoState = atomFamily<IToDoState, string>({
   key: "todos",
   default: {
     "가능 로직": [
