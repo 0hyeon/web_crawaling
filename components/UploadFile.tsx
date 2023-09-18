@@ -53,7 +53,6 @@ function UploadFile({
 
     setLogicName(toDos);
     //todos : Array(1) [0]:"하나로취합"
-
     console.log("value! : ", value!);
     if (value === null) return;
     if (Array.isArray(value)) {
@@ -62,6 +61,11 @@ function UploadFile({
         const fileExtension = file.name.slice(lastDotIndex + 1).toLowerCase();
         return fileExtension === "csv";
       });
+      const isAllExcel = value.every((file) => {
+        const lastDotIndex = file.name.lastIndexOf(".");
+        const fileExtension = file.name.slice(lastDotIndex + 1).toLowerCase();
+        return fileExtension === "xlsx";
+      });
       console.log("1 : ", value);
       console.log("2 : ", value[0]);
       if (isAllCSV) {
@@ -69,15 +73,21 @@ function UploadFile({
           ? readCSV(value instanceof Array ? value[0] : value)
           : null;
         setCsvOrXlsx("csv"); //csv형식으로 post
-      } else {
+        alert("1");
+      }
+      if (isAllExcel) {
         toDos.includes("다중중복제거")
           ? readExcel(value instanceof Array ? value[0] : value)
           : null;
         setCsvOrXlsx("xlsx"); //xlsx형식으로 post
+        alert("2");
+      }
+      if (!isAllCSV && !isAllExcel) {
+        alert("모든파일이 csv & xlsx파일 형식이어야 합니다.");
+        cancelBtn();
       }
     }
   }
-
   //엑셀읽기
   async function readExcel(fileList: any) {
     if (fileList === null || fileList.length === 0) {
