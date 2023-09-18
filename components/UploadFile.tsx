@@ -73,14 +73,12 @@ function UploadFile({
           ? readCSV(value instanceof Array ? value[0] : value)
           : null;
         setCsvOrXlsx("csv"); //csv형식으로 post
-        alert("1");
       }
       if (isAllExcel) {
         toDos.includes("다중중복제거")
           ? readExcel(value instanceof Array ? value[0] : value)
           : null;
         setCsvOrXlsx("xlsx"); //xlsx형식으로 post
-        alert("2");
       }
       if (!isAllCSV && !isAllExcel) {
         alert("모든파일이 csv & xlsx파일 형식이어야 합니다.");
