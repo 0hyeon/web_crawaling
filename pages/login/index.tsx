@@ -57,7 +57,7 @@ const Login = () => {
         <div className="backdrop-blur backdrop-filter">
           <h2 className="mb-4 text-2xl font-bold">
             <div>- GreenBricks </div>
-            <div>Banner Web Crawling Funtion</div>
+            <div>Web Funtion</div>
           </h2>
           <form>
             <input
