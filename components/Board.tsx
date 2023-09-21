@@ -2,11 +2,13 @@ import React from "react";
 import { Droppable } from "react-beautiful-dnd";
 import DraggableCard from "./DraggableCard";
 import styled from "styled-components";
+import * as O from "../utils/option";
 interface boardId {
   toDos: string[];
   boardId: string;
 }
 function Board({ toDos, boardId }: boardId) {
+  const optionTodos = O.fromUndefined(toDos);
   return (
     <Wrapper>
       <Title>{boardId}</Title>
@@ -18,9 +20,17 @@ function Board({ toDos, boardId }: boardId) {
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-            {toDos.map((toDo, index) => (
+            {O.mapOrElse(
+              optionTodos,
+              (dataTodos) =>
+                dataTodos.map((toDo, index) => (
+                  <DraggableCard key={toDo} index={index} toDo={toDo} />
+                )),
+              []
+            )}
+            {/* {dataTodos.map((toDo, index) => (
               <DraggableCard key={toDo} index={index} toDo={toDo} />
-            ))}
+            ))} */}
             {provided.placeholder}
           </Area>
         )}

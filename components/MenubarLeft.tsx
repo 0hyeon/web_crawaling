@@ -7,7 +7,9 @@ import ImageIcon from "public/asset/svg/ImageIcon";
 import { Router, useRouter } from "next/router";
 import Chartbar from "public/asset/svg/Chartbar";
 import ExcelIcon from "public/asset/svg/ExcelIcon";
+import * as O from "../utils/option";
 function MenubarLeft() {
+  const MenuList = O.fromUndefined(["타임보드", "스페셜DM"]);
   const router = useRouter();
   const onClickRouterLink = (menu: string) => {
     if (menu === "타임보드") {
@@ -60,7 +62,25 @@ function MenubarLeft() {
             <ImageIcon width={25} height={25} />
           </div>
           <Accordion summary={"Banner"}>
-            {["타임보드", "스페셜DM"].map((el, idx) => {
+            {O.mapOrElse(
+              MenuList,
+              (dataTodos) =>
+                dataTodos.map((el, idx) => {
+                  return (
+                    <ul key={idx} className="cursor-pointer rounded-sm pl-3 ">
+                      <li
+                        onClick={() => onClickRouterLink(el)}
+                        className="py-4 text-[#000] transition-colors duration-75 hover:text-[#228ae6]"
+                      >
+                        {el}
+                      </li>
+                    </ul>
+                  );
+                }),
+              []
+            )}
+
+            {/* {["타임보드", "스페셜DM"].map((el, idx) => {
               return (
                 <ul key={idx} className="cursor-pointer rounded-sm pl-3 ">
                   <li
@@ -71,7 +91,7 @@ function MenubarLeft() {
                   </li>
                 </ul>
               );
-            })}
+            })} */}
           </Accordion>
         </div>
       </div>
