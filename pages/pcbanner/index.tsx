@@ -60,7 +60,6 @@ const PcBannerPage = () => {
     refetch();
     setPage(1);
   }, [isDate, refetch, selectedFilter]);
-  console.log("selectedFilter : ", selectedFilter);
   const { data: total } = useQuery(
     [
       `/api/get-pcbanner-count?&contains=${debouncedKeword}&startday=${startDate}&lastday=${lastDate}`,

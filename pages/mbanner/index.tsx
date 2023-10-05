@@ -56,7 +56,6 @@ const MoBanner = () => {
   useEffect(() => {
     refetch();
     setPage(1);
-    console.log("selectedFilter :", selectedFilter);
   }, [isDate, refetch, selectedFilter]);
   const { data: total } = useQuery(
     [

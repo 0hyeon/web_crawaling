@@ -4,6 +4,7 @@ import type { NextRequest, NextFetchEvent } from "next/server";
 
 export function middleware(req: NextRequest, ev: NextFetchEvent) {
   const url = req.nextUrl.clone();
+  if (req.cookies.get("gb_session") === undefined) return;
   if (
     (req.nextUrl.pathname.startsWith("/pcbanner") &&
       !req.cookies.get("gb_session")) ||
