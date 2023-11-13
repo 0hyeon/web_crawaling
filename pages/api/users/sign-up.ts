@@ -32,7 +32,7 @@ async function handler(
     id: userId,
   };
   await req.session.save(); //쿠키저장
-  console.log(req.session);
+  console.log("req.session : ",req.session);//{ user: { id: 'admin' } }
   res.json({ ok: true, Tracking });
 }
 

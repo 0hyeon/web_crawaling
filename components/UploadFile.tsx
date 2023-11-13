@@ -311,7 +311,7 @@ function UploadFile({
         <FileInput
           mt="md"
           label={`파일업로드`}
-          placeholder={`파일을 하세요.(xlsx,csv형식)`}
+          placeholder={`파일을 하세요.(1개 형식으로통일 xlsx,csv)`}
           valueComponent={ValueComponent}
           icon={<IconUpload size={rem(14)} />}
           onChange={(e) => {

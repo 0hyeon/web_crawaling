@@ -13,6 +13,7 @@ import DateSchedule from "@components/DateSchedule";
 // import { pieData } from "@constants/data";
 
 const MoBanner = () => {
+  const router = useRouter();
   const [keyword, setKeyword] = useState("");
   const [activePage, setPage] = useState(1);
   const [selectedFilter, setFilter] = useState<string | null>(FILTERS[0].value);
@@ -42,12 +43,20 @@ const MoBanner = () => {
         TAKE * (activePage - 1)
       }&take=${TAKE}&orderBy=${selectedFilter}&contains=${debouncedKeword}&startday=${startDate}&lastday=${lastDate}`,
     ],
-    () =>
-      fetch(
+    async () => {
+      const res = await fetch(
         `/api/get-mobanner?skip=${
           TAKE * (activePage - 1)
         }&take=${TAKE}&orderBy=${selectedFilter}&contains=${debouncedKeword}&startday=${startDate}&lastday=${lastDate}`
-      ).then((res) => res.json()),
+      )
+      if (!res.ok) {
+        const errorData = await res.json();
+        alert(errorData.error); // 여기에서 오류 메시지 확인
+        // throw new Error('Authentication error'); // 또는 필요에 따라 예외를 던지거나 다른 처리를 할 수 있음
+        router.push('/login')
+      }
+      return res.json();
+    },
     {
       select: (data) => data.items,
     }
