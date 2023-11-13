@@ -3,8 +3,6 @@ import { PrismaClient, Prisma } from "@prisma/client";
 import { getOrderBy } from "@constants/banners";
 import { adjustDateForVercel } from "@libs/client/YesterDay";
 import { OrderByCondition } from "types/type";
-import { withApiSession } from "@libs/server/withSession";
-import withHandler from "@libs/server/withHandler";
 
 const prisma = new PrismaClient();
 
@@ -105,7 +103,7 @@ type Data = {
   message: string;
 };
 
-export async function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
@@ -136,7 +134,3 @@ export async function handler(
     res.status(400).json({ message: "Failed" });
   }
 }
-export default withApiSession(
-  withHandler({ methods: ["GET"], handler })
-);
-

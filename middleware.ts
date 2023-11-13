@@ -7,21 +7,23 @@ export function middleware(req: NextRequest, ev: NextFetchEvent) {
 
   // console.log("middleware.ts : ", req.cookies.get("gb_session"));
 
-  // // if (req.cookies.get("gb_session") === undefined) return;
-  // if (
-  //   (req.nextUrl.pathname.startsWith("/pcbanner") &&
-  //     !req.cookies.get("gb_session")) ||
-  //   (req.nextUrl.pathname.startsWith("/mbanner") &&
-  //     !req.cookies.get("gb_session")) ||
-  //   (req.nextUrl.pathname.startsWith("/exceltrans") &&
-  //     !req.cookies.get("gb_session")) ||
-  //   (req.nextUrl.pathname.startsWith("/exceltransAlbamon") &&
-  //     !req.cookies.get("gb_session")) ||
-  //   (req.nextUrl.pathname.startsWith("/excelLogic") &&
-  //     !req.cookies.get("gb_session"))
-  // ) {
-  //   return NextResponse.redirect(new URL("/login", req.url));
-  // }
+  // if (req.cookies.get("gb_session") === undefined) return;
+  setTimeout(() =>{},500)
+  if (
+    (req.nextUrl.pathname.startsWith("/pcbanner") &&
+      !req.cookies.get("gb_session")) ||
+    (req.nextUrl.pathname.startsWith("/mbanner") &&
+      !req.cookies.get("gb_session")) ||
+    (req.nextUrl.pathname.startsWith("/exceltrans") &&
+      !req.cookies.get("gb_session")) ||
+    (req.nextUrl.pathname.startsWith("/exceltransAlbamon") &&
+      !req.cookies.get("gb_session")) ||
+    (req.nextUrl.pathname.startsWith("/excelLogic") &&
+      !req.cookies.get("gb_session"))
+  ) {
+    alert('login plz.')
+    return NextResponse.redirect(new URL("/login", req.url));
+  }
 
   // return NextResponse.next();
   return;
