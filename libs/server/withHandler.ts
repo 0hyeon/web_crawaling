@@ -13,7 +13,7 @@ interface ConfigType {
 }
 export default function withHandler({
   methods,
-  isPrivate = true,//인증이 필요한가? true > ok
+  isPrivate = false,//인증이 필요한가? true > ok
   handler,
 }: ConfigType) {
   return async function (
