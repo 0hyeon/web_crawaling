@@ -21,7 +21,6 @@ export function middleware(req: NextRequest, ev: NextFetchEvent) {
     (req.nextUrl.pathname.startsWith("/excelLogic") &&
       !req.cookies.get("gb_session"))
   ) {
-    alert('login plz.')
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
