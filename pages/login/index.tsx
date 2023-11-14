@@ -33,15 +33,16 @@ const Login = () => {
       return;
     }
     enter({ name, pw });
+    setTimeout(() => {},1500)
     alert("로그인성공");
     window.location.href = "/pcbanner";
   };
-  // useEffect(() => {
-  //   console.log("userData : ", userData);
-  //   if (userData?.ok === true) {
-  //     router.push("/");
-  //   }
-  // }, [userData]);
+  useEffect(() => {
+    console.log("userData : ", userData);
+    if (userData?.ok === true) {
+      router.push("/");
+    }
+  }, [userData,router]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-900">

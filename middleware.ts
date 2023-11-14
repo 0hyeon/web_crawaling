@@ -8,7 +8,6 @@ export function middleware(req: NextRequest, ev: NextFetchEvent) {
   // console.log("middleware.ts : ", req.cookies.get("gb_session"));
 
   // if (req.cookies.get("gb_session") === undefined) return;
-  setTimeout(() =>{},500)
   if (
     (req.nextUrl.pathname.startsWith("/pcbanner") &&
       !req.cookies.get("gb_session")) ||
