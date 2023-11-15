@@ -37,7 +37,6 @@ const Login = () => {
     }
     enter({ name, pw });
     alert("로그인성공");
-    setTimeout(() => {},1500)
     router.replace('/pcbanner')
   };
 
