@@ -5,24 +5,23 @@ import type { NextRequest, NextFetchEvent } from "next/server";
 export function middleware(req: NextRequest, ev: NextFetchEvent) {
   const url = req.nextUrl.clone();
 
-  // console.log("middleware.ts : ", req.cookies.get("gb_session"));
+   // Check if the request is trying to access secured routes without the session
+   const isRestrictedPath =
+   req.nextUrl.pathname.startsWith("/pcbanner") ||
+   req.nextUrl.pathname.startsWith("/mbanner") ||
+   req.nextUrl.pathname.startsWith("/exceltrans") ||
+   req.nextUrl.pathname.startsWith("/exceltransAlbamon") ||
+   req.nextUrl.pathname.startsWith("/excelLogic");
 
-  // if (req.cookies.get("gb_session") === undefined) return;
-  // if (
-  //   (req.nextUrl.pathname.startsWith("/pcbanner") &&
-  //     !req.cookies.get("gb_session")) ||
-  //   (req.nextUrl.pathname.startsWith("/mbanner") &&
-  //     !req.cookies.get("gb_session")) ||
-  //   (req.nextUrl.pathname.startsWith("/exceltrans") &&
-  //     !req.cookies.get("gb_session")) ||
-  //   (req.nextUrl.pathname.startsWith("/exceltransAlbamon") &&
-  //     !req.cookies.get("gb_session")) ||
-  //   (req.nextUrl.pathname.startsWith("/excelLogic") &&
-  //     !req.cookies.get("gb_session"))
-  // ) {
-  //   return NextResponse.redirect(new URL("/login", req.url));
-  // }
+ const isLoggedIn = req.cookies.get("gb_session") !== undefined;
 
-  // return NextResponse.next();
-  return;
+ if (isRestrictedPath && !isLoggedIn) {
+   // Check if the request is not already being redirected to the login page
+   if (!req.nextUrl.pathname.startsWith("/login")) {
+     return NextResponse.redirect(new URL("/login", req.url));
+   }
+ }
+
+ // Allow requests to pass through for other cases
+ return NextResponse.next();
 }

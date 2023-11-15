@@ -1,14 +1,17 @@
 import useMutation from "@libs/client/useMutation";
 import { FEcheckEnvironment } from "@libs/server/useCheckEnvironment";
+import { withSsrSession } from "@libs/server/withSession";
+import { NextPageContext } from "next";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { MutationResult } from "types/type";
 
 const Login = () => {
+  
+  const router = useRouter()
   const [isName, setName] = useState<string | undefined>();
   const [isPassWord, setPassWord] = useState<string | undefined>();
 
-  const router = useRouter();
 
   const [enter, { loading, data: userData, error }] =
     useMutation<MutationResult>(
@@ -33,16 +36,10 @@ const Login = () => {
       return;
     }
     enter({ name, pw });
-    setTimeout(() => {},1500)
     alert("로그인성공");
-    window.location.href = "/pcbanner";
+    setTimeout(() => {},1500)
+    router.replace('/pcbanner')
   };
-  useEffect(() => {
-    console.log("userData : ", userData);
-    if (userData?.ok === true) {
-      router.push("/");
-    }
-  }, [userData,router]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-900">
@@ -88,5 +85,6 @@ const Login = () => {
     </div>
   );
 };
+
 
 export default Login;

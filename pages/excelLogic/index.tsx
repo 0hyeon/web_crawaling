@@ -1,7 +1,9 @@
 import Board from "@components/Board";
 import MenubarLeft from "@components/MenubarLeft";
 import UploadFile from "@components/UploadFile";
+import { withSsrSession } from "@libs/server/withSession";
 import { toDoState } from "atoms";
+import { NextPageContext } from "next";
 import { LoadingText, Svg } from "pages/exceltrans";
 import Loading from "public/asset/svg/Logo";
 import React, { useCallback, useEffect, useState, useRef } from "react";
@@ -157,4 +159,5 @@ const Wrapper = styled.div`
   margin: 0 auto;
   justify-content: center;
 `;
+
 export default ExcelLogic;
