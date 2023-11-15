@@ -84,7 +84,6 @@ const PcBannerPage = () => {
   // useEffect(() => {
   //   console.log("useEffect실행");
   // }, [fetchData]);
-  // console.log(banners);
   return (
     <>
       {/* 메뉴바 */}
@@ -206,7 +205,7 @@ const PcBannerPage = () => {
           )}
           {/*페이지네이션*/}
           <div className="mt-20 flex w-full">
-            {total && total ?  (
+            {total && total !== 0 ?  (
               <Pagination
                 className="m-auto"
                 value={activePage}
@@ -214,7 +213,9 @@ const PcBannerPage = () => {
                 total={total}
                 siblings={6}
               />
-            ): <>
+            ): null}
+            {total === 0 ? 
+            <>
             <Svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 448 512"
@@ -224,7 +225,8 @@ const PcBannerPage = () => {
             <Loading />
           </Svg>
           <LoadingText>Nothing!!</LoadingText>
-            </>}
+            </>
+            :null}
           </div>
         </div>
         <div>{/* <Pie data={pieData} /> */}</div>
