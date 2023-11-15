@@ -9,6 +9,8 @@ import { FILTERS, TAKE } from "@constants/banners";
 import { useRouter } from "next/router";
 import { format } from "date-fns";
 import DateSchedule from "@components/DateSchedule";
+import { LoadingText, Svg } from "pages/exceltrans";
+import Loading from "public/asset/svg/Logo";
 // import Pie from "@components/Pie";
 // import { pieData } from "@constants/data";
 
@@ -201,7 +203,7 @@ const MoBanner = () => {
           )}
           {/*페이지네이션*/}
           <div className="mt-20 flex w-full">
-            {total && (
+            {total && total ?  (
               <Pagination
                 className="m-auto"
                 value={activePage}
@@ -209,7 +211,17 @@ const MoBanner = () => {
                 total={total}
                 siblings={6}
               />
-            )}
+            ):<>
+               <Svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 448 512"
+            width={100}
+            height={100}
+          >
+            <Loading />
+          </Svg>
+          <LoadingText>Nothing!!</LoadingText>
+            </>}
           </div>
         </div>
         <div>{/* <Pie data={pieData} /> */}</div>
