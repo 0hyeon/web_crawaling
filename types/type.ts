@@ -30,6 +30,7 @@ export interface MobileBanner {
 export interface PCBanner extends MobileBanner {}
 export interface MutationResult {
   ok: boolean;
+  errors?:{message: string};
 }
 export interface BannerInfo {
   id?: number;

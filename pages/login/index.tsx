@@ -23,14 +23,15 @@ const Login = () => {
     enter({ name, pw });
   };
   useEffect(()=>{
-    if(loading){
+    if(data?.ok){
       alert("로그인성공");
       router.push('/pcbanner')
+      return
     }
-  },[loading,router])
-  console.log("loading : ",loading)
-  console.log("data : ",data)
-  console.log("error : ",error)
+    if(data?.errors?.message){
+      alert(data?.errors?.message)
+    }
+  },[data,router])
   
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-900">
@@ -64,9 +65,9 @@ const Login = () => {
               onChange={(e) => setPassWord(e.target.value)}
             />
             <button
-              className={`h-10 w-full rounded ${loading ? 'bg-gray-400 text-gray-600 cursor-not-allowed' : 'bg-[#01DEA4] text-[#fff] hover:bg-white hover:text-[#000] hover:border-2 hover:border-black duration-100'}`}
+              className={`h-10 w-full rounded ${data?.ok || loading ? 'bg-gray-400 text-gray-600 cursor-not-allowed' : 'bg-[#01DEA4] text-[#fff] hover:bg-white hover:text-[#000] hover:border-2 hover:border-black duration-100'}`}
               type="submit"
-              disabled={loading}
+              disabled={data?.ok || loading}
             >
               Log in
             </button>

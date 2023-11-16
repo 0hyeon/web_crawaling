@@ -34,9 +34,14 @@ async function handler(
   const profile = await client.user.findFirst({
     where: {name: userId}
   })
-  if(req.session.user.id === userId){
+  console.log("profile : ",profile)
+  console.log("userId : ",userId) 
+
+  if(profile?.name === userId){
     await req.session.save(); //쿠키저장
     res.json({ ok: true, Tracking, profile });
+  }else{
+    res.json({ ok: false, errors: {message:"존재하지 않는계정입니다"}});
   }
 }
 
