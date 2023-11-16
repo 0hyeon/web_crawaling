@@ -5,7 +5,8 @@ import { NextPageContext } from "next";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { MutationResult } from "types/type";
-
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { loginState } from "atoms";
 const Login = () => {
   
   const router = useRouter()
@@ -13,7 +14,8 @@ const Login = () => {
   const [isPassWord, setPassWord] = useState<string | undefined>();
   const [isLoading,setLoading] = useState<boolean>();
   
-  
+  const setLoginState = useSetRecoilState(loginState);
+  const [isLogin, setLogin] = useRecoilState(loginState);
 
   const [enter, { loading, data, error }] = useMutation<MutationResult>(`${FEcheckEnvironment().concat("/api/users/sign-up")}`);
 
@@ -24,6 +26,16 @@ const Login = () => {
   };
   useEffect(()=>{
     if(data?.ok){
+
+      const profileString = data?.profile;
+
+      setLoginState(()=>{ 
+        return {
+          ...profileString
+        }
+        
+        
+      })
       alert("로그인성공");
       router.push('/pcbanner')
       return
@@ -31,7 +43,7 @@ const Login = () => {
     if(data?.errors?.message){
       alert(data?.errors?.message)
     }
-  },[data,router])
+  },[data,router,setLoginState])
   
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-900">

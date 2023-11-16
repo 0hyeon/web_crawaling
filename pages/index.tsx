@@ -7,12 +7,13 @@ const Home: NextPage = () => {
       <div id="header_wrap">
         <div id="video-wrap" className="a-center">
           <video
-            src="https://greenbricks.co.kr/images/211224_greenbricks_4.mp4"
-            autoPlay
-            muted
-            loop
-            width="100%"
-          ></video>
+          className="absolute left-0 top-0 h-full w-full object-cover"
+          autoPlay
+          //loop
+          muted
+          >
+            <source src="/video/211224_greenbricks_4.mp4" type="video/mp4" />
+          </video>
         </div>
         <div id="about_wrap" className="bg-[#f5f5f5]">
           <div

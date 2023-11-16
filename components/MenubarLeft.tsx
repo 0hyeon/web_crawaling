@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import AnalistIcon from "public/asset/svg/AnalistIcon";
 import Accordion from "./Accordian";
@@ -8,9 +8,15 @@ import { Router, useRouter } from "next/router";
 import Chartbar from "public/asset/svg/Chartbar";
 import ExcelIcon from "public/asset/svg/ExcelIcon";
 import * as O from "../utils/option";
+import { useRecoilState } from "recoil";
+import { loginState } from "atoms";
 function MenubarLeft() {
   const MenuList = O.fromUndefined(["타임보드", "스페셜DM"]);
   const router = useRouter();
+  const [view, setview] = useState<boolean>(false)
+  const [isLogin, setLogin] = useRecoilState(loginState);
+  console.log("isLogin :",isLogin)
+
   const onClickRouterLink = (menu: string) => {
     if (menu === "타임보드") {
       router.push("/pcbanner");
@@ -26,9 +32,16 @@ function MenubarLeft() {
       router.push("/trackingPage");
     } else if (menu === "엑셀로직") {
       router.push("/excelLogic");
+    }else if (menu === "권한수정") {
+      router.push("/editRoll");
     }
   };
-
+  useEffect(() => {
+    if (isLogin && isLogin) {
+      setview(isLogin)
+    }
+  }, [isLogin])
+  
   return (
     <div className="fix fixed h-[100vh] w-64 border-r-2 bg-white">
       <div className="bg align-center flex h-16 justify-center bg-[#efefef] py-4">
@@ -142,6 +155,30 @@ function MenubarLeft() {
           </Accordion>
         </div>
       </div>
+      {view && view ? 
+        <div className="px-4">
+          <div className="flex">
+            <div className="mt-[19px] flex">
+              <ExcelIcon width={25} height={25} />
+            </div>
+            <Accordion summary={"권한"}>
+              {["권한수정"].map((el, idx) => {
+                return (
+                  <ul key={idx}>
+                    <li
+                      onClick={() => onClickRouterLink(el)}
+                      className="cursor-pointer py-4 duration-75 hover:text-[#228ae6]"
+                    >
+                      {el}
+                    </li>
+                  </ul>
+                );
+              })}
+            </Accordion>
+          </div>
+        </div>
+        : null
+      }
     </div>
   );
 }

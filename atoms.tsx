@@ -1,5 +1,7 @@
 import { atomFamily, atom, selector } from "recoil";
 import { IToDoState } from "types/type";
+import {recoilPersist} from 'recoil-persist'
+
 
 export const toDoState = atomFamily<IToDoState, string>({
   key: "todos",
@@ -12,4 +14,18 @@ export const toDoState = atomFamily<IToDoState, string>({
     ],
     선택: [],
   },
+});
+
+const sessionStorage = typeof window !== 'undefined' ? window.sessionStorage : undefined
+
+const {persistAtom} = recoilPersist({
+  key: "loginPersist",
+  storage: sessionStorage
+});
+
+// recoil-persist 적용
+export const loginState = atom({
+  key: "login",
+  default: {},
+  effects_UNSTABLE: [persistAtom]
 });
