@@ -67,3 +67,48 @@ model Tracking {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+model JobkoAppsData {
+  id        Int      @id @default(autoincrement())
+  Category      String?
+  AttributedTouchType String? 
+  AttributedTouchTime String? 
+  InstallTime String? 
+  EventTime String?
+  EventName String?
+  Partner String?
+  MediaSource String?
+  Channel String?
+  Keywords String?
+  Campaign String?
+  Adset String?
+  Ad String?
+  AdType String?
+  Region String?
+  CountryCode String?
+  Carrier String?
+  Language String?
+  AppsFlyerID String?
+  AndroidID String?
+  AdvertisingID String?
+  IDFA String?
+  IDFV String?
+  DeviceCategory String?
+  Platform String?
+  OSVersion String?
+  AppVersion String?
+  SDKVersion String?
+  IsRetargeting Boolean?
+  RetargetingConversionType String?
+  IsPrimaryAttribution Boolean?
+  AttributionLookback String?
+  ReengagementWindow String?
+  MatchType String?
+  UserAgent String?
+  ConversionType String?
+  CampaignType String?
+  DeviceModel String?
+  KeywordID String?
+  PivotTime String? 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

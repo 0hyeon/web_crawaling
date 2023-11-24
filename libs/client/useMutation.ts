@@ -4,7 +4,8 @@ import { UseMutationState } from "types/type";
 type UseMutationResult<T> = [(data: any) => void, UseMutationState<T>];
 
 export default function useMutation<T = any>(
-  url: string
+  url: string,
+  onSuccessCallback?: () => void
 ): UseMutationResult<T> {
   const [state, setSate] = useState<UseMutationState<T>>({
     loading: false,
@@ -22,6 +23,11 @@ export default function useMutation<T = any>(
     })
       .then((response) => response.json().catch(() => {}))
       .then((data) => setSate((prev) => ({ ...prev, data, loading: false })))
+      .then(()=>{
+        if(onSuccessCallback){
+          onSuccessCallback();
+        }
+      })
       .catch((error) =>
         setSate((prev) => ({ ...prev, error, loading: false }))
       );
