@@ -1,19 +1,34 @@
 import { useState } from "react";
-import { UseMutationState } from "types/type";
 
-type UseMutationResult<T> = [(data: any) => void, UseMutationState<T>];
+type UseMutationState<T> = {
+  loading: boolean;
+  data?: T;
+  error?: string;
+};
+
+type UseMutationResult<T> = [
+  (data: any) => void,
+  UseMutationState<T>
+];
 
 export default function useMutation<T = any>(
   url: string,
-  onSuccessCallback?: () => void
+  onSuccessCallback?: () => void,
+  onMutate?: () => void,
+  onError?: (error: string) => void
 ): UseMutationResult<T> {
-  const [state, setSate] = useState<UseMutationState<T>>({
+  const [state, setState] = useState<UseMutationState<T>>({
     loading: false,
     data: undefined,
     error: undefined,
   });
+
   function mutation(data: any) {
-    setSate((prev) => ({ ...prev, loading: true }));
+    setState((prev) => ({ ...prev, loading: true }));
+    if (onMutate) {
+      onMutate();
+    }
+
     fetch(url, {
       method: "POST",
       headers: {
@@ -21,16 +36,26 @@ export default function useMutation<T = any>(
       },
       body: JSON.stringify(data),
     })
-      .then((response) => response.json().catch(() => {}))
-      .then((data) => setSate((prev) => ({ ...prev, data, loading: false })))
-      .then(()=>{
-        if(onSuccessCallback){
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json().catch(() => ({}));
+      })
+      .then((responseData) => {
+        setState((prev) => ({ ...prev, data: responseData, loading: false }));
+        if (onSuccessCallback) {
           onSuccessCallback();
         }
       })
-      .catch((error) =>
-        setSate((prev) => ({ ...prev, error, loading: false }))
-      );
+      .catch((error) => {
+        const errorMessage = error.message || 'An error occurred';
+        setState((prev) => ({ ...prev, error: errorMessage, loading: false }));
+        if (onError) {
+          onError(errorMessage);
+        }
+      });
   }
+
   return [mutation, { ...state }];
 }

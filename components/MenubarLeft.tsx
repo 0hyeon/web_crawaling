@@ -38,6 +38,7 @@ function MenubarLeft() {
   };
   useEffect(() => {
     if (isLogin && isLogin) {
+      if(isLogin.roll < 3)
       setview(isLogin)
     }
   }, [isLogin])

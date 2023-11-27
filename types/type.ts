@@ -14,7 +14,7 @@ export interface OrderByCondition {
 export interface UseMutationState<T> {
   loading: boolean;
   data?: T;
-  error?: object;
+  error?: any;
 }
 export interface ResponseType {
   ok: boolean;

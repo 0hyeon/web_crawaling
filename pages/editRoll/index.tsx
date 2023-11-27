@@ -1,5 +1,5 @@
 import MenubarLeft from '@components/MenubarLeft'
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Table } from "@mantine/core";
 import React, { SyntheticEvent, useEffect, useState } from 'react'
 import * as O from "../../utils/option";
@@ -66,24 +66,35 @@ const EditRoll = () => {
       }
     }
   }
+
+  const [udtUser, { loading: udt_loading, data: udt_data, error: udt_error }] = useMutation<MutationResult>(
+    `${FEcheckEnvironment().concat("/api/udt-user")}`,
+    async () => {
+      try {
+        await refetch(); // 삭제가 성공했을 때 refetch를 호출하여 새로운 데이터를 가져옵니다.
+      } catch (error) {
+        console.error('Error refetching data:', error);
+      }
+    }
+  );
   const EditUser = async () => {
+
     try {
       const dataToUpdate = {
         id:selectedId,
-        role: selectedValue // 선택된 값을 업데이트할 값으로 사용합니다.
+        roll: selectedValue // 선택된 값을 업데이트할 값으로 사용합니다.
       };
-      console.log("dataToUpdate : ",dataToUpdate)
       // API 호출 및 업데이트
-      // await updateUser(dataToUpdate);
-  
+      await udtUser(dataToUpdate);
       // 업데이트 후 모달 닫기
+      alert('변동되었습니다')
       setIsModalOpen(false);
-      alert('변동되었습니다. 수정대기중입니다')
     } catch (error) {
       console.error('Error updating user:', error);
       // 업데이트에 실패한 경우 에러 처리 로직을 추가합니다.
     }
   };
+
   const rows = O.mapOrElse(
     combinedUserList,
     (el) =>
@@ -92,7 +103,24 @@ const EditRoll = () => {
           <td>{element.name_2}</td>
           <td>{element.name}</td>
           {/* <td>{element.roll === null ? 3 :element.roll }</td> */}
-          <td>{element.roll===1 ? 'C레벨' : element.roll===2 ? '셀장' : null }</td>
+          <td>
+            {(() => {
+              switch (element.roll) {
+                case 1:
+                  return 'C레벨';
+                case 2:
+                  return '셀장';
+                case 3:
+                  return '과장';
+                case 4:
+                  return '대리';
+                case 5:
+                  return '사원';
+                default:
+                  return null;
+              }
+            })()}
+          </td>
           <td><button onClick={(e)=>onClickEdit(element.id,e)} className='bg-blue-400 rounded duration-300 text-white w-full h-8 hover:bg-blue-300 hover:text-blue-500'>수정</button></td>
           <td><button onClick={(e)=>onClickDel(element.id,e)} className='bg-red-400 rounded duration-300 text-white w-full h-8 hover:bg-red-300 hover:text-red-500'>삭제</button></td>
         </tr>

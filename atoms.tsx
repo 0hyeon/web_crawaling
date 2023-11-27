@@ -1,8 +1,8 @@
-import { atomFamily, atom, selector } from "recoil";
+import { atomFamily, atom, selector,RecoilEnv } from "recoil";
 import { IToDoState } from "types/type";
 import {recoilPersist} from 'recoil-persist'
 
-
+RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
 export const toDoState = atomFamily<IToDoState, string>({
   key: "todos",
   default: {
