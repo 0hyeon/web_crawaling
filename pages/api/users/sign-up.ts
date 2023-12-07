@@ -21,13 +21,6 @@ async function handler(
 
   const hashedValue = hashWithSalt(userId, salt);
 
-  const Tracking = await client.tracking.create({
-    data: {
-      hashedId: hashedValue,
-      originId: userId,
-      eventName: "LoginEvent",
-    },
-  });
   req.session.user = {
     id: userId,
   };
@@ -36,8 +29,15 @@ async function handler(
   })
   console.log("profile : ",profile)
   console.log("userId : ",userId) 
-
+  
   if(profile?.name === userId){
+    const Tracking = await client.tracking.create({
+      data: {
+        hashedId: hashedValue,
+        originId: userId,
+        eventName: "LoginEvent",
+      },
+    });
     await req.session.save(); //쿠키저장
     res.json({ ok: true, Tracking, profile });
   }else{

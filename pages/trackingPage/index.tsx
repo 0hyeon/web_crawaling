@@ -26,8 +26,6 @@ function TrackingPage() {
           <td>{element.id}</td>
           <td>{element.originId}</td>
           <td>{element.hashedId}</td>
-          <td>{element.sex}</td>
-          <td>{element.type}</td>
           <td>{element.eventName}</td>
           <td>
             {element.createdAt
@@ -55,8 +53,6 @@ function TrackingPage() {
                       <th>ID</th>
                       <th>OriginId</th>
                       <th>HashedId</th>
-                      <th>sex</th>
-                      <th>type</th>
                       <th>EventName</th>
                       <th>CreateDate</th>
                     </tr>

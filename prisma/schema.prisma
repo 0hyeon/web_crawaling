@@ -112,3 +112,94 @@ model JobkoAppsData {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model JobkoreaBackendData {
+  id        Int      @id @default(autoincrement())
+  eventTrans EventTrans[]
+  aosMediaSource AosMediaSource[]
+  iosMediaSource IosMediaSource[]
+  aosAdvertising AosAdvertising[]
+  messageRecipient MessageRecipient[]
+  iosIDFA IosIDFA[]
+  aosFetchEventNames AosFetchEventNames[]
+  iosFetchEventNames IosFetchEventNames[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model EventTrans {
+  id           Int      @id @default(autoincrement())
+  eventName    String? 
+  transEventName    String? 
+  jobkoreaBackendData      JobkoreaBackendData     @relation(fields: [jobkoreaBackendDataId], references: [id], onDelete: Cascade)
+  jobkoreaBackendDataId  Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  
+  @@index([jobkoreaBackendDataId])
+}
+model AosMediaSource {
+  id        Int      @id @default(autoincrement())
+  mediaSource String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  jobkoreaBackendData      JobkoreaBackendData     @relation(fields: [jobkoreaBackendDataId], references: [id], onDelete: Cascade)
+  jobkoreaBackendDataId  Int
+  @@index([jobkoreaBackendDataId])
+}
+model IosMediaSource {
+  id        Int      @id @default(autoincrement())
+  content String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  jobkoreaBackendData      JobkoreaBackendData     @relation(fields: [jobkoreaBackendDataId], references: [id], onDelete: Cascade)
+  jobkoreaBackendDataId  Int
+  @@index([jobkoreaBackendDataId])
+}
+
+
+model AosAdvertising {
+  id Int @id @default(autoincrement())
+  cratedAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  content String?
+  jobkoreaBackendData      JobkoreaBackendData     @relation(fields: [jobkoreaBackendDataId], references: [id], onDelete: Cascade)
+  jobkoreaBackendDataId  Int
+  @@index([jobkoreaBackendDataId])
+}
+model MessageRecipient {
+  id Int @id @default(autoincrement())
+  cratedAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  content String?
+  jobkoreaBackendData      JobkoreaBackendData     @relation(fields: [jobkoreaBackendDataId], references: [id], onDelete: Cascade)
+  jobkoreaBackendDataId  Int
+  @@index([jobkoreaBackendDataId])
+}
+model IosIDFA {
+  id Int @id @default(autoincrement())
+  cratedAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  content String?
+  jobkoreaBackendData      JobkoreaBackendData     @relation(fields: [jobkoreaBackendDataId], references: [id], onDelete: Cascade)
+  jobkoreaBackendDataId  Int
+  @@index([jobkoreaBackendDataId])
+}
+model AosFetchEventNames {
+  id Int @id @default(autoincrement())
+  cratedAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  content String?
+  jobkoreaBackendData      JobkoreaBackendData     @relation(fields: [jobkoreaBackendDataId], references: [id], onDelete: Cascade)
+  jobkoreaBackendDataId  Int
+  @@index([jobkoreaBackendDataId])
+}
+model IosFetchEventNames {
+  id Int @id @default(autoincrement())
+  cratedAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  content String?
+  jobkoreaBackendData      JobkoreaBackendData     @relation(fields: [jobkoreaBackendDataId], references: [id], onDelete: Cascade)
+  jobkoreaBackendDataId  Int
+  @@index([jobkoreaBackendDataId])
+}
