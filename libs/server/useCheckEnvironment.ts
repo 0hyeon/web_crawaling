@@ -10,7 +10,7 @@ export const BEcheckEnvironment = () => {
   let base_url =
     process.env.NODE_ENV === "development"
       ? "http://127.0.0.1"
-      : "https://sparta-yh.store";
+      : "https://sparta-yh.shop";
   return base_url;
 };
 //사용법
