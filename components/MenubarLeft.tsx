@@ -13,9 +13,9 @@ import { loginState } from "atoms";
 function MenubarLeft() {
   const MenuList = O.fromUndefined(["타임보드", "스페셜DM"]);
   const router = useRouter();
-  const [view, setview] = useState<boolean>(false)
+  const [view, setview] = useState<boolean>(false);
   const [isLogin, setLogin] = useRecoilState(loginState);
-  console.log("isLogin :",isLogin)
+  console.log("isLogin :", isLogin);
 
   const onClickRouterLink = (menu: string) => {
     if (menu === "타임보드") {
@@ -32,19 +32,20 @@ function MenubarLeft() {
       router.push("/trackingPage");
     } else if (menu === "엑셀로직") {
       router.push("/excelLogic");
-    }else if (menu === "권한수정") {
+    } else if (menu === "권한수정") {
       router.push("/editRoll");
-    }else if (menu === "[ssgㆍ이마트] cauly") {
+    } else if (menu === "[ssgㆍ이마트] cauly") {
       router.push("/caulyLogic");
+    } else if (menu === "[코보게임즈] 이커머스") {
+      router.push("/kobogames");
     }
   };
   useEffect(() => {
     if (isLogin && isLogin) {
-      if(isLogin.roll < 3)
-      setview(isLogin)
+      if (isLogin.roll < 3) setview(isLogin);
     }
-  }, [isLogin])
-  
+  }, [isLogin]);
+
   return (
     <div className="fix fixed h-[100vh] w-64 border-r-2 bg-white">
       <div className="bg align-center flex h-16 justify-center bg-[#efefef] py-4">
@@ -120,9 +121,10 @@ function MenubarLeft() {
             {[
               "앱스플라이어 & 잡코리아",
               "앱스플라이어 & 알바몬",
-              "잡코리아 시각화(작업중)",
+              "잡코리아 시각화",
               "트래킹조회",
-              "[ssgㆍ이마트] cauly"
+              "[ssgㆍ이마트] cauly",
+              "[코보게임즈] 이커머스",
             ].map((el, idx) => {
               return (
                 <ul key={idx}>
@@ -159,7 +161,7 @@ function MenubarLeft() {
           </Accordion>
         </div>
       </div>
-      {view && view ? 
+      {view && view ? (
         <div className="px-4">
           <div className="flex">
             <div className="mt-[19px] flex">
@@ -181,8 +183,7 @@ function MenubarLeft() {
             </Accordion>
           </div>
         </div>
-        : null
-      }
+      ) : null}
     </div>
   );
 }
