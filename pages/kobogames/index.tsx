@@ -1,4 +1,3 @@
-"use client";
 import MenubarLeft from "@components/MenubarLeft";
 import { BEcheckEnvironment } from "@libs/server/useCheckEnvironment";
 import {
@@ -12,6 +11,7 @@ import {
   MultiSelect,
 } from "@mantine/core";
 import { IconPhoto } from "@tabler/icons-react";
+import axios from "axios";
 import { LoadingText, Svg } from "pages/exceltrans";
 import Loading from "public/asset/svg/Logo";
 import React, { useEffect, useState } from "react";
@@ -47,24 +47,29 @@ const KoboGames = () => {
     setFiles(newFiles);
     setFormData(newFormData);
   }
-  const fetchData = () => {
+  const fetchData = async () => {
     setSate({ loading: true });
-    fetch("https://sparta-yh.shop/api/kobogames/kobo_store", {
-      method: "GET",
-    })
-      .then(async (res) => {
-        if (!res.ok) {
-          throw new Error(`HTTP error! Status: ${res.status}`);
+    try {
+      const response = await axios.get(
+        BEcheckEnvironment().concat("/api/kobogames/kobo_store"),
+        {
+          withCredentials: true,
+          // headers: {
+          //   "Access-Control-Allow-Origin": "*",
+          //   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+          //   "Access-Control-Allow-Headers": "Content-Type",
+          // },
         }
-        const data = await res.json();
-        setFetchData(data.data);
-        setSate({ loading: false });
-      })
-      .catch((error) => {
-        console.error(error);
-        setSate({ loading: false });
-      });
+      );
+      const data = response.data;
+
+      // 응답 데이터를 상태로 설정
+      setFetchData(data.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
+
   function handleSubmit() {
     const formDataToSend = new FormData();
     files.forEach((file, index) => {
