@@ -48,7 +48,8 @@ const KoboGames = () => {
   }
   const fetchData = async () => {
     try {
-      setSate(() => ({ loading: true }));
+      // 상태 업데이트: loading을 true로 설정
+      setSate({ loading: true });
 
       const response = await fetch(
         BEcheckEnvironment().concat("/api/kobogames/kobo_store"),
@@ -62,12 +63,15 @@ const KoboGames = () => {
       }
 
       const data = await response.json();
+
+      // 상태 업데이트: loading을 false로 설정 및 데이터 업데이트
+      setSate({ loading: false });
       setFetchData(data.data);
       console.log(data);
-
-      setSate({ loading: false });
     } catch (error) {
       console.error(error);
+
+      // 상태 업데이트: loading을 false로 설정
       setSate({ loading: false });
     }
   };
@@ -162,7 +166,6 @@ const KoboGames = () => {
     </Box>
   ));
 
-  console.log("isFetchData : ", isFetchData);
   useEffect(() => {
     if (isFetchData) {
       const names = Object.keys(isFetchData);
