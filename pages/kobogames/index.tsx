@@ -49,6 +49,7 @@ const KoboGames = () => {
   }
   const fetchData = async () => {
     setSate({ loading: true });
+
     try {
       const response = await axios.get(
         BEcheckEnvironment().concat("/api/kobogames/kobo_store"),
@@ -62,11 +63,12 @@ const KoboGames = () => {
         }
       );
       const data = response.data;
-      setSate({ loading: true });
       // 응답 데이터를 상태로 설정
       setFetchData(data.data);
+      setSate({ loading: false });
     } catch (error) {
       console.error(error);
+      setSate({ loading: false });
     }
   };
 
@@ -86,7 +88,7 @@ const KoboGames = () => {
     console.log(file1, file2, file3, file4, file5, file6, file7, file8);
 
     setSate(() => ({ loading: true }));
-    fetch(BEcheckEnvironment().concat("/api/kobogames/kobo_ecommerce_dau"), {
+    fetch(BEcheckEnvironment().concat("/api/kobogames/kobo_ecommerce_dau/"), {
       method: "POST",
       body: formData,
     })
