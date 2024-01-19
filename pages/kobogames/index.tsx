@@ -62,7 +62,7 @@ const KoboGames = () => {
         }
       );
       const data = response.data;
-
+      setSate({ loading: true });
       // 응답 데이터를 상태로 설정
       setFetchData(data.data);
     } catch (error) {
