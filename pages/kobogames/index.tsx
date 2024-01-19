@@ -49,7 +49,7 @@ const KoboGames = () => {
   const fetchData = () => {
     setSate({ loading: true });
     // fetch(BEcheckEnvironment().concat("/api/kobogames/kobo_store"), {
-    fetch("https://web-crawaling.vercel.app/api/kobogames/kobo_store", {
+    fetch("https://sparta-yh.shop/api/kobogames/kobo_store", {
       // fetch("http://127.0.0.1/api/kobogames/kobo_store", {
       method: "GET",
     })
