@@ -1,3 +1,4 @@
+"use client";
 import MenubarLeft from "@components/MenubarLeft";
 import { BEcheckEnvironment } from "@libs/server/useCheckEnvironment";
 import {
