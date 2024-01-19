@@ -52,10 +52,12 @@ const KoboGames = () => {
       method: "GET",
     })
       .then(async (res) => {
-        console.log("res.json() : ", await res.json());
+        if (!res.ok) {
+          throw new Error(`HTTP error! Status: ${res.status}`);
+        }
         const data = await res.json();
-
         setFetchData(data.data);
+        setSate({ loading: false });
       })
       .catch((error) => {
         console.error(error);
