@@ -52,15 +52,9 @@ const KoboGames = () => {
 
     try {
       const response = await axios.get(
-        BEcheckEnvironment().concat("/api/kobogames/kobo_store"),
+        BEcheckEnvironment().concat("/api/kobogames/kobo_store/"),
         {
           withCredentials: true,
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
-            "Access-Control-Allow-Headers":
-              "Origin, X-Api-Key, X-Requested-With, Content-Type, Accept, Authorization",
-          },
         }
       );
       const data = response.data;
