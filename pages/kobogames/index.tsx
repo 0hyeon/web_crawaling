@@ -46,34 +46,21 @@ const KoboGames = () => {
     setFiles(newFiles);
     setFormData(newFormData);
   }
-  const fetchData = async () => {
-    try {
-      // 상태 업데이트: loading을 true로 설정
-      setSate({ loading: true });
+  const fetchData = () => {
+    setSate({ loading: true });
+    fetch(BEcheckEnvironment().concat("/api/kobogames/kobo_store"), {
+      method: "GET",
+    })
+      .then(async (res) => {
+        console.log("res.json() : ", await res.json());
+        const data = await res.json();
 
-      const response = await fetch(
-        BEcheckEnvironment().concat("/api/kobogames/kobo_store"),
-        {
-          method: "GET",
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
-
-      // 상태 업데이트: loading을 false로 설정 및 데이터 업데이트
-      setSate({ loading: false });
-      setFetchData(data.data);
-      console.log(data);
-    } catch (error) {
-      console.error(error);
-
-      // 상태 업데이트: loading을 false로 설정
-      setSate({ loading: false });
-    }
+        setFetchData(data.data);
+      })
+      .catch((error) => {
+        console.error(error);
+        setSate({ loading: false });
+      });
   };
   function handleSubmit() {
     const formDataToSend = new FormData();
