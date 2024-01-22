@@ -10,16 +10,19 @@ import {
   rem,
   MultiSelect,
 } from "@mantine/core";
+import { KoboGamesPdList } from "@prisma/client";
 import { IconPhoto } from "@tabler/icons-react";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { LoadingText, Svg } from "pages/exceltrans";
 import Loading from "public/asset/svg/Logo";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import * as O from "../../utils/option";
+import { useRouter } from "next/router";
 
 const KoboGames = () => {
+  const router = useRouter();
   const [files, setFiles] = useState<File[]>([]);
-  const [isFetchData, setFetchData] = useState();
-  const [nameValues, setNameValues] = useState<string[]>([]);
   const [state, setSate] = useState({
     loading: false,
   });
@@ -35,9 +38,9 @@ const KoboGames = () => {
       });
     } else if (value === null) {
       // Remove all keys from formData
-      for (let key of formData.keys()) {
-        newFormData.delete(key);
-      }
+      // for (let key of formData.keys()) {
+      //   newFormData.delete(key);
+      // }
       newFiles = [];
     } else {
       newFiles = [value];
@@ -59,7 +62,7 @@ const KoboGames = () => {
       );
       const data = response.data;
       // 응답 데이터를 상태로 설정
-      setFetchData(data.data);
+      // setFetchData(data.data);
       setSate({ loading: false });
     } catch (error) {
       console.error(error);
@@ -157,14 +160,30 @@ const KoboGames = () => {
       />
     </Box>
   ));
-
-  useEffect(() => {
-    if (isFetchData) {
-      const names = Object.keys(isFetchData);
-      setNameValues(names);
+  const EditPage = () => {
+    router.push("/kobogames/edit");
+  };
+  //코보게임즈 상품리스트
+  const { data: KoboLists, refetch } = useQuery<
+    { items: KoboGamesPdList[] },
+    unknown,
+    KoboGamesPdList[]
+  >(
+    [`/api/kobo/get-products`],
+    () => fetch(`/api/kobo/get-products`).then((res) => res.json()),
+    {
+      select: (data) => data.items,
     }
-  }, [isFetchData]);
-  console.log("nameValues : ", nameValues);
+  );
+  const KoboList = O.fromUndefined(KoboLists);
+  const KoboData = O.mapOrElse(
+    KoboList,
+    (kobo) => kobo.map((p) => p.productname),
+    []
+  );
+  const filteredKoboData = KoboData.filter((item) => item !== null) as string[];
+  console.log("KoboData : ", KoboData);
+
   return (
     <>
       <MenubarLeft />
@@ -187,22 +206,22 @@ const KoboGames = () => {
               ) : (
                 <div className="">
                   <div className="mb-14 text-center font-sans text-2xl font-extrabold">
-                    [코보게임즈] 이커머스 Merge Logic Process [...ing]
+                    [코보게임즈] 이커머스 Process [...ing]
                   </div>
-                  {/* 호출하기 */}
-                  <Button className="bg-black" onClick={fetchData}>
-                    전송
-                  </Button>
 
                   {/* 상품설정 */}
                   <div className="mx-auto mb-2 mt-20 w-[100%]">
                     <MultiSelect
-                      label="상품명"
+                      label="상품명선택"
                       placeholder="Pick value"
-                      data={nameValues && nameValues}
+                      data={filteredKoboData}
                       searchable
                     />
                   </div>
+                  <Button className="bg-gray-400" onClick={EditPage}>
+                    추가/삭제 이동
+                  </Button>
+
                   {/*  */}
                   {/* <div>
                     {isFetchData &&
