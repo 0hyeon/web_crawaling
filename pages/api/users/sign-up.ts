@@ -15,7 +15,7 @@ async function handler(
     sha256Hash.update(text);
     return sha256Hash.digest("hex");
   }
-  const salt = "greenbricksHashedPassword"; //
+  const salt = "greenbricksHashedPassword";
 
   const { name: userId, pw } = req.body;
 
@@ -25,12 +25,12 @@ async function handler(
     id: userId,
   };
   const profile = await client.user.findFirst({
-    where: {name: userId}
-  })
-  console.log("profile : ",profile)
-  console.log("userId : ",userId) 
-  
-  if(profile?.name === userId){
+    where: { name: userId },
+  });
+  console.log("profile : ", profile);
+  console.log("userId : ", userId);
+
+  if (profile?.name === userId) {
     const Tracking = await client.tracking.create({
       data: {
         hashedId: hashedValue,
@@ -40,8 +40,8 @@ async function handler(
     });
     await req.session.save(); //쿠키저장
     res.json({ ok: true, Tracking, profile });
-  }else{
-    res.json({ ok: false, errors: {message:"존재하지 않는계정입니다"}});
+  } else {
+    res.json({ ok: false, errors: { message: "존재하지 않는계정입니다" } });
   }
 }
 
