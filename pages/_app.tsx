@@ -5,7 +5,7 @@ import type { AppProps } from "next/app";
 import "../public/fonts/style.css";
 import useUser from "@libs/client/useUser";
 function LoginCheck() {
-  const { user } = useUser();
+  useUser();
   return null;
 }
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {

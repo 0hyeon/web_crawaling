@@ -23,6 +23,7 @@ import { useRouter } from "next/router";
 const KoboGames = () => {
   const router = useRouter();
   const [files, setFiles] = useState<File[]>([]);
+  const [SelectText, setSelectText] = useState<string[]>([]);
   const [state, setSate] = useState({
     loading: false,
   });
@@ -35,6 +36,9 @@ const KoboGames = () => {
       newFiles = value;
       value.forEach((file, index) => {
         newFormData.append(`file${files.length + index + 1}`, file);
+      });
+      SelectText.forEach((text, index) => {
+        newFormData.append(`SelectText${index + 1}`, text);
       });
     } else if (value === null) {
       // Remove all keys from formData
@@ -75,6 +79,8 @@ const KoboGames = () => {
     files.forEach((file, index) => {
       formDataToSend.append(`file${index + 1}`, file);
     });
+
+    // formDataToSend.append(`SelectText`, SelectText);
     const file1 = formDataToSend.get("file1");
     const file2 = formDataToSend.get("file2");
     const file3 = formDataToSend.get("file3");
@@ -181,9 +187,14 @@ const KoboGames = () => {
     (kobo) => kobo.map((p) => p.productname),
     []
   );
+
   const filteredKoboData = KoboData.filter((item) => item !== null) as string[];
   console.log("KoboData : ", KoboData);
+  console.log("SelectText : ", SelectText);
 
+  const onChangeInput = (text: string[]) => {
+    setSelectText(text);
+  };
   return (
     <>
       <MenubarLeft />
@@ -215,6 +226,9 @@ const KoboGames = () => {
                       label="상품명선택"
                       placeholder="Pick value"
                       data={filteredKoboData}
+                      onChange={(selectedValues) =>
+                        onChangeInput(selectedValues)
+                      }
                       searchable
                     />
                   </div>

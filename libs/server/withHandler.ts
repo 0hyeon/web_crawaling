@@ -24,7 +24,7 @@ export default function withHandler({
       //예를 들어, methods 배열이 ["GET", "POST"]로 설정되어 있고, 클라이언트가 "DELETE" 메서드로 요청을 보낸 경우, 이 코드는 405 상태 코드를 반환하여 클라이언트에게 해당 메서드는 허용되지 않음
       return res.status(405).end();
     }
-    console.log("req.session.user1 : ", req.session.user);
+    // console.log("req.session.user1 : ", req.session.user);
     if (isPrivate && !req.session.user) {
       return res.status(401).json({ ok: false, error: "Plz log in." });
     }

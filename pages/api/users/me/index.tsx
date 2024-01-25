@@ -14,7 +14,9 @@ async function handler(
       });
 
       if (!profile) {
-        return res.status(404).json({ ok: false, error: "Profile not found" });
+        return res
+          .status(404)
+          .json({ ok: false, isError: "Profile not found" });
       }
 
       res.json({
@@ -24,7 +26,7 @@ async function handler(
     }
   } catch (error) {
     console.error("Error in handler:", error);
-    res.status(500).json({ ok: false, error: "Internal server error" });
+    res.status(500).json({ ok: false, isError: "Internal server error" });
   }
 }
 

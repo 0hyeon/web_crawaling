@@ -67,8 +67,8 @@ export default function Index() {
   };
 
   // const [delUser, { loading: del_loading, data: del_data, error: del_error }] =
-  const [delUser] = useMutation<MutationResult>(
-    `${FEcheckEnvironment().concat("/api/del-user")}`,
+  const [delPdList] = useMutation<MutationResult>(
+    `${FEcheckEnvironment().concat("/api/kobo/del-user")}`,
     async () => {
       try {
         await refetch(); // 삭제가 성공했을 때 refetch를 호출하여 새로운 데이터를 가져옵니다.
