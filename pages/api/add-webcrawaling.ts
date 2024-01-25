@@ -132,4 +132,4 @@
 //   }
 // }
 
-// export default withHandler({ methods: ["GET"], handler, isPrivate: false });
+// export default withHandler({ methods: ["GET"], handler, isPrivate: true });

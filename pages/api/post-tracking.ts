@@ -29,4 +29,4 @@ async function handler(req: any, res: NextApiResponse<ResponseType>) {
   res.status(200).json({ ok: true, Tracking });
 }
 
-export default withHandler({ methods: ["GET"], handler, isPrivate: false });
+export default withHandler({ methods: ["GET"], handler, isPrivate: true });

@@ -44,6 +44,9 @@ function MenubarLeft() {
     if (isLogin && isLogin) {
       if (isLogin.roll < 3) setview(isLogin);
     }
+    if (isLogin.id === undefined) {
+      router.push("/login");
+    }
   }, [isLogin]);
 
   return (
