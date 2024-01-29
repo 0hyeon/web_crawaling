@@ -3,7 +3,6 @@ import "../styles/globals.css";
 import { RecoilRoot } from "recoil";
 import type { AppProps } from "next/app";
 import "../public/fonts/style.css";
-import useUser from "@libs/client/useUser";
 // function LoginCheck() {
 //   useUser();
 //   return null;
