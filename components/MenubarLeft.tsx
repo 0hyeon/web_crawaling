@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import AnalistIcon from "public/asset/svg/AnalistIcon";
 import Accordion from "./Accordian";
-import SettingIcon from "public/asset/svg/SettingIcon";
 import ImageIcon from "public/asset/svg/ImageIcon";
-import { Router, useRouter } from "next/router";
+import { useRouter } from "next/router";
 import Chartbar from "public/asset/svg/Chartbar";
 import ExcelIcon from "public/asset/svg/ExcelIcon";
 import * as O from "../utils/option";
