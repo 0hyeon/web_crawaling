@@ -1,6 +1,6 @@
-import { atomFamily, atom, selector,RecoilEnv } from "recoil";
+import { atomFamily, atom, RecoilEnv } from "recoil";
 import { IToDoState } from "types/type";
-import {recoilPersist} from 'recoil-persist'
+import { recoilPersist } from "recoil-persist";
 
 RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
 export const toDoState = atomFamily<IToDoState, string>({
@@ -16,16 +16,17 @@ export const toDoState = atomFamily<IToDoState, string>({
   },
 });
 
-const sessionStorage = typeof window !== 'undefined' ? window.sessionStorage : undefined
+const sessionStorage =
+  typeof window !== "undefined" ? window.sessionStorage : undefined;
 
-const {persistAtom} = recoilPersist({
+const { persistAtom } = recoilPersist({
   key: "loginPersist",
-  storage: sessionStorage
+  storage: sessionStorage,
 });
 
 // recoil-persist 적용
 export const loginState = atom({
   key: "login",
   default: {},
-  effects_UNSTABLE: [persistAtom]
+  effects_UNSTABLE: [persistAtom],
 });
