@@ -5,7 +5,7 @@ import {
   BEcheckEnvironment,
   FEcheckEnvironment,
 } from "@libs/server/useCheckEnvironment";
-import { MobileBanner, PCBanner } from "types/type";
+import { PCBanner } from "types/type";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {
