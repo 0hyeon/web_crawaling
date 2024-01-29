@@ -21,7 +21,6 @@ function UploadFile({
   const [files, setFiles] = useState<File[]>([]);
   const [isVariable, setVariable] = useState<any>([]);
   const [isLogicName, setLogicName] = useState<string>("");
-  const [isSendVariable, setSendVariable] = useState<any>([]);
   const [isKeyData, setKeyData] = useState<any>([]);
   const [formData, setFormData] = useState<FormData>(new FormData());
   const [isCsvOrXlsx, setCsvOrXlsx] = useState<string>("");
