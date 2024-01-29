@@ -12,7 +12,7 @@ function MenubarLeft() {
   const MenuList = O.fromUndefined(["타임보드", "스페셜DM"]);
   const router = useRouter();
   const [view, setview] = useState<boolean>(false);
-  const [isLogin, setLogin] = useRecoilState(loginState);
+  const [isLogin] = useRecoilState(loginState);
   console.log("isLogin :", isLogin);
 
   const onClickRouterLink = (menu: string) => {

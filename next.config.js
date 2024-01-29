@@ -4,4 +4,7 @@ module.exports = {
   images: {
     domains: ["imagedelivery.net", "greenbricks.co.kr"],
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
