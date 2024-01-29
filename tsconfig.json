@@ -1,14 +1,13 @@
 {
   "compilerOptions": {
-    "target": "es2015",
+    "target": "es5",
+    "downlevelIteration": true,
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": true,
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "node",
@@ -26,10 +25,8 @@
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"],
   "ts-node": {
-    "ts-node": {
-      "compilerOptions": {
-        "module": "CommonJS"
-      }
+    "compilerOptions": {
+      "module": "commonjs"
     }
   }
 }
