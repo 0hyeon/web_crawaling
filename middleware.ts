@@ -1,8 +1,6 @@
-import { FEcheckEnvironment } from "@libs/server/useCheckEnvironment";
-import { NextResponse, userAgent } from "next/server";
-import type { NextRequest, NextFetchEvent } from "next/server";
+import { NextResponse } from "next/server";
 
-export function middleware(req: NextRequest, ev: NextFetchEvent) {
+export function middleware() {
   //   const url = req.nextUrl.clone();
 
   //    // Check if the request is trying to access secured routes without the session
