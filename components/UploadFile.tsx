@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { Box, Button, Input } from "@mantine/core";
+import React, { useCallback, useState } from "react";
+import { Box } from "@mantine/core";
 import { FileInput, FileInputProps, Group, Center, rem } from "@mantine/core";
 import { IconPhoto, IconUpload } from "@tabler/icons-react";
 import { BEcheckEnvironment } from "@libs/server/useCheckEnvironment";

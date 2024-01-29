@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Group } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
-import useDetectClose from "@libs/client/useDetectClose";
 import Calendar from "public/asset/svg/Calendar";
 import { formatDate } from "@libs/client/FormData";
 function DateSchedule({
