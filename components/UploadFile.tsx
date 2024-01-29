@@ -367,10 +367,6 @@ function UploadFile({
 }
 
 export default UploadFile;
-const SelectNameBox = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
 const Label = styled.div`
   display: inline-block;
   font-size: 0.875rem;
