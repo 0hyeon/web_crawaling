@@ -14,12 +14,17 @@ import Loading from "public/asset/svg/Logo";
 // import Pie from "@components/Pie";
 // import { pieData } from "@constants/data";
 const SsgPoData = () => {
-  const [SSGselectedMedia, SSGsetPdMedia] = useState<string | null>(
-    SSG_FILTERS[0].name
-  );
-  const [SSGselectedChannel, SSGsetPdChannel] = useState<any>(
+  //매체
+  const [SSGselectedMedia, SSGsetPdMedia] = useState<string | null>();
+  //채널리스트
+  const [isChannelList, SSGsetPdChannel] = useState<any>(
     SSG_FILTERS.map((el) => el.channels)
   );
+  //채널
+  const [isSelectedChannel, setSelectedChannel] = useState<any>();
+
+  console.log("SSGselectedMedia : ", SSGselectedMedia);
+  console.log("isSelectedChannel : ", isSelectedChannel);
 
   const filteredChannels = SSG_FILTERS.find(
     (filter) => filter.name === SSGselectedMedia
@@ -49,20 +54,29 @@ const SsgPoData = () => {
   const lastDate = useDebounce<string | null>(isDate[1]);
 
   useEffect(() => {
+    const filteredChannels = SSG_FILTERS.find(
+      (filter) => filter.name === SSGselectedMedia
+    )?.channels;
+    if (filteredChannels) {
+      SSGsetPdChannel(filteredChannels);
+    }
+    setSelectedChannel([]);
+  }, [SSGselectedMedia]);
+  useEffect(() => {
     // refetch();
-    SSGsetPdChannel(filteredChannels);
     setPage(1);
   }, [isDate, filteredChannels]);
+  // SSGselectedMedia, isSelectedChannel
   const { data: total } = useQuery(
     [
-      `/api/get-ssgPoData-count?&contains=${debouncedKeword}&startday=${startDate}&lastday=${lastDate}`,
+      `/api/get-ssgPoData-count?&contains=${debouncedKeword}&startday=${startDate}&lastday=${lastDate}&media=${SSGselectedMedia}&channel=${isSelectedChannel}`,
     ],
     () =>
       fetch(
-        `/api/get-ssgPoData-count?&contains=${debouncedKeword}&startday=${startDate}&lastday=${lastDate}`
+        `/api/get-ssgPoData-count?&contains=${debouncedKeword}&startday=${startDate}&lastday=${lastDate}&media=${SSGselectedMedia}&channel=${isSelectedChannel}`
       )
         .then((res) => res.json())
-        .then((data) => Math.ceil(data.items / TAKE))
+        .then((data) => Math.ceil(data.items))
   );
   // const CRAWALING_QUERY_KEY = "/api/add-moWebcrawaling";
   // const { data: fetchData } = useQuery<{ items: any[] }, unknown, any[]>(
@@ -84,29 +98,23 @@ const SsgPoData = () => {
       <div className="h-[100%] min-h-[100vh] w-full bg-[#dee2e6] pl-64">
         <div className="mx-4 min-h-[100vh] bg-white px-4 py-16">
           <div className="flex justify-between">
-            {/* 셀렉바 */}
-            {/* <div className="w-52">
-              <Select
-                value={selectedFilter}
-                onChange={setFilter}
-                data={FILTERS}
-              />
-            </div> */}
-
-            <div className="w-52">
-              <Select
-                value={SSGselectedMedia}
-                onChange={SSGsetPdMedia}
-                data={SSG_FILTERS.map((el) => el.name)}
-              />
-            </div>
-            {/* 채널들  */}
-            <div className="w-52">
-              <Select
-                value={SSGselectedChannel}
-                onChange={SSGsetPdChannel}
-                data={SSGselectedChannel}
-              />
+            <div className="flex gap-4">
+              <div className="w-52">
+                <span className="text-xs text-gray-600">매체명</span>
+                <Select
+                  value={SSGselectedMedia}
+                  onChange={SSGsetPdMedia}
+                  data={SSG_FILTERS.map((el) => el.name)}
+                />
+              </div>
+              <div className="w-52">
+                <span className="text-xs text-gray-600">채널명</span>
+                <Select
+                  value={isSelectedChannel}
+                  onChange={setSelectedChannel}
+                  data={SSGselectedMedia ? isChannelList : []} // SSGselectedMedia가 선택되어 있을 때만 필터링된 채널을 전달합니다.
+                />
+              </div>
             </div>
 
             <div className="relative flex">
@@ -223,7 +231,7 @@ const SsgPoData = () => {
                 siblings={6}
               />
             ) : null}
-            {total === 0 ? (
+            {/* {total === 0 ? (
               <>
                 <Svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -235,7 +243,7 @@ const SsgPoData = () => {
                 </Svg>
                 <LoadingText>Nothing!!</LoadingText>
               </>
-            ) : null}
+            ) : null} */}
           </div>
         </div>
         <div>{/* <Pie data={pieData} /> */}</div>
