@@ -13,11 +13,24 @@ import { LoadingText, Svg } from "pages/exceltrans";
 import Loading from "public/asset/svg/Logo";
 // import Pie from "@components/Pie";
 // import { pieData } from "@constants/data";
-
 const SsgPoData = () => {
+  const [SSGselectedMedia, SSGsetPdMedia] = useState<string | null>(
+    SSG_FILTERS[0].name
+  );
+  const [SSGselectedChannel, SSGsetPdChannel] = useState<any>(
+    SSG_FILTERS.map((el) => el.channels)
+  );
+
+  const filteredChannels = SSG_FILTERS.find(
+    (filter) => filter.name === SSGselectedMedia
+  )?.channels;
+
   const [keyword, setKeyword] = useState("");
   const [activePage, setPage] = useState(1);
-  const [selectedFilter, setFilter] = useState<string | null>(FILTERS[0].value);
+
+  // const [SSGselecteChannel, SSGsetChannel] = useState<string | null>(
+  //   Object.keys(SSG_FILTERS.flatMap((filter) => Object.values(filter)))[0]
+  // );
   const [isDate, setDate] = useState<[string | null, string | null]>([
     null,
     null,
@@ -34,38 +47,19 @@ const SsgPoData = () => {
   const debouncedKeword = useDebounce<string>(keyword);
   const startDate = useDebounce<string | null>(isDate[0]);
   const lastDate = useDebounce<string | null>(isDate[1]);
-  const { data: banners, refetch } = useQuery<
-    { items: MobieBanner[] },
-    unknown,
-    MobieBanner[]
-  >(
-    [
-      `/api/get-mobanner?skip=${
-        TAKE * (activePage - 1)
-      }&take=${TAKE}&orderBy=${selectedFilter}&contains=${debouncedKeword}&startday=${startDate}&lastday=${lastDate}`,
-    ],
-    () =>
-      fetch(
-        `/api/get-mobanner?skip=${
-          TAKE * (activePage - 1)
-        }&take=${TAKE}&orderBy=${selectedFilter}&contains=${debouncedKeword}&startday=${startDate}&lastday=${lastDate}`
-      ).then((res) => res.json()),
-    {
-      select: (data) => data.items,
-    }
-  );
 
   useEffect(() => {
-    refetch();
+    // refetch();
+    SSGsetPdChannel(filteredChannels);
     setPage(1);
-  }, [isDate, refetch, selectedFilter]);
+  }, [isDate, filteredChannels]);
   const { data: total } = useQuery(
     [
-      `/api/get-mobanner-count?&contains=${debouncedKeword}&startday=${startDate}&lastday=${lastDate}`,
+      `/api/get-ssgPoData-count?&contains=${debouncedKeword}&startday=${startDate}&lastday=${lastDate}`,
     ],
     () =>
       fetch(
-        `/api/get-mobanner-count?&contains=${debouncedKeword}&startday=${startDate}&lastday=${lastDate}`
+        `/api/get-ssgPoData-count?&contains=${debouncedKeword}&startday=${startDate}&lastday=${lastDate}`
       )
         .then((res) => res.json())
         .then((data) => Math.ceil(data.items / TAKE))
@@ -91,20 +85,30 @@ const SsgPoData = () => {
         <div className="mx-4 min-h-[100vh] bg-white px-4 py-16">
           <div className="flex justify-between">
             {/* 셀렉바 */}
-            <div className="w-52">
+            {/* <div className="w-52">
               <Select
                 value={selectedFilter}
                 onChange={setFilter}
                 data={FILTERS}
               />
-            </div>
-            {/* <div className="w-52">
-              <Select
-                value={selectedFilter_copy}
-                onChange={setFilter_copy}
-                data={SSG_FILTERS[0]}
-              />
             </div> */}
+
+            <div className="w-52">
+              <Select
+                value={SSGselectedMedia}
+                onChange={SSGsetPdMedia}
+                data={SSG_FILTERS.map((el) => el.name)}
+              />
+            </div>
+            {/* 채널들  */}
+            <div className="w-52">
+              <Select
+                value={SSGselectedChannel}
+                onChange={SSGsetPdChannel}
+                data={SSGselectedChannel}
+              />
+            </div>
+
             <div className="relative flex">
               {/* 달력 */}
               <DateSchedule getDate={getDate} />
@@ -137,7 +141,7 @@ const SsgPoData = () => {
             </div>
           </div>
           {/* banner */}
-          {banners && (
+          {/* {banners && (
             <div className="mt-7 grid grid-cols-1">
               {banners?.map(
                 (item: MobieBanner, idx) =>
@@ -207,7 +211,7 @@ const SsgPoData = () => {
                   )
               )}
             </div>
-          )}
+          )} */}
           {/*페이지네이션*/}
           <div className="mt-20 flex w-full">
             {total && total !== 0 ? (

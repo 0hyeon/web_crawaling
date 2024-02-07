@@ -123,7 +123,7 @@ function MenubarLeft() {
               "트래킹조회",
               "[ssgㆍ이마트] cauly",
               "[코보게임즈] 이커머스",
-              // "SSG_PO데이터",
+              "SSG_PO데이터",
             ].map((el, idx) => {
               return (
                 <ul key={idx}>
