@@ -9,86 +9,49 @@ const prisma = new PrismaClient();
 async function getSsgPoData({
   skip,
   take,
-  orderBy,
   contains,
   startday,
   lastday,
+  media,
+  channel,
 }: {
   skip: number;
   take: number;
-  orderBy: string;
   contains: string;
   startday?: string | null;
   lastday?: string | null;
+  media?: string | null;
+  channel?: string | null;
 }) {
-  const containsCondition =
-    contains && contains !== ""
-      ? {
-          OR: [
-            { title: { contains: contains } },
-            { alt: { contains: contains } },
-          ],
-        }
-      : undefined;
-
-  const whereCondition: Prisma.PcBannerWhereInput = {
-    ...containsCondition,
-  };
-
-  let orderByCondition: OrderByCondition = getOrderBy(orderBy);
-  console.log(orderByCondition);
-
-  let adjustedStartday, adjustedLastday;
-  if (process.env.NODE_ENV === "production") {
-    // Vercel 환경에서만 보정된 날짜를 사용
-    adjustedStartday = adjustDateForVercel(startday);
-    adjustedLastday = adjustDateForVercel(lastday);
-  } else {
-    // 개발 환경에서는 보정하지 않은 날짜를 사용
-    adjustedStartday = startday;
-    adjustedLastday = lastday;
+  const whereCondition: Prisma.SSG_POWhereInput = {};
+  if (contains && contains !== "") {
+    whereCondition.OR = [{ itemNm: { contains: contains } }];
   }
 
-  if (adjustedStartday && adjustedLastday === null) {
-    const targetStartDate = new Date(adjustedStartday);
-    const startDate = new Date(
-      targetStartDate.getFullYear(),
-      targetStartDate.getMonth(),
-      targetStartDate.getDate()
-    );
-    const endDate = new Date(startDate.getTime() + 24 * 60 * 60 * 1000); // 다음 날짜의 00:00:00
-
+  if (startday && startday !== "null") {
     whereCondition.date = {
-      gte: startDate.toISOString(),
-      lt: endDate.toISOString(),
+      gte: new Date(startday).toISOString(),
     };
   }
 
-  if (adjustedStartday !== null && adjustedLastday !== null) {
-    const targetStartDate = new Date(adjustedStartday as any);
-    const startDate = new Date(
-      targetStartDate.getFullYear(),
-      targetStartDate.getMonth(),
-      targetStartDate.getDate()
-    );
-    const targetEndDate = new Date(adjustedLastday as any);
-    const endDate = new Date(
-      targetEndDate.getFullYear(),
-      targetEndDate.getMonth(),
-      targetEndDate.getDate()
-    );
-    endDate.setDate(endDate.getDate() + 1); // 다음 날 자정까지로 설정
-
+  if (lastday && lastday !== null) {
     whereCondition.date = {
-      gte: startDate.toISOString(),
-      lt: endDate.toISOString(),
+      lte: new Date(lastday).toISOString(),
     };
   }
+
+  if (media && media !== null) {
+    whereCondition.media = media;
+  }
+
+  if (channel && channel !== null) {
+    whereCondition.channel = channel;
+  }
+
   try {
-    const response = await prisma.pcBanner.findMany({
+    const response = await prisma.sSG_PO.findMany({
       skip: skip,
       take: take,
-      ...orderByCondition,
       where: whereCondition,
     });
     return response;
@@ -106,8 +69,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const { skip, take, category, orderBy, contains, startday, lastday } =
-    req.query;
+  const { skip, take, contains, startday, lastday, media, channel } = req.query;
 
   if (skip == null || take == null) {
     res.status(400).json({ message: "no skip or take" });
@@ -115,19 +77,21 @@ export default async function handler(
   }
 
   try {
-    const products = await getSsgPoData({
+    const ssgData = await getSsgPoData({
       skip: Number(skip),
       take: Number(take),
-      orderBy: String(orderBy),
+
       contains: contains ? String(contains) : "",
       startday: startday !== "null" ? String(startday) : null,
       lastday: lastday !== "null" ? String(lastday) : null,
+      media: media !== "null" ? String(media) : null,
+      channel: channel !== "null" ? String(channel) : null,
     });
 
-    if (startday && (!products || products.length === 0)) {
+    if (startday && (!ssgData || ssgData.length === 0)) {
       res.status(200).json({ items: [], message: "No items found" });
     } else {
-      res.status(200).json({ items: products || [], message: "Success" });
+      res.status(200).json({ items: ssgData || [], message: "Success" });
     }
   } catch (error) {
     res.status(400).json({ message: "Failed" });

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React, { useState, useEffect, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { MobieBanner } from "@prisma/client";
+import { MobieBanner, SSG_PO } from "@prisma/client";
 import { Input, Pagination, SegmentedControl, Select } from "@mantine/core";
 import MenubarLeft from "@components/MenubarLeft";
 import useDebounce from "@libs/client/useDebounce";
@@ -11,6 +11,7 @@ import { format } from "date-fns";
 import DateSchedule from "@components/DateSchedule";
 import { LoadingText, Svg } from "pages/exceltrans";
 import Loading from "public/asset/svg/Logo";
+import { Table } from "@mantine/core";
 // import Pie from "@components/Pie";
 // import { pieData } from "@constants/data";
 const SsgPoData = () => {
@@ -26,6 +27,7 @@ const SsgPoData = () => {
   console.log("SSGselectedMedia : ", SSGselectedMedia);
   console.log("isSelectedChannel : ", isSelectedChannel);
 
+  //채널찾기
   const filteredChannels = SSG_FILTERS.find(
     (filter) => filter.name === SSGselectedMedia
   )?.channels;
@@ -33,9 +35,6 @@ const SsgPoData = () => {
   const [keyword, setKeyword] = useState("");
   const [activePage, setPage] = useState(1);
 
-  // const [SSGselecteChannel, SSGsetChannel] = useState<string | null>(
-  //   Object.keys(SSG_FILTERS.flatMap((filter) => Object.values(filter)))[0]
-  // );
   const [isDate, setDate] = useState<[string | null, string | null]>([
     null,
     null,
@@ -49,10 +48,57 @@ const SsgPoData = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
   };
+
   const debouncedKeword = useDebounce<string>(keyword);
   const startDate = useDebounce<string | null>(isDate[0]);
   const lastDate = useDebounce<string | null>(isDate[1]);
 
+  // 페이지네이션 fetching
+  const { data: total } = useQuery(
+    [
+      `/api/get-ssgPoData-count?&contains=${debouncedKeword}&startday=${startDate}&lastday=${lastDate}&media=${SSGselectedMedia}&channel=${isSelectedChannel}`,
+    ],
+    () =>
+      fetch(
+        `/api/get-ssgPoData-count?&contains=${debouncedKeword}&startday=${startDate}&lastday=${lastDate}&media=${SSGselectedMedia}&channel=${isSelectedChannel}`
+      )
+        .then((res) => res.json())
+        .then((data) => Math.ceil(data.items / TAKE))
+  );
+  const { data: poData, refetch } = useQuery<
+    { items: SSG_PO[] },
+    unknown,
+    SSG_PO[]
+  >(
+    [
+      `/api/get-ssgPoData?skip=${
+        TAKE * (activePage - 1)
+      }&take=${TAKE}&contains=${debouncedKeword}&startday=${startDate}&lastday=${lastDate}&media=${SSGselectedMedia}&channel=${isSelectedChannel}`,
+    ],
+    () =>
+      fetch(
+        `/api/get-ssgPoData?skip=${
+          TAKE * (activePage - 1)
+        }&take=${TAKE}&contains=${debouncedKeword}&startday=${startDate}&lastday=${lastDate}&media=${SSGselectedMedia}&channel=${isSelectedChannel}`
+      ).then((res) => res.json()),
+    {
+      select: (data) => data.items,
+    }
+  );
+
+  const rows = poData?.map((element, idx) => (
+    <tr key={idx}>
+      <td>{element.media}</td>
+      <td>{element.channel}</td>
+      <td>{element.ordNo}</td>
+      <td>{element.ordDts}</td>
+      <td>{element.itemId}</td>
+      <td>{element.itemNm}</td>
+      <td>{element.rlordAmt?.toLocaleString("ko-kr")}</td>
+      <td>{element.ordStatNm}</td>
+    </tr>
+  ));
+  console.log("poData : ", poData);
   useEffect(() => {
     const filteredChannels = SSG_FILTERS.find(
       (filter) => filter.name === SSGselectedMedia
@@ -63,33 +109,9 @@ const SsgPoData = () => {
     setSelectedChannel([]);
   }, [SSGselectedMedia]);
   useEffect(() => {
-    // refetch();
+    refetch();
     setPage(1);
-  }, [isDate, filteredChannels]);
-  // SSGselectedMedia, isSelectedChannel
-  const { data: total } = useQuery(
-    [
-      `/api/get-ssgPoData-count?&contains=${debouncedKeword}&startday=${startDate}&lastday=${lastDate}&media=${SSGselectedMedia}&channel=${isSelectedChannel}`,
-    ],
-    () =>
-      fetch(
-        `/api/get-ssgPoData-count?&contains=${debouncedKeword}&startday=${startDate}&lastday=${lastDate}&media=${SSGselectedMedia}&channel=${isSelectedChannel}`
-      )
-        .then((res) => res.json())
-        .then((data) => Math.ceil(data.items))
-  );
-  // const CRAWALING_QUERY_KEY = "/api/add-moWebcrawaling";
-  // const { data: fetchData } = useQuery<{ items: any[] }, unknown, any[]>(
-  //   [CRAWALING_QUERY_KEY],
-  //   () => fetch(CRAWALING_QUERY_KEY).then((res) => res.json())
-  //   // .then((res) => res.json())
-  //   // .then((data) => data)
-  // );
-  // console.log("fetchData : ", fetchData);
-  // useEffect(() => {
-  //   console.log("useEffect실행");
-  // }, [fetchData]);
-  // console.log(banners);
+  }, [isDate, filteredChannels, refetch]);
   return (
     <>
       {/* 메뉴바 */}
@@ -147,6 +169,23 @@ const SsgPoData = () => {
                 />
               </div>
             </div>
+          </div>
+          <div className="max-w-8xl mx-auto mb-2 mt-12">
+            <Table>
+              <thead>
+                <tr>
+                  <th>매체</th>
+                  <th>채널</th>
+                  <th>주문ID</th>
+                  <th>SSG주문번호</th>
+                  <th>상품ID</th>
+                  <th>상품명</th>
+                  <th>실주문금액</th>
+                  <th>주문상태</th>
+                </tr>
+              </thead>
+              <tbody>{rows}</tbody>
+            </Table>
           </div>
           {/* banner */}
           {/* {banners && (
@@ -221,7 +260,7 @@ const SsgPoData = () => {
             </div>
           )} */}
           {/*페이지네이션*/}
-          <div className="mt-20 flex w-full">
+          <div className="mt-16 flex w-full">
             {total && total !== 0 ? (
               <Pagination
                 className="m-auto"

@@ -28,23 +28,23 @@ async function getSsgPoDataCount({
     whereCondition.OR = [{ itemNm: { contains: contains } }];
   }
 
-  if (startday && startday !== "null") {
+  if (startday && startday !== null) {
     whereCondition.date = {
       gte: new Date(startday).toISOString(),
     };
   }
 
-  if (lastday && lastday !== "null") {
+  if (lastday && lastday !== null) {
     whereCondition.date = {
       lte: new Date(lastday).toISOString(),
     };
   }
 
-  if (media && media !== "null") {
+  if (media && media !== null) {
     whereCondition.media = media;
   }
 
-  if (channel && channel !== "null") {
+  if (channel && channel !== null) {
     whereCondition.channel = channel;
   }
 

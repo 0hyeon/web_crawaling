@@ -68,7 +68,7 @@ export const SSG_FILTERS: SSGFilter[] = [
       "moji_re2",
     ],
   },
-  { name: "버즈빌", channels: ["re_buzz1", "buzz_e1"] },
+  { name: "버즈빌[CPS]", channels: ["re_buzz1", "buzz_e1"] },
   {
     name: "애드패커",
     channels: [
