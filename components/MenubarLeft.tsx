@@ -15,29 +15,26 @@ function MenubarLeft() {
   const [isLogin] = useRecoilState(loginState);
   console.log("isLogin :", isLogin);
 
+  const menuToRouteMap: Record<string, string> = {
+    타임보드: "/pcbanner",
+    스페셜DM: "/mbanner",
+    "앱스플라이어 & 잡코리아": "/exceltrans",
+    "앱스플라이어 & 알바몬": "/exceltransAlbamon",
+    "잡코리아 시각화(작업중)": "/exceltransGraph",
+    트래킹조회: "/trackingPage",
+    엑셀로직: "/excelLogic",
+    권한수정: "/editRoll",
+    "[ssgㆍ이마트] cauly": "/caulyLogic",
+    "[코보게임즈] 이커머스": "/kobogames",
+    SSG_PO데이터: "/ssgpodata",
+  };
   const onClickRouterLink = (menu: string) => {
-    if (menu === "타임보드") {
-      router.push("/pcbanner");
-    } else if (menu === "스페셜DM") {
-      router.push("/mbanner");
-    } else if (menu === "앱스플라이어 & 잡코리아") {
-      router.push("/exceltrans");
-    } else if (menu === "앱스플라이어 & 알바몬") {
-      router.push("/exceltransAlbamon");
-    } else if (menu === "잡코리아 시각화(작업중)") {
-      router.push("/exceltransGraph");
-    } else if (menu === "트래킹조회") {
-      router.push("/trackingPage");
-    } else if (menu === "엑셀로직") {
-      router.push("/excelLogic");
-    } else if (menu === "권한수정") {
-      router.push("/editRoll");
-    } else if (menu === "[ssgㆍ이마트] cauly") {
-      router.push("/caulyLogic");
-    } else if (menu === "[코보게임즈] 이커머스") {
-      router.push("/kobogames");
+    const route = menuToRouteMap[menu];
+    if (route) {
+      router.push(route);
     }
   };
+
   useEffect(() => {
     if (isLogin && isLogin) {
       if (isLogin.roll < 3) setview(isLogin);
@@ -126,6 +123,7 @@ function MenubarLeft() {
               "트래킹조회",
               "[ssgㆍ이마트] cauly",
               "[코보게임즈] 이커머스",
+              // "SSG_PO데이터",
             ].map((el, idx) => {
               return (
                 <ul key={idx}>
