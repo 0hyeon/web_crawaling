@@ -28,7 +28,7 @@ async function getSsgPoData({
     whereCondition.OR = [{ itemNm: { contains: contains } }];
   }
 
-  if (startday && startday !== "null") {
+  if (startday && startday !== null) {
     whereCondition.date = {
       gte: new Date(startday).toISOString(),
     };

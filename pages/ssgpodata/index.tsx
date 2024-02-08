@@ -87,15 +87,17 @@ const SsgPoData = () => {
   );
 
   const rows = poData?.map((element, idx) => (
-    <tr key={idx}>
+    <tr key={idx} className="text-[10px] ">
       <td>{element.media}</td>
       <td>{element.channel}</td>
       <td>{element.ordNo}</td>
       <td>{element.ordDts}</td>
-      <td>{element.itemId}</td>
+      {/* <td>{element.itemId}</td> */}
       <td>{element.itemNm}</td>
+      {/* <td>{element.stdCtgId}</td> */}
       <td>{element.rlordAmt?.toLocaleString("ko-kr")}</td>
       <td>{element.ordStatNm}</td>
+      <td>{element.date}</td>
     </tr>
   ));
   console.log("poData : ", poData);
@@ -172,16 +174,28 @@ const SsgPoData = () => {
           </div>
           <div className="max-w-8xl mx-auto mb-2 mt-12">
             <Table>
+              <colgroup>
+                <col width={"10%"} />
+                <col width={"6%"} />
+                <col width={"10%"} />
+                <col width={"10%"} />
+                <col width={"*"} />
+                <col width={"10%"} />
+                <col width={"10%"} />
+                <col width={"10%"} />
+              </colgroup>
               <thead>
                 <tr>
                   <th>매체</th>
                   <th>채널</th>
-                  <th>주문ID</th>
+                  <th>원주문ID</th>
                   <th>SSG주문번호</th>
-                  <th>상품ID</th>
+                  {/* <th>상품ID</th> */}
                   <th>상품명</th>
+                  {/* <th>카테고리</th> */}
                   <th>실주문금액</th>
                   <th>주문상태</th>
+                  <th>날짜</th>
                 </tr>
               </thead>
               <tbody>{rows}</tbody>
