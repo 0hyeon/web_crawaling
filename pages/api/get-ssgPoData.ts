@@ -28,9 +28,22 @@ async function getSsgPoData({
     whereCondition.OR = [{ itemNm: { contains: contains } }];
   }
 
-  if (startday && startday !== null) {
+  if (startday && lastday === null) {
+    const startDate = new Date(startday); // startday를 Date 객체로 변환합니다.
+    const endDate = new Date(startDate); // startDate와 같은 값을 가지는 새로운 Date 객체를 생성합니다.
+    endDate.setDate(startDate.getDate() + 1); // endDate를 startDate보다 하루 뒤로 조정합니다.
+
+    // startDate와 endDate를 문자열로 변환합니다.
+    const startDateString = startDate.toISOString().slice(0, 10); // YYYY-MM-DD 형식의 문자열로 변환
+    const endDateString = endDate.toISOString().slice(0, 10); // YYYY-MM-DD 형식의 문자열로 변환
+
+    console.log("startDate : ", startDate);
+    console.log("endDate : ", endDate);
+    console.log("startDateString : ", startDateString);
+    console.log("endDateString : ", endDateString);
     whereCondition.date = {
-      gte: new Date(startday).toISOString(),
+      gte: startDateString,
+      lt: endDateString,
     };
   }
 
@@ -38,6 +51,10 @@ async function getSsgPoData({
     whereCondition.date = {
       lte: new Date(lastday).toISOString(),
     };
+    console.log(
+      "new Date(startday).toISOString() : ",
+      new Date(lastday).toISOString()
+    );
   }
 
   if (media && media !== null) {
