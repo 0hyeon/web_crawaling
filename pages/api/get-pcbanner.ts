@@ -82,7 +82,7 @@ async function getProducts({
 
     whereCondition.date = {
       gte: startDate.toISOString(),
-      lt: endDate.toISOString(),
+      lte: endDate.toISOString(),
     };
   }
   try {

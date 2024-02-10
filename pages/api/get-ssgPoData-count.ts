@@ -16,28 +16,37 @@ async function getSsgPoDataCount({
   media?: string | null;
   channel?: string | null;
 }) {
-  console.log(contains, startday, lastday, media, channel);
-  console.log("contains : ", contains);
-  console.log("startday : ", startday);
-  console.log("lastday : ", lastday);
-  console.log("media : ", media);
-  console.log("channel : ", channel);
-
   const whereCondition: Prisma.SSG_POWhereInput = {};
   if (contains && contains !== "") {
     whereCondition.OR = [{ itemNm: { contains: contains } }];
   }
 
-  if (startday && startday !== null) {
+  if (startday && lastday === null) {
+    const startDate = new Date(startday);
+    const endDate = new Date(startDate);
+    endDate.setDate(startDate.getDate() + 1);
+
+    const startDateString = startDate.toISOString().slice(0, 10);
+    const endDateString = endDate.toISOString().slice(0, 10);
+
     whereCondition.date = {
-      gte: new Date(startday).toISOString(),
+      gte: startDateString,
+      lt: endDateString,
     };
   }
 
-  if (lastday && lastday !== null) {
-    whereCondition.date = {
-      lte: new Date(lastday).toISOString(),
-    };
+  if (startday !== null && lastday !== null) {
+    if (startday !== undefined && lastday !== undefined) {
+      const startDate = new Date(startday);
+      const lastDate = new Date(lastday);
+      const startDateString = startDate.toISOString().slice(0, 10);
+      const endDateString = lastDate.toISOString().slice(0, 10);
+
+      whereCondition.date = {
+        gte: startDateString,
+        lte: endDateString,
+      };
+    }
   }
 
   if (media && media !== null) {

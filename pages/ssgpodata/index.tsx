@@ -88,7 +88,15 @@ const SsgPoData = () => {
 
   const rows = poData?.map((element, idx) => (
     <tr key={idx} className="text-[10px] ">
-      <td>{element.media}</td>
+      <td>
+        {/* <Image
+          alt={"이미지"}
+          src={"/images/cauly.png"}
+          width={30}
+          height={30}
+        /> */}
+        {element.media}
+      </td>
       <td>{element.channel}</td>
       <td>{element.ordNo}</td>
       <td>{element.ordDts}</td>
