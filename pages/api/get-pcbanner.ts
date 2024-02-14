@@ -49,6 +49,7 @@ async function getProducts({
     adjustedLastday = lastday;
   }
 
+  //1.첫번째날짜만 선택한경우
   if (adjustedStartday && adjustedLastday === null) {
     const targetStartDate = new Date(adjustedStartday);
     const startDate = new Date(
@@ -63,7 +64,7 @@ async function getProducts({
       lt: endDate.toISOString(),
     };
   }
-
+  //2.둘다 선택한경우
   if (adjustedStartday !== null && adjustedLastday !== null) {
     const targetStartDate = new Date(adjustedStartday as any);
     const startDate = new Date(
@@ -81,7 +82,7 @@ async function getProducts({
 
     whereCondition.date = {
       gte: startDate.toISOString(),
-      lt: endDate.toISOString(),
+      lte: endDate.toISOString(),
     };
   }
   try {

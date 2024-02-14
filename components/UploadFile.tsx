@@ -212,8 +212,11 @@ function UploadFile({
     setLoading(true);
     const formDataToSend = new FormData();
     files.forEach((file, index) => {
-      formDataToSend.append(`file${index + 1}`, file);
+      formData.append(`files`, file); // "files" 필드에 파일 추가
     });
+    // files.forEach((file, index) => {
+    //   formDataToSend.append(`file${index + 1}`, file);
+    // });
     const fileVariables: any = {};
     for (let index = 1; index <= files.length; index++) {
       fileVariables[`file${index}`] = formDataToSend.get(`file${index}`);

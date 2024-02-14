@@ -1,5 +1,3 @@
-import axios from "axios";
-
 export const FEcheckEnvironment = () => {
   let base_url =
     process.env.NODE_ENV === "development"
