@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient, Prisma } from "@prisma/client";
-
+import * as O from "../../utils/option";
 const prisma = new PrismaClient();
 
 async function getSsgPoDataPrice({
@@ -60,7 +60,20 @@ async function getSsgPoDataPrice({
     const response = await prisma.sSG_PO.findMany({
       where: whereCondition,
     });
-    return response.reduce((acc, cur) => acc + (cur.rlordAmt || 0), 0);
+
+    const totalRlordAmt = O.getOrElse(
+      O.fromUndefined(
+        response.reduce((acc, cur) => acc + (cur.rlordAmt || 0), 0)
+      ),
+      0
+    );
+    const uniqueOrdNoCount = Array.from(
+      new Set(
+        O.getOrElse(O.fromUndefined(response.map((item) => item.ordNo)), [])
+      )
+    ).length;
+    console.log(totalRlordAmt, uniqueOrdNoCount);
+    return [totalRlordAmt, uniqueOrdNoCount];
   } catch (error) {
     console.error(error);
   }
@@ -78,7 +91,7 @@ export default async function handler(
   const { contains, startday, lastday, media, channel } = req.query;
 
   try {
-    const ssgDataPrice = await getSsgPoDataPrice({
+    const ssgDataPrice: any = await getSsgPoDataPrice({
       contains: contains ? String(contains) : "",
       startday: startday !== "null" ? String(startday) : null,
       lastday: lastday !== "null" ? String(lastday) : null,
@@ -86,7 +99,7 @@ export default async function handler(
       channel: channel !== "null" ? String(channel) : null,
     });
 
-    res.status(200).json({ items: ssgDataPrice || 0, message: "Success" });
+    res.status(200).json({ items: ssgDataPrice, message: "Success" });
   } catch (error) {
     res.status(400).json({ message: "Failed" });
   }

@@ -35,6 +35,7 @@ const SsgPoData = () => {
 
   const [keyword, setKeyword] = useState("");
   const [activePage, setPage] = useState(1);
+  const [isTradeCount, setTradeCount] = useState(0);
 
   const [isDate, setDate] = useState<[string | null, string | null]>([
     null,
@@ -166,14 +167,14 @@ const SsgPoData = () => {
                 <span className="text-xs text-gray-600">건수</span>
                 <Input
                   type="text"
-                  value={total && (total * TAKE).toLocaleString("ko-kr")}
+                  value={totalPrice && totalPrice[1].toLocaleString("ko-kr")}
                 />
               </div>
               <div className="w-52">
                 <span className="text-xs text-gray-600">정산금액</span>
                 <Input
                   type="text"
-                  value={totalPrice && totalPrice.toLocaleString("ko-kr")}
+                  value={totalPrice && totalPrice[0].toLocaleString("ko-kr")}
                 />
               </div>
             </div>
