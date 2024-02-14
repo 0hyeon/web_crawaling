@@ -166,8 +166,7 @@ const SsgPoData = () => {
                 <span className="text-xs text-gray-600">건수</span>
                 <Input
                   type="text"
-                  value={SSGselectedMedia && isCount}
-                  onChange={setCount}
+                  value={total && (total * TAKE).toLocaleString("ko-kr")}
                 />
               </div>
               <div className="w-52">
