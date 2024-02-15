@@ -1,22 +1,15 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient, Prisma } from "@prisma/client";
-import { getOrderBy } from "@constants/banners";
-import { adjustDateForVercel } from "@libs/client/YesterDay";
-import { OrderByCondition } from "types/type";
-
+import * as O from "../../utils/option";
 const prisma = new PrismaClient();
 
-async function getSsgPoData({
-  skip,
-  take,
+async function getSsgPoDataPrice({
   contains,
   startday,
   lastday,
   media,
   channel,
 }: {
-  skip: number;
-  take: number;
   contains: string;
   startday?: string | null;
   lastday?: string | null;
@@ -65,18 +58,29 @@ async function getSsgPoData({
 
   try {
     const response = await prisma.sSG_PO.findMany({
-      skip: skip,
-      take: take,
       where: whereCondition,
     });
-    return response;
+
+    const totalRlordAmt = O.getOrElse(
+      O.fromUndefined(
+        response.reduce((acc, cur) => acc + (cur.rlordAmt || 0), 0)
+      ),
+      0
+    );
+    const uniqueOrdNoCount = Array.from(
+      new Set(
+        O.getOrElse(O.fromUndefined(response.map((item) => item.ordNo)), [])
+      )
+    ).length;
+    console.log(totalRlordAmt, uniqueOrdNoCount);
+    return [totalRlordAmt, uniqueOrdNoCount];
   } catch (error) {
     console.error(error);
   }
 }
 
 type Data = {
-  items?: any[];
+  items?: number;
   message: string;
 };
 
@@ -84,18 +88,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const { skip, take, contains, startday, lastday, media, channel } = req.query;
-
-  if (skip == null || take == null) {
-    res.status(400).json({ message: "no skip or take" });
-    return;
-  }
+  const { contains, startday, lastday, media, channel } = req.query;
 
   try {
-    const ssgData = await getSsgPoData({
-      skip: Number(skip),
-      take: Number(take),
-
+    const ssgDataPrice: any = await getSsgPoDataPrice({
       contains: contains ? String(contains) : "",
       startday: startday !== "null" ? String(startday) : null,
       lastday: lastday !== "null" ? String(lastday) : null,
@@ -103,11 +99,7 @@ export default async function handler(
       channel: channel !== "null" ? String(channel) : null,
     });
 
-    if (startday && (!ssgData || ssgData.length === 0)) {
-      res.status(200).json({ items: [], message: "No items found" });
-    } else {
-      res.status(200).json({ items: ssgData || [], message: "Success" });
-    }
+    res.status(200).json({ items: ssgDataPrice, message: "Success" });
   } catch (error) {
     res.status(400).json({ message: "Failed" });
   }

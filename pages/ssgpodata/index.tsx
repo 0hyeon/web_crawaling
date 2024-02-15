@@ -12,9 +12,13 @@ import DateSchedule from "@components/DateSchedule";
 import { LoadingText, Svg } from "pages/exceltrans";
 import Loading from "public/asset/svg/Logo";
 import { Table } from "@mantine/core";
+import ExcelIcon from "public/asset/svg/ExcelIcon";
+import { BEcheckEnvironment } from "@libs/server/useCheckEnvironment";
 // import Pie from "@components/Pie";
 // import { pieData } from "@constants/data";
 const SsgPoData = () => {
+  const [isResultPrice, setResultPrice] = useState<any>(0);
+  const [isCount, setCount] = useState<any>(0);
   //매체
   const [SSGselectedMedia, SSGsetPdMedia] = useState<string | null>();
   //채널리스트
@@ -26,14 +30,15 @@ const SsgPoData = () => {
 
   console.log("SSGselectedMedia : ", SSGselectedMedia);
   console.log("isSelectedChannel : ", isSelectedChannel);
-
   //채널찾기
   const filteredChannels = SSG_FILTERS.find(
     (filter) => filter.name === SSGselectedMedia
   )?.channels;
 
+  const [isExcelIcon, setExcelIcon] = useState(false);
   const [keyword, setKeyword] = useState("");
   const [activePage, setPage] = useState(1);
+  const [isTradeCount, setTradeCount] = useState(0);
 
   const [isDate, setDate] = useState<[string | null, string | null]>([
     null,
@@ -54,6 +59,37 @@ const SsgPoData = () => {
   const lastDate = useDebounce<string | null>(isDate[1]);
 
   // 페이지네이션 fetching
+  const ExcelBtn = () => {
+    if (confirm("Excel? ")) {
+      fetch(BEcheckEnvironment().concat("/po/ssgPoExcel"), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          keyword: debouncedKeword,
+          start: startDate,
+          last: lastDate,
+          media: SSGselectedMedia,
+          channel: isSelectedChannel,
+        }),
+      })
+        .then((response) => response.blob())
+        .then((blob) => {
+          // 비동기 작업이 완료되면 setLoading(false)를 호출
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "combined";
+          a.click();
+          // setLoading(false);
+        })
+        .catch((error) => {
+          console.error(error);
+          throw error;
+        });
+    }
+  };
   const { data: total } = useQuery(
     [
       `/api/get-ssgPoData-count?&contains=${debouncedKeword}&startday=${startDate}&lastday=${lastDate}&media=${SSGselectedMedia}&channel=${isSelectedChannel}`,
@@ -65,6 +101,20 @@ const SsgPoData = () => {
         .then((res) => res.json())
         .then((data) => Math.ceil(data.items / TAKE))
   );
+  // totalPrice
+  const { data: totalPrice } = useQuery(
+    [
+      `/api/get-ssgpoTotalPrice?&contains=${debouncedKeword}&startday=${startDate}&lastday=${lastDate}&media=${SSGselectedMedia}&channel=${isSelectedChannel}`,
+    ],
+    () =>
+      fetch(
+        `/api/get-ssgpoTotalPrice?&contains=${debouncedKeword}&startday=${startDate}&lastday=${lastDate}&media=${SSGselectedMedia}&channel=${isSelectedChannel}`
+      ).then((res) => res.json()),
+    {
+      select: (data) => data.items,
+    }
+  );
+  // PoData
   const { data: poData, refetch } = useQuery<
     { items: SSG_PO[] },
     unknown,
@@ -108,7 +158,7 @@ const SsgPoData = () => {
       <td>{element.date}</td>
     </tr>
   ));
-  console.log("poData : ", poData);
+
   useEffect(() => {
     const filteredChannels = SSG_FILTERS.find(
       (filter) => filter.name === SSGselectedMedia
@@ -121,7 +171,14 @@ const SsgPoData = () => {
   useEffect(() => {
     refetch();
     setPage(1);
-  }, [isDate, filteredChannels, refetch]);
+    isDate[0] !== null && isSelectedChannel.length > 0
+      ? setExcelIcon(true)
+      : setExcelIcon(false);
+  }, [isDate, filteredChannels, refetch, isSelectedChannel]);
+
+  console.log("isDate : ", isDate);
+  console.log("isExcelIcon : ", isExcelIcon);
+  console.log("isSelectedChannel : ", isSelectedChannel);
   return (
     <>
       {/* 메뉴바 */}
@@ -144,9 +201,32 @@ const SsgPoData = () => {
                 <Select
                   value={isSelectedChannel}
                   onChange={setSelectedChannel}
-                  data={SSGselectedMedia ? isChannelList : []} // SSGselectedMedia가 선택되어 있을 때만 필터링된 채널을 전달합니다.
+                  data={SSGselectedMedia ? isChannelList : []}
                 />
               </div>
+              <div className="w-52">
+                <span className="text-xs text-gray-600">건수</span>
+                <Input
+                  type="text"
+                  value={totalPrice && totalPrice[1].toLocaleString("ko-kr")}
+                />
+              </div>
+              <div className="w-52">
+                <span className="text-xs text-gray-600">정산금액</span>
+                <Input
+                  type="text"
+                  value={totalPrice && totalPrice[0].toLocaleString("ko-kr")}
+                />
+              </div>
+              {isExcelIcon && isExcelIcon ? (
+                <div
+                  className="flex cursor-pointer flex-col items-baseline justify-around font-bold"
+                  onClick={ExcelBtn}
+                >
+                  <span className="text-xs text-gray-600">Download Excel</span>
+                  {/* <ExcelIcon width={25} height={25} fill={"#91979c"} /> */}
+                </div>
+              ) : null}
             </div>
 
             <div className="relative flex">
@@ -209,6 +289,7 @@ const SsgPoData = () => {
               <tbody>{rows}</tbody>
             </Table>
           </div>
+
           {/* banner */}
           {/* {banners && (
             <div className="mt-7 grid grid-cols-1">

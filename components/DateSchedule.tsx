@@ -3,13 +3,15 @@ import { Group } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import Calendar from "public/asset/svg/Calendar";
 import { formatDate } from "@libs/client/FormData";
+import useDetectClose from "@libs/client/useDetectClose";
 function DateSchedule({
   getDate,
 }: {
   getDate: (startDay: string | null, lastDay: string | null) => void;
 }) {
   const dropDownRef = useRef<HTMLDivElement>(null);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useDetectClose(dropDownRef, false);
+
   // const [isOpen, setIsOpen] = useDetectClose(dropDownRef, false);
   const [value, setValue] = useState<[Date | null, Date | null]>([null, null]);
 
@@ -37,7 +39,7 @@ function DateSchedule({
           </Group>
         </Group>
       ) : null}
-      <div onClick={() => setIsOpen((prev: any) => !prev) as any}>
+      <div onClick={() => setIsOpen((prev: boolean) => !prev)}>
         <Calendar width={30} height={30} fill={"#91979c"} />
       </div>
     </div>
