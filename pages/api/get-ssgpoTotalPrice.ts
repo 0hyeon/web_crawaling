@@ -25,14 +25,19 @@ async function getSsgPoDataPrice({
     const startDate = new Date(startday);
     const endDate = new Date(startDate);
     endDate.setDate(startDate.getDate() + 1);
-
     const startDateString = startDate.toISOString().slice(0, 10);
     const endDateString = endDate.toISOString().slice(0, 10);
 
-    whereCondition.date = {
-      gte: startDateString,
-      lt: endDateString,
-    };
+    // whereCondition.date = {
+    //   gte: startDateString,
+    //   lt: endDateString,
+    // };
+
+    /*date, updateDate둘다 */
+    whereCondition.OR = [
+      { updateDate: startDateString },
+      { date: startDateString },
+    ];
   }
 
   if (startday !== null && lastday !== null) {
@@ -41,10 +46,17 @@ async function getSsgPoDataPrice({
       const lastDate = new Date(lastday);
       const startDateString = startDate.toISOString().slice(0, 10);
       const endDateString = lastDate.toISOString().slice(0, 10);
-      whereCondition.date = {
-        gte: startDateString,
-        lte: endDateString,
-      };
+      // whereCondition.date = {
+      //   gte: startDateString,
+      //   lte: endDateString,
+      // };
+
+      /*date, updateDate둘다 */
+
+      whereCondition.OR = [
+        { updateDate: { gte: startDateString, lte: endDateString } },
+        { date: { gte: startDateString, lte: endDateString } },
+      ];
     }
   }
 
@@ -67,10 +79,13 @@ async function getSsgPoDataPrice({
       ),
       0
     );
+    // const uniqueOrdNoCount = Array.from(
+    //   new Set(
+    //     O.getOrElse(O.fromUndefined(response.map((item) => item.ordNo)), [])
+    //   )
+    // ).length;
     const uniqueOrdNoCount = Array.from(
-      new Set(
-        O.getOrElse(O.fromUndefined(response.map((item) => item.ordNo)), [])
-      )
+      O.getOrElse(O.fromUndefined(response.map((item) => item.ordNo)), [])
     ).length;
     console.log(totalRlordAmt, uniqueOrdNoCount);
     return [totalRlordAmt, uniqueOrdNoCount];

@@ -156,6 +156,7 @@ const SsgPoData = () => {
       <td>{element.rlordAmt?.toLocaleString("ko-kr")}</td>
       <td>{element.ordStatNm}</td>
       <td>{element.date}</td>
+      <td>{element.updateDate}</td>
     </tr>
   ));
 
@@ -284,6 +285,7 @@ const SsgPoData = () => {
                   <th>실주문금액</th>
                   <th>주문상태</th>
                   <th>날짜</th>
+                  <th>업데이트날짜</th>
                 </tr>
               </thead>
               <tbody>{rows}</tbody>

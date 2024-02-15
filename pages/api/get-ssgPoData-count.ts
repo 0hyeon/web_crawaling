@@ -29,10 +29,14 @@ async function getSsgPoDataCount({
     const startDateString = startDate.toISOString().slice(0, 10);
     const endDateString = endDate.toISOString().slice(0, 10);
 
-    whereCondition.date = {
-      gte: startDateString,
-      lt: endDateString,
-    };
+    // whereCondition.date = {
+    //   gte: startDateString,
+    //   lt: endDateString,
+    // };
+    whereCondition.OR = [
+      { updateDate: startDateString },
+      { date: startDateString },
+    ];
   }
 
   if (startday !== null && lastday !== null) {
@@ -42,10 +46,14 @@ async function getSsgPoDataCount({
       const startDateString = startDate.toISOString().slice(0, 10);
       const endDateString = lastDate.toISOString().slice(0, 10);
 
-      whereCondition.date = {
-        gte: startDateString,
-        lte: endDateString,
-      };
+      // whereCondition.date = {
+      //   gte: startDateString,
+      //   lte: endDateString,
+      // };
+      whereCondition.OR = [
+        { updateDate: { gte: startDateString, lte: endDateString } },
+        { date: { gte: startDateString, lte: endDateString } },
+      ];
     }
   }
 
