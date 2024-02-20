@@ -11,6 +11,7 @@ datasource db {
   provider     = "mysql"
   url          = env("DATABASE_URL")
   relationMode = "prisma"
+  // relationMode = "prisma"
 }
 
 model PcBanner {
@@ -76,12 +77,12 @@ model KoboGamesPdList {
 }
 
 model SSG_PO {
-  id           Int      @id @default(autoincrement())
+  id           Int           @id @default(autoincrement())
   ordNo        String?
   ordDts       String?
   orgGb        String?
   itemId       String?
-  itemNm       String?  @db.VarChar(400)
+  itemNm       String?       @db.VarChar(400)
   ordStatNm    String?
   sellprc      Int?
   ordAmt       Int?
@@ -92,8 +93,36 @@ model SSG_PO {
   stdCtgId     String?
   date         String?
   channel      String?
-  media        String?
+  // media        String?
   updateDate   String?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  // channel   SSG_PO_Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  // channelId Int
+  mediaForId   SSG_PO_Media? @relation(fields: [media], references: [id], onDelete: Cascade) //여러개의 media를 가지고있음
+  media        String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([media])
+}
+
+model SSG_PO_Media {
+  id        String           @id @unique
+  SSG_PO    SSG_PO[]
+  channel   SSG_PO_Channel[]
+  onOff     Boolean
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+}
+
+model SSG_PO_Channel {
+  id         String       @id @unique
+  mediaForId SSG_PO_Media @relation(fields: [media], references: [id], onDelete: Cascade) //여러개의 media를 가지고있음
+  media      String
+
+  onOff     Boolean
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([media])
 }

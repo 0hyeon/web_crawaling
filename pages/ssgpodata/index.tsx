@@ -7,34 +7,21 @@ import MenubarLeft from "@components/MenubarLeft";
 import useDebounce from "@libs/client/useDebounce";
 import { FILTERS, SSG_FILTERS, TAKE } from "@constants/banners";
 import { useRouter } from "next/router";
-import { format } from "date-fns";
 import DateSchedule from "@components/DateSchedule";
-import { LoadingText, Svg } from "pages/exceltrans";
 import Loading from "public/asset/svg/Logo";
 import { Table } from "@mantine/core";
-import ExcelIcon from "public/asset/svg/ExcelIcon";
 import { BEcheckEnvironment } from "@libs/server/useCheckEnvironment";
-// import Pie from "@components/Pie";
-// import { pieData } from "@constants/data";
 const SsgPoData = () => {
   const [isResultPrice, setResultPrice] = useState<any>(0);
   const [isCount, setCount] = useState<any>(0);
-  //매체
   const [SSGselectedMedia, SSGsetPdMedia] = useState<string | null>();
-  //채널리스트
   const [isChannelList, SSGsetPdChannel] = useState<any>(
     SSG_FILTERS.map((el) => el.channels)
   );
-  //채널
   const [isSelectedChannel, setSelectedChannel] = useState<any>();
-
-  console.log("SSGselectedMedia : ", SSGselectedMedia);
-  console.log("isSelectedChannel : ", isSelectedChannel);
-  //채널찾기
   const filteredChannels = SSG_FILTERS.find(
     (filter) => filter.name === SSGselectedMedia
   )?.channels;
-
   const [isExcelIcon, setExcelIcon] = useState(false);
   const [keyword, setKeyword] = useState("");
   const [activePage, setPage] = useState(1);
@@ -138,21 +125,11 @@ const SsgPoData = () => {
 
   const rows = poData?.map((element, idx) => (
     <tr key={idx} className="text-[10px] ">
-      <td>
-        {/* <Image
-          alt={"이미지"}
-          src={"/images/cauly.png"}
-          width={30}
-          height={30}
-        /> */}
-        {element.media}
-      </td>
+      <td>{element.media}</td>
       <td>{element.channel}</td>
       <td>{element.ordNo}</td>
       <td>{element.ordDts}</td>
-      {/* <td>{element.itemId}</td> */}
       <td>{element.itemNm}</td>
-      {/* <td>{element.stdCtgId}</td> */}
       <td>{element.rlordAmt?.toLocaleString("ko-kr")}</td>
       <td>{element.ordStatNm}</td>
       <td>{element.date}</td>
@@ -292,78 +269,6 @@ const SsgPoData = () => {
             </Table>
           </div>
 
-          {/* banner */}
-          {/* {banners && (
-            <div className="mt-7 grid grid-cols-1">
-              {banners?.map(
-                (item: MobieBanner, idx) =>
-                  item?.src && (
-                    <div
-                      key={item.id}
-                      className="relative mx-auto w-[40%] border-b-2 border-l-[3px] p-3"
-                    >
-                      {idx > 0 &&
-                      item.date?.slice(0, 13) ===
-                        banners[idx - 1].date?.slice(0, 13) ? null : (
-                        <div
-                          key={idx}
-                          className="absolute left-[-11px] top-[-11px] h-[20px] w-[20px] rounded-xl border border-gray-300 bg-white"
-                        >
-                          <span className="absolute left-[-74px] top-[-3px]  w-[74px] text-sm text-gray-400">
-                            {item.date
-                              ? format(
-                                  new Date(item.date),
-                                  // "yyyy년 M월 d일 HH시mm분"
-                                  "d일 HH시"
-                                )
-                              : ""}
-                          </span>
-                        </div>
-                      )}
-                      {item.href ? (
-                        <a
-                          href={item.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <Image
-                            className="min-w-full rounded"
-                            alt={item.alt ? item.alt : ""}
-                            key={item.id}
-                            src={
-                              item.src
-                                ? `https://imagedelivery.net/tUnns8TnvEqxOzjreCbU6w/${item.src}/public`
-                                : ""
-                            }
-                            width={800}
-                            height={290}
-                            placeholder="blur"
-                            blurDataURL="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg=="
-                          />
-                        </a>
-                      ) : (
-                        ""
-                      )}
-                      <div className="col-2 mt-3 flex flex-col">
-                        <div className="mb-1 text-sm">
-                          {item.date
-                            ? format(
-                                new Date(item.date),
-                                // "yyyy년 M월 d일 HH시mm분"
-                                "yyyy년 M월 d일 HH시"
-                              )
-                            : ""}
-                        </div>
-                        <div className="text-base font-bold">{item.title}</div>
-                        <div className="text-sm font-light tracking-tight">
-                          {item.alt}
-                        </div>
-                      </div>
-                    </div>
-                  )
-              )}
-            </div>
-          )} */}
           {/*페이지네이션*/}
           <div className="mt-16 flex w-full">
             {total && total !== 0 ? (
@@ -375,22 +280,8 @@ const SsgPoData = () => {
                 siblings={6}
               />
             ) : null}
-            {/* {total === 0 ? (
-              <>
-                <Svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 448 512"
-                  width={100}
-                  height={100}
-                >
-                  <Loading />
-                </Svg>
-                <LoadingText>Nothing!!</LoadingText>
-              </>
-            ) : null} */}
           </div>
         </div>
-        <div>{/* <Pie data={pieData} /> */}</div>
       </div>
     </>
   );
