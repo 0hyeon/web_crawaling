@@ -1,8 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-//yarn ts-node prisma/bannerMoCreate.ts
-//n
-//npx prisma generate
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,62 +6,61 @@ datasource db {
   provider     = "mysql"
   url          = env("DATABASE_URL")
   relationMode = "prisma"
-  // relationMode = "prisma"
 }
 
 model PcBanner {
   id        Int      @id @default(autoincrement())
   src       String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   alt       String?
   title     String?
   href      String?  @db.LongText
   date      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 model MobieBanner {
   id        Int      @id @default(autoincrement())
   src       String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   alt       String?
   title     String?
   href      String?  @db.LongText
   date      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 model User {
   id        Int      @id @default(autoincrement())
   name      String
   avatar    String?
-  roll      Int?
-  name_2    String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  name_2    String?
+  roll      Int?
   tokens    Token[]
 }
 
 model Token {
   id        Int      @id @default(autoincrement())
   payload   String   @unique
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
 }
 
 model Tracking {
   id        Int      @id @default(autoincrement())
-  originId  String?
-  sex       String?
-  type      String?
   hashedId  String?
   eventName String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  originId  String?
+  sex       String?
+  type      String?
 }
 
 model KoboGamesPdList {
@@ -93,36 +87,42 @@ model SSG_PO {
   stdCtgId     String?
   date         String?
   channel      String?
-  // media        String?
   updateDate   String?
-  // channel   SSG_PO_Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
-  // channelId Int
-  mediaForId   SSG_PO_Media? @relation(fields: [media], references: [id], onDelete: Cascade) //여러개의 media를 가지고있음
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
   media        String?
+  mediaForId   SSG_PO_Media? @relation(fields: [media], references: [media], onDelete: Cascade)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
+  @@index([ordNo])
+  @@index([orgGb])
+  @@index([itemId])
+  @@index([itemNm])
+  @@index([sellprc])
+  @@index([stdCtgId])
+  @@index([date])
+  @@index([channel])
   @@index([media])
+  @@index([ordStatNm])
 }
 
 model SSG_PO_Media {
-  id        String           @id @unique
-  SSG_PO    SSG_PO[]
-  channel   SSG_PO_Channel[]
+  id        Int              @id @default(autoincrement())
+  media     String           @unique
   onOff     Boolean
   createdAt DateTime         @default(now())
   updatedAt DateTime         @updatedAt
+  SSG_PO    SSG_PO[]
+  channel   SSG_PO_Channel[]
 }
 
 model SSG_PO_Channel {
-  id         String       @id @unique
-  mediaForId SSG_PO_Media @relation(fields: [media], references: [id], onDelete: Cascade) //여러개의 media를 가지고있음
+  id         Int           @id @default(autoincrement())
+  channel    String
+  onOff      Boolean
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
   media      String
-
-  onOff     Boolean
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  mediaForId SSG_PO_Media? @relation(fields: [media], references: [media], onDelete: Cascade)
 
   @@index([media])
 }
