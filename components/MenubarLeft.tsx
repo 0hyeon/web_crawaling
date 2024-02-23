@@ -14,7 +14,7 @@ function MenubarLeft() {
   const router = useRouter();
   const [view, setview] = useState<boolean>(false);
   const [isLogin] = useRecoilState(loginState);
-  console.log("isLogin :", isLogin);
+  // console.log("isLogin :", isLogin);
 
   const menuToRouteMap: Record<string, string> = {
     타임보드: "/pcbanner",
