@@ -3,39 +3,35 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-async function updateSSGPO({ id, roll }: { id: number; roll: string }) {
-  let updatedRoll: number | undefined;
-
-  switch (roll) {
-    case "C레벨":
-      updatedRoll = 1;
-      break;
-    case "셀장":
-      updatedRoll = 2;
-      break;
-    case "과장":
-      updatedRoll = 3;
-      break;
-    case "대리":
-      updatedRoll = 4;
-      break;
-    case "사원":
-      updatedRoll = 5;
-      break;
-    default:
-      throw new Error("Invalid roll value");
-  }
+async function updateSSGPO({ data }: { data: string[] }) {
   try {
-    const updatedUser = await prisma.user.update({
+    console.log("udtSSGPO : ", data);
+    // udtSSGPO 배열에 있는 ID에 해당하는 레코드들의 onOff 값을 업데이트
+    const updateonOff = await prisma.sSG_PO_Channel.updateMany({
       where: {
-        id: id,
+        id: {
+          in: data.map(Number), // udtSSGPO 배열에 있는 ID에 해당하는 레코드들
+        },
       },
       data: {
-        roll: updatedRoll, // 업데이트할 필드와 값을 설정합니다.
-        // 다른 필드를 업데이트하려면 이곳에 해당 필드와 값을 추가합니다.
+        onOff: true, // udtSSGPO 배열에 있는 ID에 해당하는 레코드들의 onOff 값을 true로 설정
       },
     });
-    return updatedUser;
+
+    // udtSSGPO 배열에 해당하지 않는 모든 레코드들의 onOff 값을 false로 설정
+    await prisma.sSG_PO_Channel.updateMany({
+      where: {
+        NOT: {
+          id: {
+            in: data.map(Number), // udtSSGPO 배열에 있는 ID에 해당하지 않는 레코드들
+          },
+        },
+      },
+      data: {
+        onOff: false, // udtSSGPO 배열에 해당하지 않는 모든 레코드들의 onOff 값을 false로 설정
+      },
+    });
+    return updateonOff;
   } catch (error) {
     throw new Error(`Error updating user: ${error}`);
   }
@@ -45,13 +41,12 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { id, roll } = req.body; // 업데이트할 ID와 Role
+  const { data } = req.body; // 업데이트할 ID와 Role
   try {
-    const updatedUser = await updateSSGPO({
-      id: Number(id),
-      roll: String(roll),
+    const updateonOff = await updateSSGPO({
+      data,
     });
-    res.json({ updatedUser });
+    res.json({ updateonOff });
   } catch (error) {
     res.status(500).json({ error: "Failed to update user." });
   }

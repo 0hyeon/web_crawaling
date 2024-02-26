@@ -1,9 +1,13 @@
 import MenubarLeft from "@components/MenubarLeft";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { SyntheticEvent, useCallback, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { SSG_PO_Channel } from "@prisma/client";
 import SwitchBtn from "@components/SwitchBtn";
 import { Switch, Group, Button } from "@mantine/core";
+import useMutation from "@libs/client/useMutation";
+import { MutationResult } from "types/type";
+import { FEcheckEnvironment } from "@libs/server/useCheckEnvironment";
+import * as O from "../../utils/option";
 const SSGPoSetting = () => {
   const [isMedia, setMedia] = useState<string[]>([]);
   const [isTrue, setTrue] = useState<string[]>([]);
@@ -22,9 +26,17 @@ const SSGPoSetting = () => {
       select: (data) => data.items,
     }
   );
-  const alertFn = () => {
-    return alert("현재 개발셀에서 제어중입니다");
-  };
+  const [uptonOff, { loading: upt_loading, data: upt_data, error: upt_error }] =
+    useMutation<MutationResult>(
+      `${FEcheckEnvironment().concat("/api/ssgposetting/udt-ssgposetting")}`,
+      async () => {
+        try {
+          await refetch();
+        } catch (error) {
+          console.error("Error refetching data:", error);
+        }
+      }
+    );
   const filterFn = useCallback((channel: SSG_PO_Channel[]) => {
     return channel
       .filter((el) => el.onOff === true)
@@ -32,6 +44,31 @@ const SSGPoSetting = () => {
         return String(el.id);
       });
   }, []);
+  const calcleFn = async (e: SyntheticEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    await refetch();
+    console.log("channels : ", channels);
+    const data = filterFn(O.getOrElse(O.fromUndefined(channels), []));
+    setValue(data);
+    alert("취소완료");
+  };
+  const submitFn = async (
+    data: string[],
+    e: SyntheticEvent<HTMLButtonElement>
+  ) => {
+    e.preventDefault();
+    if (confirm("수정하시겠습니까")) {
+      try {
+        await uptonOff({ data });
+        refetch();
+        console.log("upt_data :", upt_data);
+        alert("수정완료");
+      } catch (e) {
+        console.error("Error deleting user:", e);
+        alert("수정에 실패했습니다.");
+      }
+    }
+  };
 
   useEffect(() => {
     if (channels) {
@@ -51,7 +88,6 @@ const SSGPoSetting = () => {
   console.log("channels : ", channels);
   console.log("isMedia : ", isMedia);
   console.log("isTrue : ", isTrue);
-  console.log(["1", "2"]);
 
   return (
     <>
@@ -60,18 +96,24 @@ const SSGPoSetting = () => {
       <div className="h-[100%] min-h-[100vh] w-full bg-[#dee2e6] pl-64">
         <div className="mx-4 min-h-[100vh] bg-white px-4 py-16">
           <div className="flex justify-between">
-            <div className="flex gap-4">
+            <div className="flex max-w-7xl gap-4">
               <div className="flex flex-col gap-4">
+                <div className="mb-10 flex items-center justify-center text-2xl font-bold">
+                  SSG 수집제어
+                </div>
                 <Switch.Group value={value} onChange={setValue}>
                   {isMedia &&
                     isMedia.map((media, idx) => {
                       return (
                         <>
-                          <div className="mb-8" key={`${media}_${idx}`}>
-                            <div className="text-base text-gray-500">
+                          <div
+                            className="mb-8 border-l-4 pl-3"
+                            key={`${media}_${idx}`}
+                          >
+                            <div className="font-mono text-xl text-gray-500">
                               {media}
                             </div>
-                            <div className="" key={idx}>
+                            <div className="pl-4" key={idx}>
                               <Group mt="xs" className="flex">
                                 {channels &&
                                   channels
@@ -93,16 +135,16 @@ const SSGPoSetting = () => {
                       );
                     })}
                 </Switch.Group>
-                <div className="flex gap-3">
+                <div className="flex items-center justify-center gap-5">
                   <button
-                    onClick={alertFn}
-                    className="w-20 rounded-md bg-blue-500 p-2 text-white"
+                    onClick={(e) => submitFn(value, e)}
+                    className="w-24 rounded-md bg-blue-500 p-2 text-white"
                   >
                     저장
                   </button>
                   <button
-                    onClick={alertFn}
-                    className="w-20 rounded-md bg-red-400 p-2 text-white"
+                    onClick={(e) => calcleFn(e)}
+                    className="w-24 rounded-md bg-red-400 p-2 text-white"
                   >
                     취소
                   </button>
