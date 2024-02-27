@@ -8,6 +8,9 @@ import useMutation from "@libs/client/useMutation";
 import { MutationResult } from "types/type";
 import { FEcheckEnvironment } from "@libs/server/useCheckEnvironment";
 import * as O from "../../utils/option";
+import Layout from "@components/layout";
+import Link from "next/link";
+import ArrowRightIcon from "public/asset/svg/ArrowRight";
 const SSGPoSetting = () => {
   const [isMedia, setMedia] = useState<string[]>([]);
   const [isTrue, setTrue] = useState<string[]>([]);
@@ -47,7 +50,6 @@ const SSGPoSetting = () => {
   const calcleFn = async (e: SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault();
     await refetch();
-    console.log("channels : ", channels);
     const data = filterFn(O.getOrElse(O.fromUndefined(channels), []));
     setValue(data);
     alert("취소완료");
@@ -61,7 +63,6 @@ const SSGPoSetting = () => {
       try {
         await uptonOff({ data });
         refetch();
-        console.log("upt_data :", upt_data);
         alert("수정완료");
       } catch (e) {
         console.error("Error deleting user:", e);
@@ -82,79 +83,68 @@ const SSGPoSetting = () => {
     }
   }, [channels, filterFn]);
 
-  useEffect(() => {
-    console.log("value : ", value);
-  }, [value]); // value 상태가 변경될 때마다 useEffect 실행
-  console.log("channels : ", channels);
-  console.log("isMedia : ", isMedia);
-  console.log("isTrue : ", isTrue);
+  // useEffect(() => {
+  //   console.log("value : ", value);
+  // }, [value]); // value 상태가 변경될 때마다 useEffect 실행
+  // console.log("channels : ", channels);
+  // console.log("isMedia : ", isMedia);
+  // console.log("isTrue : ", isTrue);
 
   return (
-    <>
-      {/* 메뉴바 */}
-      <MenubarLeft />
-      <div className="h-[100%] min-h-[100vh] w-full bg-[#dee2e6] pl-64">
-        <div className="mx-4 min-h-[100vh] bg-white px-4 py-16">
-          <div className="flex justify-between">
-            <div className="flex max-w-7xl gap-4">
-              <div className="flex flex-col gap-4">
-                <div className="mb-10 flex items-center justify-center text-2xl font-bold">
-                  SSG 수집제어
-                </div>
-                <Switch.Group value={value} onChange={setValue}>
-                  {isMedia &&
-                    isMedia.map((media, idx) => {
-                      return (
-                        <>
-                          <div
-                            className="mb-8 border-l-4 pl-3"
-                            key={`${media}_${idx}`}
-                          >
-                            <div className="font-mono text-xl text-gray-500">
-                              {media}
-                            </div>
-                            <div className="pl-4" key={idx}>
-                              <Group mt="xs" className="flex">
-                                {channels &&
-                                  channels
-                                    ?.filter((el) => el.media === media)
-                                    .map((el: any) => {
-                                      return (
-                                        <Switch
-                                          size="lg"
-                                          key={`${el.id}`}
-                                          value={`${el.id}`}
-                                          label={el.channel}
-                                        />
-                                      );
-                                    })}
-                              </Group>
-                            </div>
-                          </div>
-                        </>
-                      );
-                    })}
-                </Switch.Group>
-                <div className="flex items-center justify-center gap-5">
-                  <button
-                    onClick={(e) => submitFn(value, e)}
-                    className="w-24 rounded-md bg-blue-500 p-2 text-white"
-                  >
-                    저장
-                  </button>
-                  <button
-                    onClick={(e) => calcleFn(e)}
-                    className="w-24 rounded-md bg-red-400 p-2 text-white"
-                  >
-                    취소
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+    <Layout>
+      <div className="mb-10 flex items-center justify-center text-2xl font-bold">
+        SSG 수집제어
       </div>
-    </>
+      <Switch.Group value={value} onChange={setValue}>
+        {isMedia &&
+          isMedia.map((media, idx) => {
+            return (
+              <>
+                <div className="mb-4 border-b-2 p-3" key={`${media}_${idx}`}>
+                  <Link
+                    href={`ssgpoSetting/${media}`}
+                    className="mb-3 inline-flex items-center gap-4 font-mono text-lg text-gray-500"
+                  >
+                    {media}
+                    <ArrowRightIcon />
+                  </Link>
+                  <div className="pl-4" key={idx}>
+                    <Group mt="xs" className="flex">
+                      {channels &&
+                        channels
+                          ?.filter((el) => el.media === media)
+                          .map((el: any) => {
+                            return (
+                              <Switch
+                                size="lg"
+                                key={`${el.id}`}
+                                value={`${el.id}`}
+                                label={el.channel}
+                              />
+                            );
+                          })}
+                    </Group>
+                  </div>
+                </div>
+              </>
+            );
+          })}
+      </Switch.Group>
+      <div className="flex items-center justify-center gap-5">
+        <button
+          onClick={(e) => submitFn(value, e)}
+          className="w-24 rounded-md bg-blue-500 p-2 text-white"
+        >
+          저장
+        </button>
+        <button
+          onClick={(e) => calcleFn(e)}
+          className="w-24 rounded-md bg-red-400 p-2 text-white"
+        >
+          취소
+        </button>
+      </div>
+    </Layout>
   );
 };
 

@@ -71,12 +71,12 @@ model KoboGamesPdList {
 }
 
 model SSG_PO {
-  id           Int           @id @default(autoincrement())
+  id           Int      @id @default(autoincrement())
   ordNo        String?
   ordDts       String?
   orgGb        String?
   itemId       String?
-  itemNm       String?       @db.VarChar(400)
+  itemNm       String?  @db.VarChar(400)
   ordStatNm    String?
   sellprc      Int?
   ordAmt       Int?
@@ -88,10 +88,10 @@ model SSG_PO {
   date         String?
   channel      String?
   updateDate   String?
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
   media        String?
-  mediaForId   SSG_PO_Media? @relation(fields: [media], references: [media], onDelete: Cascade)
+  // mediaForId   SSG_PO_Media? @relation(fields: [media], references: [media], onDelete: Cascade)
 
   @@index([ordNo])
   @@index([orgGb])
@@ -111,7 +111,7 @@ model SSG_PO_Media {
   onOff     Boolean
   createdAt DateTime         @default(now())
   updatedAt DateTime         @updatedAt
-  SSG_PO    SSG_PO[]
+  // SSG_PO    SSG_PO[]
   channel   SSG_PO_Channel[]
 }
 
