@@ -87,6 +87,7 @@ const SSGPODetail = (props: any) => {
         await uptChannel({ data, media });
         // refetch();
         alert("수정완료");
+        router.replace("/ssgpoSetting");
       } catch (e) {
         console.error("Error deleting user:", e);
         alert("수정에 실패했습니다.");
@@ -98,7 +99,9 @@ const SSGPODetail = (props: any) => {
     await filterMedia();
     // const data = filterFn(O.getOrElse(O.fromUndefined(channels), []));
     // setValue(data);
+
     alert("취소완료");
+    router.replace("/ssgpoSetting");
   };
   // const [delUser, { loading: del_loading, data: del_data, error: del_error }] =
   //   useMutation<MutationResult>(
