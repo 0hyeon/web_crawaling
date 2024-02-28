@@ -1,7 +1,7 @@
 import MenubarLeft from "@components/MenubarLeft";
 import React, { SyntheticEvent, useCallback, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { SSG_PO_Channel } from "@prisma/client";
+import { SSG_PO_Channel, SSG_PO_Media } from "@prisma/client";
 import SwitchBtn from "@components/SwitchBtn";
 import { Switch, Group, Button } from "@mantine/core";
 import useMutation from "@libs/client/useMutation";
@@ -11,6 +11,7 @@ import * as O from "../../utils/option";
 import Layout from "@components/layout";
 import Link from "next/link";
 import ArrowRightIcon from "public/asset/svg/ArrowRight";
+import { SSG_PO_MediaWithChannel } from "./[id]";
 const SSGPoSetting = () => {
   const [isMedia, setMedia] = useState<string[]>([]);
   const [isTrue, setTrue] = useState<string[]>([]);
@@ -25,6 +26,17 @@ const SSGPoSetting = () => {
     [`/api/ssgposetting/get-ssgpochannels`],
     () =>
       fetch(`/api/ssgposetting/get-ssgpochannels`).then((res) => res.json()),
+    {
+      select: (data) => data.items,
+    }
+  );
+  const { data: mediaData, refetch: mediaRefetch } = useQuery<
+    { items: SSG_PO_MediaWithChannel[] },
+    unknown,
+    SSG_PO_MediaWithChannel[]
+  >(
+    [`/api/ssgposetting/get-ssgpomedia`],
+    () => fetch(`/api/ssgposetting/get-ssgpomedia`).then((res) => res.json()),
     {
       select: (data) => data.items,
     }
@@ -88,7 +100,7 @@ const SSGPoSetting = () => {
   // }, [value]); // value 상태가 변경될 때마다 useEffect 실행
   // console.log("channels : ", channels);
   // console.log("isMedia : ", isMedia);
-  // console.log("isTrue : ", isTrue);
+  console.log("mediaData : ", mediaData);
 
   return (
     <Layout>
@@ -103,9 +115,11 @@ const SSGPoSetting = () => {
                 <div className="mb-4 border-b-2 p-3" key={`${media}_${idx}`}>
                   <Link
                     href={`ssgpoSetting/${media}`}
-                    className="mb-3 inline-flex items-center gap-4 font-mono text-lg text-gray-500"
-                  >
-                    {media}
+                    className="mb-3 inline-flex items-center gap-2 font-mono  text-gray-500 text-lg"
+                    >
+                    <span>
+                    {media}<span>({mediaData?.filter((el:SSG_PO_Media)=> el.media === media).map((el)=>el.channel).map((el)=> el.length)})</span>
+                    </span>
                     <ArrowRightIcon />
                   </Link>
                   <div className="pl-4" key={idx}>

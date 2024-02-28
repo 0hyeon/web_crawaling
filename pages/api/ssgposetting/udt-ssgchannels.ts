@@ -17,19 +17,9 @@ async function updateChannel({
           //find
           where: {
             channel: el,
+            media:media
           },
         });
-
-        if (existingChannel && !data.includes(el)) {
-          console.log(
-            `Channel ${el} exists in DB but not in data, deleting from DB...`
-          );
-          await prisma.sSG_PO_Channel.deleteMany({
-            where: {
-              channel: el,
-            },
-          });
-        }
 
         if (!existingChannel && data.includes(el)) {
           console.log(
@@ -44,7 +34,22 @@ async function updateChannel({
           });
         }
 
-        console.log(`Created new channel for ${el}`);
+        const existingChannels = await prisma.sSG_PO_Channel.findMany({
+          where: {
+            media: media // 특정 media에 속하는 모든 channel을 가져옴
+          },
+        });
+        for (const existingChannel of existingChannels) {
+          if (!data.includes(existingChannel.channel)) {
+            console.log(`Channel ${existingChannel.channel} exists in DB but not in data, deleting from DB...`);
+            await prisma.sSG_PO_Channel.delete({
+              where: {
+                id: existingChannel.id
+              }
+            });
+          }
+        }
+        
       } catch (error) {
         console.error(`Error processing channel ${el}:`, error);
       }

@@ -7,19 +7,13 @@ import { FEcheckEnvironment } from "@libs/server/useCheckEnvironment";
 import useMutation from "@libs/client/useMutation";
 import { MutationResult } from "types/type";
 import { useQuery } from "@tanstack/react-query";
-import { KoboGamesPdList, SSG_PO_Channel, SSG_PO_Media } from "@prisma/client";
+import { SSG_PO_Channel, SSG_PO_Media } from "@prisma/client";
 import {
-  Box,
-  Button,
-  Center,
-  FileInput,
-  FileInputProps,
-  Group,
-  rem,
+
   MultiSelect,
 } from "@mantine/core";
 import { useRouter } from "next/router";
-interface SSG_PO_MediaWithChannel extends SSG_PO_Media {
+export interface SSG_PO_MediaWithChannel extends SSG_PO_Media {
   channel: SSG_PO_Channel[];
 }
 

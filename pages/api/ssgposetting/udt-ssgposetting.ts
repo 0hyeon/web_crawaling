@@ -5,7 +5,6 @@ const prisma = new PrismaClient();
 
 async function updateSSGPO({ data }: { data: string[] }) {
   try {
-    console.log("udtSSGPO : ", data);
     // udtSSGPO 배열에 있는 ID에 해당하는 레코드들의 onOff 값을 업데이트
     const updateonOff = await prisma.sSG_PO_Channel.updateMany({
       where: {
