@@ -3,48 +3,59 @@ import { FEcheckEnvironment } from "@libs/server/useCheckEnvironment";
 import { withSsrSession } from "@libs/server/withSession";
 import { NextPageContext } from "next";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { MutationResult } from "types/type";
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { loginState } from "atoms";
+import useUser from "@libs/client/useUser";
+
 const Login = () => {
-  
-  const router = useRouter()
-  const [isName, setName] = useState<string | undefined>();
+  const router = useRouter();
+  const { data: userData, isLoading: userLoading, isError } = useUser();
+  const [isName, setName] = useState(userData?.profile.name || "");
+
   const [isPassWord, setPassWord] = useState<string | undefined>();
-  const [isLoading,setLoading] = useState<boolean>();
-  
+  const [isLoading, setLoading] = useState<boolean>();
+
   const setLoginState = useSetRecoilState(loginState);
   const [isLogin, setLogin] = useRecoilState(loginState);
 
-  const [enter, { loading, data, error }] = useMutation<MutationResult>(`${FEcheckEnvironment().concat("/api/users/sign-up")}`);
+  const [enter, { loading, data, error }] = useMutation<MutationResult>(
+    `${FEcheckEnvironment().concat("/api/users/sign-up")}`
+  );
 
-    
-  const LoginOnClick = (name: string|undefined , pw: string|undefined ,e:React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const LoginOnClick = (
+    name: string | undefined,
+    pw: string | undefined,
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
+    e.preventDefault();
     enter({ name, pw });
   };
-  useEffect(()=>{
-    if(data?.ok){
-
+  const handleInputChange = useCallback(
+    (setValue: React.Dispatch<React.SetStateAction<any>>) =>
+      (e: ChangeEvent<HTMLInputElement>) => {
+        setValue(e.target.value);
+      },
+    []
+  );
+  useEffect(() => {
+    if (data?.ok) {
       const profileString = data?.profile;
 
-      setLoginState(()=>{ 
+      setLoginState(() => {
         return {
-          ...profileString
-        }
-        
-        
-      })
+          ...profileString,
+        };
+      });
       alert("로그인성공");
-      router.push('/pcbanner')
-      return
+      router.push("/pcbanner");
+      return;
     }
-    if(data?.errors?.message){
-      alert(data?.errors?.message)
+    if (data?.errors?.message) {
+      alert(data?.errors?.message);
     }
-  },[data,router,setLoginState])
-  
+  }, [data, router, setLoginState]);
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-900">
       <video
@@ -61,23 +72,27 @@ const Login = () => {
             <div>- GreenBricks </div>
             <div>Web Funtion</div>
           </h2>
-          <form onSubmit={(e) => LoginOnClick(isName, isPassWord,e)}>
+          <form onSubmit={(e) => LoginOnClick(isName, isPassWord, e)}>
             <input
               className="mb-4 w-full rounded border border-gray-300 bg-transparent p-2 backdrop-blur backdrop-filter"
               type="text"
+              autoComplete="on"
               placeholder="Username"
               value={isName}
-              onChange={(e) => setName(e.target.value)}
+              onChange={handleInputChange(setName)}
             />
             <input
               className="mb-4 w-full rounded border border-gray-300 bg-transparent p-2 backdrop-blur backdrop-filter"
               type="password"
               placeholder="Password"
-              value={isPassWord}
-              onChange={(e) => setPassWord(e.target.value)}
+              onChange={handleInputChange(setPassWord)}
             />
             <button
-              className={`h-10 w-full rounded ${data?.ok || loading ? 'bg-gray-400 text-gray-600 cursor-not-allowed' : 'bg-[#01DEA4] text-[#fff] hover:bg-white hover:text-[#000] hover:border-2 hover:border-black duration-100'}`}
+              className={`h-10 w-full rounded ${
+                data?.ok || loading
+                  ? "cursor-not-allowed bg-gray-400 text-gray-600"
+                  : "bg-[#01DEA4] text-[#fff] duration-100 hover:border-2 hover:border-black hover:bg-white hover:text-[#000]"
+              }`}
               type="submit"
               disabled={data?.ok || loading}
             >
@@ -89,6 +104,5 @@ const Login = () => {
     </div>
   );
 };
-
 
 export default Login;

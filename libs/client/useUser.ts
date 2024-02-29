@@ -8,7 +8,7 @@ export interface ProfileResponse {
   profile: User;
 }
 
-export default async function useUser() {
+export default function useUser() {
   const router = useRouter();
 
   const { data, isError, isLoading } = useQuery<ProfileResponse>(
@@ -20,11 +20,18 @@ export default async function useUser() {
 
       if (!response.ok) {
         // 에러 처리 또는 데이터 오류 시 수행할 작업
-        router.replace("/login");
         throw new Error(response.statusText);
       }
 
-      return response.json();
+      const responseData = await response.json();
+
+      // 데이터를 가져와서 처리한 후에 오류가 발생한 경우에만 replace 호출
+      if (!responseData.ok) {
+        router.replace("/login");
+        throw new Error("Unauthorized access");
+      }
+
+      return responseData;
     },
     {
       onError: (error) => {
@@ -41,5 +48,5 @@ export default async function useUser() {
     // 예: 로딩 스피너 표시
   }
 
-  return { user: data?.profile, isLoading, isError };
+  return { data, isLoading, isError };
 }

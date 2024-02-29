@@ -11,7 +11,7 @@ const cookieOptions = {
   cookieName: "gb_session",
   password: process.env.COOKIE_PASSWORD!,
   cookieOptions: {
-    maxAge: 60 * 60 * 24 * 0.125, // 1 days / 8 => 3time
+    maxAge: 60 * 60 * 10, //10hour
   },
 };
 
