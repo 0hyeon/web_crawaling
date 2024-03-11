@@ -14,7 +14,7 @@ import {
 } from "@mantine/core";
 import { useRouter } from "next/router";
 export interface SSG_PO_MediaWithChannel extends SSG_PO_Media {
-  channel: SSG_PO_Channel[];
+  SSG_PO_Channel: SSG_PO_Channel[];
 }
 
 const SSGPODetail = (props: any) => {
@@ -119,9 +119,9 @@ const SSGPODetail = (props: any) => {
     const filteredMedia = mediaLists?.filter((el) => el.media === keyword);
     console.log("mediaLists : ", mediaLists);
     console.log("filteredMedia : ", filteredMedia);
-
-    filteredMedia?.flatMap((el) => el.channel).map((el) => el.channel);
-    setData(filteredMedia?.flatMap((el) => el.channel).map((el) => el.channel));
+    console.log("flatMap : ",filteredMedia?.flatMap((el) => el.SSG_PO_Channel).map((el) => el.channel))
+    
+    setData(filteredMedia?.flatMap((el) => el.SSG_PO_Channel).map((el) => el.channel));
   }, [media, mediaLists]);
 
   useEffect(() => {
@@ -159,6 +159,7 @@ const SSGPODetail = (props: any) => {
         >
           취소
         </button>
+        <button className="w-24 rounded-md bg-black p-2 text-white">소재등록</button>
       </div>
     </Layout>
   );

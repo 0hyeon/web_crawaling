@@ -9,7 +9,7 @@ async function getSSGPOMedia() {
         createdAt: "desc",
       },
       include: {
-        channel: {
+        SSG_PO_Channel: {
           select: {
             id: true,
             channel: true,

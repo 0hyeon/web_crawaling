@@ -87,42 +87,91 @@ model SSG_PO {
   stdCtgId     String?
   date         String?
   channel      String?
+  media        String?
   updateDate   String?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
-  media        String?
-  // mediaForId   SSG_PO_Media? @relation(fields: [media], references: [media], onDelete: Cascade)
 
-  @@index([ordNo])
-  @@index([orgGb])
+  @@index([channel])
+  @@index([date])
   @@index([itemId])
   @@index([itemNm])
+  @@index([media])
+  @@index([ordNo])
+  @@index([ordStatNm])
+  @@index([orgGb])
   @@index([sellprc])
   @@index([stdCtgId])
-  @@index([date])
-  @@index([channel])
-  @@index([media])
-  @@index([ordStatNm])
-}
-
-model SSG_PO_Media {
-  id        Int              @id @default(autoincrement())
-  media     String           @unique
-  onOff     Boolean
-  createdAt DateTime         @default(now())
-  updatedAt DateTime         @updatedAt
-  // SSG_PO    SSG_PO[]
-  channel   SSG_PO_Channel[]
 }
 
 model SSG_PO_Channel {
-  id         Int           @id @default(autoincrement())
-  channel    String
-  onOff      Boolean
-  createdAt  DateTime      @default(now())
-  updatedAt  DateTime      @updatedAt
-  media      String
-  mediaForId SSG_PO_Media? @relation(fields: [media], references: [media], onDelete: Cascade)
+  id                           Int                            @id @default(autoincrement())
+  media                        String
+  onOff                        Boolean
+  channel                      String
+  mediaObj                     SSG_PO_Media                   @relation(fields: [media], references: [media], onDelete: Cascade)
+  SSG_DFINARY_TrackingLinkList SSG_DFINARY_TrackingLinkList[]
+  SSG_DFINARY                  SSG_DFINARY[]
+  createdAt                    DateTime?                      @default(now())
+  updatedAt                    DateTime?                      @updatedAt
 
   @@index([media])
+}
+
+model SSG_PO_Media {
+  id                           Int                            @id @default(autoincrement())
+  onOff                        Boolean
+  createdAt                    DateTime                       @default(now())
+  updatedAt                    DateTime                       @updatedAt
+  media                        String                         @unique
+  SSG_PO_Channel               SSG_PO_Channel[]
+  SSG_DFINARY                  SSG_DFINARY[]
+  SSG_DFINARY_TrackingLinkList SSG_DFINARY_TrackingLinkList[]
+}
+
+model SSG_DFINARY {
+  id              Int                          @id @default(autoincrement())
+  daily           String
+  platform        String
+  clickCount      String?
+  newInstallClick String?
+  reInstallClick  String?
+  reOpen          String?
+  eventName       String
+  pageView        String?
+  sumValue        String?
+  uniqueView      String?
+  createdAt       DateTime                     @default(now())
+  updatedAt       DateTime                     @updatedAt
+  channelId       Int
+  trackerId       Int
+  mediaId         Int
+  tracker_key_id  String
+  channel         SSG_PO_Channel               @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  trackerName     SSG_DFINARY_TrackingLinkList @relation(fields: [trackerId], references: [id], onDelete: Cascade)
+  media           SSG_PO_Media                 @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+
+  @@index([trackerId])
+  @@index([mediaId])
+  @@index([channelId])
+}
+
+model SSG_DFINARY_TrackingLinkList {
+  id               Int             @id @default(autoincrement())
+  mall             String?
+  trackingLinkName String?         @unique
+  trackingLink     String?
+  division_1       String?
+  division_2       String?
+  materialName     String?
+  channelId        Int?
+  mediaId          Int?
+  channel          SSG_PO_Channel? @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  media            SSG_PO_Media?   @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  SSG_DFINARY      SSG_DFINARY[]
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  @@index([channelId])
+  @@index([mediaId])
 }

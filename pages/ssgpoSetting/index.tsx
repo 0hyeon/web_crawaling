@@ -1,3 +1,4 @@
+'use client'
 import MenubarLeft from "@components/MenubarLeft";
 import React, { SyntheticEvent, useCallback, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -101,6 +102,7 @@ const SSGPoSetting = () => {
   // console.log("channels : ", channels);
   // console.log("isMedia : ", isMedia);
   console.log("mediaData : ", mediaData);
+  console.log("isMedia : ", isMedia);
 
   return (
     <Layout>
@@ -118,7 +120,9 @@ const SSGPoSetting = () => {
                     className="mb-3 inline-flex items-center gap-2 font-mono  text-gray-500 text-lg"
                     >
                     <span>
-                    {media}<span>({mediaData?.filter((el:SSG_PO_Media)=> el.media === media).map((el)=>el.channel).map((el)=> el.length)})</span>
+                    {media}<span>
+                      ({mediaData?.filter((el:SSG_PO_Media)=> el.media === media).map((el)=>el.SSG_PO_Channel).map((el)=> el.length)})
+                      </span>
                     </span>
                     <ArrowRightIcon />
                   </Link>
