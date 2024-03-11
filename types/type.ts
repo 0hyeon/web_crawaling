@@ -30,8 +30,8 @@ export interface MobileBanner {
 export interface PCBanner extends MobileBanner {}
 export interface MutationResult {
   ok: boolean;
-  errors?:{message: string};
-  profile?:{[key: string]: any}
+  errors?: { message: string };
+  [key: string]: any;
 }
 export interface BannerInfo {
   id?: number;
@@ -82,4 +82,10 @@ export interface IJobkoAppsData{
   DeviceModel?:string
   KeywordID?:string
   PivotTime?:string
+}
+export interface ChannelInfo {
+  id: number;
+  channel: string;
+  media: string;
+  onOff: boolean;
 }

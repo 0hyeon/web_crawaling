@@ -2,36 +2,25 @@
 import Layout from "@components/layout";
 import React, { SyntheticEvent, useCallback, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import * as O from "../../../utils/option";
+import * as O from "../../../../utils/option";
 import { FEcheckEnvironment } from "@libs/server/useCheckEnvironment";
 import useMutation from "@libs/client/useMutation";
-import { MutationResult } from "types/type";
+import { ChannelInfo, MutationResult } from "types/type";
 import { useQuery } from "@tanstack/react-query";
-import { SSG_PO_Channel, SSG_PO_Media } from "@prisma/client";
-import {
-
-  MultiSelect,
-} from "@mantine/core";
 import { useRouter } from "next/router";
+import { SSG_PO_MediaWithChannel } from "..";
 import Link from "next/link";
-export interface SSG_PO_MediaWithChannel extends SSG_PO_Media {
-  SSG_PO_Channel: SSG_PO_Channel[];
-}
+import ArrowRightIcon from "public/asset/svg/ArrowRight";
 
-const SSGPODetail = (props: any) => {
+
+const MeterialCreate = (props: any) => {
   const router = useRouter();
   const path = usePathname();
   const decodedPath = decodeURIComponent(path); // URL 디코딩
   const media = decodedPath.split("/")[2];
-
   const [value, setValue] = useState<string[]>([]);
-
-  const [state, setSate] = useState({
-    loading: false,
-  });
-
   const [isData, setData] = useState<any>();
-
+  const [isAllData, setAllData] = useState<ChannelInfo[] >();
   const { data: mediaLists, refetch } = useQuery<
     { items: SSG_PO_MediaWithChannel[] },
     unknown,
@@ -43,15 +32,6 @@ const SSGPODetail = (props: any) => {
       select: (data) => data.items,
     }
   );
-
-  // //삭제저장
-  // const EditPage = () => {};
-  // const Refresh = () => {
-  //   router.replace("/kobogames");
-  // };
-
-  // console.log("value : ", value);
-  // console.log("value : ", value);
   const [
     uptChannel,
     { loading: upt_loading, data: upt_data, error: upt_error },
@@ -66,17 +46,6 @@ const SSGPODetail = (props: any) => {
       }
     }
   );
-  const onChangeInput = (text: string) => {
-    setValue([text]);
-  };
-
-  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      // 엔터 키를 눌렀을 때 value를 데이터에 추가
-      setData((prevData: any) => [...(prevData || []), ...value]);
-      setValue([]); // value 초기화
-    }
-  };
   const submitFn = async (
     data: string[],
     e: SyntheticEvent<HTMLButtonElement>
@@ -98,33 +67,19 @@ const SSGPODetail = (props: any) => {
   const calcleFn = async (e: SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault();
     await filterMedia();
-    // const data = filterFn(O.getOrElse(O.fromUndefined(channels), []));
-    // setValue(data);
-
     alert("취소완료");
     router.replace("/ssgpoSetting");
   };
-  // const [delUser, { loading: del_loading, data: del_data, error: del_error }] =
-  //   useMutation<MutationResult>(
-  //     `${FEcheckEnvironment().concat("/api/del-user")}`,
-  //     async () => {
-  //       try {
-  //         await refetch(); // 삭제가 성공했을 때 refetch를 호출하여 새로운 데이터를 가져옵니다.
-  //       } catch (error) {
-  //         console.error("Error refetching data:", error);
-  //       }
-  //     }
-  //   );
   const filterMedia = useCallback(() => {
     const keyword = O.getOrElse(O.fromUndefined(media), "");
     const filteredMedia = mediaLists?.filter((el) => el.media === keyword);
     console.log("mediaLists : ", mediaLists);
     console.log("filteredMedia : ", filteredMedia);
-    console.log("flatMap : ",filteredMedia?.flatMap((el) => el.SSG_PO_Channel).map((el) => el.channel))
-    
+    console.log("flatMap == isData : ",filteredMedia?.flatMap((el) => el.SSG_PO_Channel).map((el) => el.channel))
+    console.log("media : ",media)
     setData(filteredMedia?.flatMap((el) => el.SSG_PO_Channel).map((el) => el.channel));
+    setAllData(filteredMedia?.flatMap((el) => el.SSG_PO_Channel))
   }, [media, mediaLists]);
-
   useEffect(() => {
     filterMedia();
   }, [filterMedia]);
@@ -132,19 +87,29 @@ const SSGPODetail = (props: any) => {
     <Layout>
       <div className="mb-10 flex items-center justify-center text-2xl font-bold">
         {media}
+        {isData && isData ? <span>({isData.length})</span> : null}
       </div>
-      <div>
-        {isData && isData.length > 0 ? (
-          <MultiSelect
-            label={`${media} 채널`}
-            placeholder="Pick value"
-            data={isData ? isData : []}
-            searchable
-            defaultValue={isData ? isData : []}
-            onChange={(el) => setValue(el)}
-            onSearchChange={(el) => onChangeInput(el)}
-            onKeyDown={onKeyDown}
-          />
+      <div className="text-center">
+        {/* isAllData == media에서 가져온것 */}
+        {isAllData && isAllData.length > 0 ? (
+          isAllData.map((el)=>{
+            return(
+              <div key={el.id}>
+                <Link
+                href={`/ssgpoSetting/${media}/materialCreate/${el.id}`}
+                className="mb-3 inline-flex items-center gap-2 font-mono  text-gray-500 text-lg"
+                >
+                <span>
+                  {el.channel}
+                  <span>
+                  
+                  </span>
+                </span>
+                <ArrowRightIcon />
+              </Link>
+              </div>
+            )
+          })
         ) : null}
       </div>
       <div className="mt-4 flex items-center justify-center gap-5">
@@ -160,11 +125,9 @@ const SSGPODetail = (props: any) => {
         >
           취소
         </button>
-        {/* <button className="w-24 rounded-md bg-black p-2 text-white">소재등록</button> */}
-        <Link href={`/ssgpoSetting/${media}/materialCreate`} className="flex items-center justify-center w-24 rounded-md bg-black p-2 text-white">소재등록</Link>
       </div>
     </Layout>
   );
 };
 
-export default SSGPODetail;
+export default MeterialCreate;

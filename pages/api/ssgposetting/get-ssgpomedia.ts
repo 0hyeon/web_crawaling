@@ -1,3 +1,4 @@
+import { SSG_DFINARY_TrackingLinkList } from './../../../node_modules/.prisma/client/index.d';
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient, Prisma } from "@prisma/client";
 const prisma = new PrismaClient();
@@ -15,6 +16,17 @@ async function getSSGPOMedia() {
             channel: true,
             media: true,
             onOff: true,
+            SSG_DFINARY_TrackingLinkList : {
+              select: {
+                id: true,
+                mall: true,
+                division_1: true,
+                division_2: true,
+                materialName: true,
+                channelId: true,
+                mediaId: true,
+              }
+            }  
           },
         },
       },
