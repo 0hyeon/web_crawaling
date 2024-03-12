@@ -31,14 +31,15 @@ model MobieBanner {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  name      String
-  avatar    String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  name_2    String?
-  roll      Int?
-  tokens    Token[]
+  id                           Int                            @id @default(autoincrement())
+  name                         String
+  avatar                       String?
+  createdAt                    DateTime                       @default(now())
+  updatedAt                    DateTime                       @updatedAt
+  name_2                       String?
+  roll                         Int?
+  tokens                       Token[]
+  SSG_DFINARY_TrackingLinkList SSG_DFINARY_TrackingLinkList[]
 }
 
 model Token {
@@ -158,20 +159,23 @@ model SSG_DFINARY {
 
 model SSG_DFINARY_TrackingLinkList {
   id               Int             @id @default(autoincrement())
-  mall             String?
-  trackingLinkName String?         @unique
+  mall             String
+  trackingLinkName String          @unique
   trackingLink     String?
-  division_1       String?
-  division_2       String?
-  materialName     String?
-  channelId        Int?
-  mediaId          Int?
+  division_1       String
+  division_2       String
+  materialName     String
   channel          SSG_PO_Channel? @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  channelId        Int?
   media            SSG_PO_Media?   @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  mediaId          Int?
   SSG_DFINARY      SSG_DFINARY[]
+  user             User?           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId           Int?
   createdAt        DateTime        @default(now())
   updatedAt        DateTime        @updatedAt
 
   @@index([channelId])
   @@index([mediaId])
+  @@index([userId])
 }

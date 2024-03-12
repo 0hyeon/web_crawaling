@@ -6,7 +6,9 @@ import { usePathname } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import * as O from "../../../../../../utils/option";
 import { SSG_PO_MediaWithChannel } from 'pages/ssgpoSetting/[id]';
-import { ChannelInfo } from 'types/type';
+import { ChannelInfo, MutationResult } from 'types/type';
+import useMutation from '@libs/client/useMutation';
+import { FEcheckEnvironment } from '@libs/server/useCheckEnvironment';
 
 interface State {
   구분1: string | null;
@@ -47,21 +49,34 @@ const MeterialCreate = () => {
   
   const [state, dispatch] = useReducer(reducer, initialState);
   console.log("state : ",state)
+  
+  const [
+    createMeterial,
+    { loading, data, error},
+  ] = useMutation<MutationResult>(
+    `${FEcheckEnvironment().concat("/api/ssgposetting/materialCreate/add-ssgmeterial")}`,
+    async () => {
+      try {
+        // await refetch();
+        console.log('data :',data)
+      } catch (error) {
+        console.error("Error refetching data:", error);
+      }
+    }
+  );
     const submitFn = async (
-        data: State,
         e: SyntheticEvent<HTMLButtonElement>
         ) => {
         e.preventDefault();
-        console.log(data)
-        if (confirm("수정하시겠습니까")) {
+        console.log("submit :",data)
+        if (confirm("추가하시겠습니까?")) {
             try {
-            // await uptChannel({ data, media });
-            // refetch();
-            alert("수정완료");
-            router.replace("/ssgpoSetting");
+              await createMeterial(state);
+              alert("추가완료");
+              // router.push(`/ssgpoSetting/${media}/materialCreate/${router.query.chennelId}`);
             } catch (e) {
             console.error("Error deleting user:", e);
-            alert("수정에 실패했습니다.");
+            alert("추가에 실패했습니다.");
             }
         }
     };
@@ -69,7 +84,7 @@ const MeterialCreate = () => {
         e.preventDefault();
         // await filterMedia();
         alert("취소완료");
-        router.replace("/ssgpoSetting");
+        router.push(`/ssgpoSetting/${media}/materialCreate/${router.query.chennelId}`);
       };
       const { data: mediaLists, refetch } = useQuery<
             { items: SSG_PO_MediaWithChannel[] },
@@ -103,6 +118,47 @@ const MeterialCreate = () => {
         SSG 소재추가
       </div>
       <div className='flex flex-col gap-7 items-center justify-center'>
+      <Select 
+          label="매체"
+          placeholder="선택하세요."
+          data={[
+            { value: media, label: media },
+          ]}
+          value={state.매체}
+          onChange={(value: string | null) => dispatch({ type: 'update', name: '매체', value })}
+          size="sm"
+          withAsterisk
+          w={400}
+          sx={{
+            '.mantine-Select-dropdown': {
+              width: '400px !important',
+            },
+          }}
+        />
+        <Select 
+          label="채널코드"
+          placeholder="선택하세요."
+      
+          data={
+            [
+                { 
+                    value: isData?.filter((el) => el.id === Number(router.query.chennelId))[0]?.channel || '', 
+                    label: isData?.filter((el) => el.id === Number(router.query.chennelId))[0]?.channel || ''
+                },
+            ]
+        }
+        
+          value={state.채널코드}
+          onChange={(value: string | null) => dispatch({ type: 'update', name: '채널코드', value })}
+          size="sm"
+          withAsterisk
+          w={400}
+          sx={{
+            '.mantine-Select-dropdown': {
+              width: '400px !important',
+            },
+          }}
+        />
        <Select 
           label="몰"
           placeholder="선택하세요."
@@ -125,7 +181,7 @@ const MeterialCreate = () => {
             placeholder="타이핑 하세요."
             label="소재명"
             value={state.소재명 || ""} 
-            onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => dispatch({ type: 'update', name: '소재명', value: event.target.value })}
+            onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => dispatch({ type: 'update', name: '소재명', value: event.currentTarget.value })}
             withAsterisk
             sx={{
                 '.mantine-Textarea-wrapper': {
@@ -137,7 +193,7 @@ const MeterialCreate = () => {
             placeholder="타이핑 하세요."
             label="트래킹링크명"
             value={state.트래킹링크명 || ""} 
-            onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => dispatch({ type: 'update', name: '트래킹링크명', value: event.target.value })}
+            onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => dispatch({ type: 'update', name: '트래킹링크명', value: event.currentTarget.value })}
             withAsterisk
             sx={{
                 '.mantine-Textarea-wrapper': {
@@ -149,7 +205,7 @@ const MeterialCreate = () => {
             placeholder="타이핑 하세요."
             label="트래킹링크"
             value={state.트래킹링크 || ""} 
-            onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => dispatch({ type: 'update', name: '트래킹링크', value: event.target.value })}
+            onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => dispatch({ type: 'update', name: '트래킹링크', value: event.currentTarget.value })}
             withAsterisk
             sx={{
                 '.mantine-Textarea-wrapper': {
@@ -194,50 +250,10 @@ const MeterialCreate = () => {
             },
           }}
         />
-        <Select 
-          label="매체"
-          placeholder="선택하세요."
-          data={[
-            { value: media, label: media },
-          ]}
-          value={state.매체}
-          onChange={(value: string | null) => dispatch({ type: 'update', name: '매체', value })}
-          size="sm"
-          withAsterisk
-          w={400}
-          sx={{
-            '.mantine-Select-dropdown': {
-              width: '400px !important',
-            },
-          }}
-        />
-        <Select 
-          label="채널코드"
-          placeholder="선택하세요."
-      
-          data={
-            [
-                { 
-                    value: isData?.filter((el) => el.id === Number(router.query.chennelId))[0]?.channel || '', 
-                    label: isData?.filter((el) => el.id === Number(router.query.chennelId))[0]?.channel || ''
-                },
-            ]
-        }
         
-          value={state.채널코드}
-          onChange={(value: string | null) => dispatch({ type: 'update', name: '채널코드', value })}
-          size="sm"
-          withAsterisk
-          w={400}
-          sx={{
-            '.mantine-Select-dropdown': {
-              width: '400px !important',
-            },
-          }}
-        />
         <div className="flex items-center justify-center gap-5">
             <button
-            onClick={(e) => submitFn(state, e)}
+            onClick={(e) => submitFn(e)}
             className="w-24 rounded-md bg-blue-500 p-2 text-white"
             >
             저장
