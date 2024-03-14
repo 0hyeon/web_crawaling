@@ -12,7 +12,6 @@ import { SSG_PO_MediaWithChannel } from "..";
 import Link from "next/link";
 import ArrowRightIcon from "public/asset/svg/ArrowRight";
 
-
 const MeterialCreate = (props: any) => {
   const router = useRouter();
   const path = usePathname();
@@ -20,7 +19,7 @@ const MeterialCreate = (props: any) => {
   const media = decodedPath.split("/")[2];
   const [value, setValue] = useState<string[]>([]);
   const [isData, setData] = useState<any>();
-  const [isAllData, setAllData] = useState<ChannelInfo[] >();
+  const [isAllData, setAllData] = useState<ChannelInfo[]>();
   const { data: mediaLists, refetch } = useQuery<
     { items: SSG_PO_MediaWithChannel[] },
     unknown,
@@ -75,10 +74,15 @@ const MeterialCreate = (props: any) => {
     const filteredMedia = mediaLists?.filter((el) => el.media === keyword);
     console.log("mediaLists : ", mediaLists);
     console.log("filteredMedia : ", filteredMedia);
-    console.log("flatMap == isData : ",filteredMedia?.flatMap((el) => el.SSG_PO_Channel).map((el) => el.channel))
-    console.log("media : ",media)
-    setData(filteredMedia?.flatMap((el) => el.SSG_PO_Channel).map((el) => el.channel));
-    setAllData(filteredMedia?.flatMap((el) => el.SSG_PO_Channel))
+    console.log(
+      "flatMap == isData : ",
+      filteredMedia?.flatMap((el) => el.SSG_PO_Channel).map((el) => el.channel)
+    );
+    console.log("media : ", media);
+    setData(
+      filteredMedia?.flatMap((el) => el.SSG_PO_Channel).map((el) => el.channel)
+    );
+    setAllData(filteredMedia?.flatMap((el) => el.SSG_PO_Channel));
   }, [media, mediaLists]);
   useEffect(() => {
     filterMedia();
@@ -91,26 +95,24 @@ const MeterialCreate = (props: any) => {
       </div>
       <div className="text-center">
         {/* isAllData == media에서 가져온것 */}
-        {isAllData && isAllData.length > 0 ? (
-          isAllData.map((el)=>{
-            return(
-              <div key={el.id}>
-                <Link
-                href={`/ssgpoSetting/${media}/materialCreate/${el.id}`}
-                className="mb-3 inline-flex items-center gap-2 font-mono  text-gray-500 text-lg"
-                >
-                <span>
-                  {el.channel}
-                  <span>
-                  
-                  </span>
-                </span>
-                <ArrowRightIcon />
-              </Link>
-              </div>
-            )
-          })
-        ) : null}
+        {isAllData && isAllData.length > 0
+          ? isAllData.map((el) => {
+              return (
+                <div key={el.id}>
+                  <Link
+                    href={`/ssgpoSetting/${media}/materialCreate/${el.id}`}
+                    className="mb-3 inline-flex items-center gap-2 font-mono  text-lg text-gray-500"
+                  >
+                    <span>
+                      {el.channel}
+                      <span></span>
+                    </span>
+                    <ArrowRightIcon />
+                  </Link>
+                </div>
+              );
+            })
+          : null}
       </div>
       <div className="mt-4 flex items-center justify-center gap-5">
         <button

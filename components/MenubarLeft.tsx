@@ -9,6 +9,7 @@ import ExcelIcon from "public/asset/svg/ExcelIcon";
 import * as O from "../utils/option";
 import { useRecoilState } from "recoil";
 import { loginState } from "atoms";
+import useUser from "@libs/client/useUser";
 function MenubarLeft() {
   const MenuList = O.fromUndefined(["타임보드", "스페셜DM"]);
   const router = useRouter();

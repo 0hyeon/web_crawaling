@@ -112,7 +112,6 @@ model SSG_PO_Channel {
   channel                      String
   mediaObj                     SSG_PO_Media                   @relation(fields: [media], references: [media], onDelete: Cascade)
   SSG_DFINARY_TrackingLinkList SSG_DFINARY_TrackingLinkList[]
-  SSG_DFINARY                  SSG_DFINARY[]
   createdAt                    DateTime?                      @default(now())
   updatedAt                    DateTime?                      @updatedAt
 
@@ -126,42 +125,46 @@ model SSG_PO_Media {
   updatedAt                    DateTime                       @updatedAt
   media                        String                         @unique
   SSG_PO_Channel               SSG_PO_Channel[]
-  SSG_DFINARY                  SSG_DFINARY[]
   SSG_DFINARY_TrackingLinkList SSG_DFINARY_TrackingLinkList[]
 }
 
 model SSG_DFINARY {
-  id              Int                          @id @default(autoincrement())
-  daily           String
-  platform        String
-  clickCount      String?
-  newInstallClick String?
-  reInstallClick  String?
-  reOpen          String?
-  eventName       String
-  pageView        String?
-  sumValue        String?
-  uniqueView      String?
-  createdAt       DateTime                     @default(now())
-  updatedAt       DateTime                     @updatedAt
-  channelId       Int
-  trackerId       Int
-  mediaId         Int
-  tracker_key_id  String
-  channel         SSG_PO_Channel               @relation(fields: [channelId], references: [id], onDelete: Cascade)
-  trackerName     SSG_DFINARY_TrackingLinkList @relation(fields: [trackerId], references: [id], onDelete: Cascade)
-  media           SSG_PO_Media                 @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  id Int @id @default(autoincrement())
 
-  @@index([trackerId])
-  @@index([mediaId])
-  @@index([channelId])
+  daily    String?
+  tracker  String
+  platform String?
+
+  clickCount      Int?
+  newInstallClick Int?
+  reInstallClick  Int?
+  reOpen          Int?
+
+  pageView   Int?
+  sumValue   Int?
+  uniqueView Int?
+
+  eventName String?
+  mall      String
+  category  String
+
+  // channelId Int?
+  // channel   SSG_PO_Channel? @relation(fields: [channelId], references: [id], onDelete: Cascade)
+
+  // merterial   SSG_DFINARY_TrackingLinkList? @relation(fields: [merterialId], references: [id], onDelete: Cascade)
+
+  // mediaId Int?
+  // media   SSG_PO_Media? @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model SSG_DFINARY_TrackingLinkList {
   id               Int             @id @default(autoincrement())
   mall             String
   trackingLinkName String          @unique
-  trackingLink     String?
+  trackingLink     String?         @db.VarChar(400)
   division_1       String
   division_2       String
   materialName     String
@@ -169,7 +172,6 @@ model SSG_DFINARY_TrackingLinkList {
   channelId        Int?
   media            SSG_PO_Media?   @relation(fields: [mediaId], references: [id], onDelete: Cascade)
   mediaId          Int?
-  SSG_DFINARY      SSG_DFINARY[]
   user             User?           @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId           Int?
   createdAt        DateTime        @default(now())

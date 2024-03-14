@@ -6,7 +6,6 @@ const prisma = new PrismaClient();
 
 async function handler(req: any, res: NextApiResponse<ResponseType>) {
     const { media } = req.query;
-    console.log('media :',media )
     const result = await prisma.sSG_PO_Media.findMany({
         orderBy: {
         createdAt: "desc",
@@ -29,7 +28,9 @@ async function handler(req: any, res: NextApiResponse<ResponseType>) {
                     division_2: true,
                     materialName: true,
                     channelId: true,
+                    channel:true,
                     mediaId: true,
+                    media:true
                   }
                 }  
               },
