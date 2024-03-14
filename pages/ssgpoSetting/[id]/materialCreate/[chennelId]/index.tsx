@@ -46,7 +46,7 @@ const MaterialPage = () => {
    
     }
     // await filterMedia();
-    alert("취소완료");
+    alert("삭제완료");
     router.replace(
       `/ssgpoSetting/${media}/materialCreate/${router.query.chennelId}`
     );
