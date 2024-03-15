@@ -7,3 +7,12 @@ div[style*="position: fixed"][style*="top: 10px"][style*="left: 10px"][style*="r
 div[style*="position: fixed"][style*="width: 100%"][style*="height: 100%"][style*="top: 0"][style*="left: 0"][style*="right: 0"][style*="bottom: 0"][style*="background-color: rgba(0, 0, 0, 0.5)"][style*="z-index: 99999"] {
   display: none !important;
 }
+.e-popup.e-popup-open.e-dialog {
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  left: inherit !important;
+  max-width: 1000px !important;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
