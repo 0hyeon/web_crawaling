@@ -12,7 +12,7 @@ div[style*="position: fixed"][style*="width: 100%"][style*="height: 100%"][style
   display: inline-flex;
   left: inherit !important;
   max-width: 1000px !important;
-  top: 50%;
-  left: 50%;
+  top: 50% !important;
+  left: 50% !important;
   transform: translate(-50%, -50%);
 }
