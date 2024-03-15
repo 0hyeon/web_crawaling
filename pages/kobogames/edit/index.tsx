@@ -104,7 +104,7 @@ export default function Index() {
                   </div>
 
                   {/* 상품설정 */}
-                  <div className="mx-auto mb-2 mt-20 w-[100%]">
+                  <div className="mx-auto mb-2 mt-20 w-[50%]">
                     {isData && isData.length > 0 ? (
                       <MultiSelect
                         label="All 상품명"

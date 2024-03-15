@@ -6,7 +6,6 @@ import { Input, Pagination, SegmentedControl, Select } from "@mantine/core";
 import MenubarLeft from "@components/MenubarLeft";
 import useDebounce from "@libs/client/useDebounce";
 import { FILTERS, TAKE } from "@constants/banners";
-import { useRouter } from "next/router";
 import { format } from "date-fns";
 import DateSchedule from "@components/DateSchedule";
 import { LoadingText, Svg } from "pages/exceltrans";

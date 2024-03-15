@@ -23,7 +23,7 @@ function DateSchedule({
   }, [getDate, value]);
   return (
     <div
-      className="absolute left-[-50px] z-[1] mr-5 flex cursor-pointer items-center justify-center border-b-2 bg-white "
+      className="z-[9999] mr-5 flex cursor-pointer items-center justify-center border-b-2 bg-white "
       ref={dropDownRef}
     >
       {isOpen ? (

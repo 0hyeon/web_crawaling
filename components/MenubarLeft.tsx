@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Accordion from "./Accordian";
@@ -30,6 +31,7 @@ function MenubarLeft() {
     "[코보게임즈] 이커머스": "/kobogames",
     SSG_PO데이터: "/ssgpodata",
     "SSG PO세팅": "/ssgpoSetting",
+    SSG_DFN데이터: "/ssgDfnData",
   };
   const onClickRouterLink = (menu: string) => {
     const route = menuToRouteMap[menu];
@@ -127,6 +129,7 @@ function MenubarLeft() {
               "[ssgㆍ이마트] cauly",
               "[코보게임즈] 이커머스",
               "SSG_PO데이터",
+              "SSG_DFN데이터",
             ].map((el, idx) => {
               return (
                 <ul key={idx}>

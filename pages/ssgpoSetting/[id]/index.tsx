@@ -8,10 +8,7 @@ import useMutation from "@libs/client/useMutation";
 import { MutationResult } from "types/type";
 import { useQuery } from "@tanstack/react-query";
 import { SSG_PO_Channel, SSG_PO_Media } from "@prisma/client";
-import {
-
-  MultiSelect,
-} from "@mantine/core";
+import { MultiSelect } from "@mantine/core";
 import { useRouter } from "next/router";
 import Link from "next/link";
 export interface SSG_PO_MediaWithChannel extends SSG_PO_Media {
@@ -120,9 +117,14 @@ const SSGPODetail = (props: any) => {
     const filteredMedia = mediaLists?.filter((el) => el.media === keyword);
     console.log("mediaLists : ", mediaLists);
     console.log("filteredMedia : ", filteredMedia);
-    console.log("flatMap : ",filteredMedia?.flatMap((el) => el.SSG_PO_Channel).map((el) => el.channel))
-    
-    setData(filteredMedia?.flatMap((el) => el.SSG_PO_Channel).map((el) => el.channel));
+    console.log(
+      "flatMap : ",
+      filteredMedia?.flatMap((el) => el.SSG_PO_Channel).map((el) => el.channel)
+    );
+
+    setData(
+      filteredMedia?.flatMap((el) => el.SSG_PO_Channel).map((el) => el.channel)
+    );
   }, [media, mediaLists]);
 
   useEffect(() => {
@@ -130,38 +132,45 @@ const SSGPODetail = (props: any) => {
   }, [filterMedia]);
   return (
     <Layout>
-      <div className="mb-10 flex items-center justify-center text-2xl font-bold">
-        {media}
-      </div>
-      <div>
-        {isData && isData.length > 0 ? (
-          <MultiSelect
-            label={`${media} 채널`}
-            placeholder="Pick value"
-            data={isData ? isData : []}
-            searchable
-            defaultValue={isData ? isData : []}
-            onChange={(el) => setValue(el)}
-            onSearchChange={(el) => onChangeInput(el)}
-            onKeyDown={onKeyDown}
-          />
-        ) : null}
-      </div>
-      <div className="mt-4 flex items-center justify-center gap-5">
-        <button
-          onClick={(e) => submitFn(value, e)}
-          className="w-24 rounded-md bg-blue-500 p-2 text-white"
-        >
-          저장
-        </button>
-        <button
-          onClick={(e) => calcleFn(e)}
-          className="w-24 rounded-md bg-red-400 p-2 text-white"
-        >
-          취소
-        </button>
-        {/* <button className="w-24 rounded-md bg-black p-2 text-white">소재등록</button> */}
-        <Link href={`/ssgpoSetting/${media}/materialCreate`} className="flex items-center justify-center w-24 rounded-md bg-black p-2 text-white">소재등록</Link>
+      <div className="mx-auto w-[40%]">
+        <div className="mb-10 flex items-center justify-center text-2xl font-bold">
+          {media}
+        </div>
+        <div>
+          {isData && isData.length > 0 ? (
+            <MultiSelect
+              label={`${media} 채널`}
+              placeholder="Pick value"
+              data={isData ? isData : []}
+              searchable
+              defaultValue={isData ? isData : []}
+              onChange={(el) => setValue(el)}
+              onSearchChange={(el) => onChangeInput(el)}
+              onKeyDown={onKeyDown}
+            />
+          ) : null}
+        </div>
+        <div className="mt-4 flex items-center justify-center gap-5">
+          <button
+            onClick={(e) => submitFn(value, e)}
+            className="w-24 rounded-md bg-blue-500 p-2 text-white"
+          >
+            저장
+          </button>
+          <button
+            onClick={(e) => calcleFn(e)}
+            className="w-24 rounded-md bg-red-400 p-2 text-white"
+          >
+            취소
+          </button>
+          {/* <button className="w-24 rounded-md bg-black p-2 text-white">소재등록</button> */}
+          <Link
+            href={`/ssgpoSetting/${media}/materialCreate`}
+            className="flex w-24 items-center justify-center rounded-md bg-black p-2 text-white"
+          >
+            소재등록
+          </Link>
+        </div>
       </div>
     </Layout>
   );
