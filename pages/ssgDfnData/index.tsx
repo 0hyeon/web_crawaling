@@ -20,7 +20,6 @@ import {
   Inject,
   PivotViewComponent,
 } from "@syncfusion/ej2-react-pivotview";
-import { pivotData } from "./datasource";
 import DateSchedule from "@components/DateSchedule";
 import { useQuery } from "@tanstack/react-query";
 import { SSG_DFINARY, SSG_DFINARY_TrackingLinkList } from "@prisma/client";
