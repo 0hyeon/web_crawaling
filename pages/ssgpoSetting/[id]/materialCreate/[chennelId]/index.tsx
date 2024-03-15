@@ -21,29 +21,33 @@ const MaterialPage = () => {
   //   `${FEcheckEnvironment().concat("/api/ssgposetting/materialCreate/get-ssgmeterial")}`
   // );
 
-  const { data,refetch } = useQuery(
+  const { data, refetch } = useQuery(
     [`/api/ssgposetting/materialCreate/get-ssgmeterial`],
     () =>
       fetch(`/api/ssgposetting/materialCreate/get-ssgmeterial`).then((res) =>
         res.json()
       )
   );
-  const [delMaterial, { loading: del_loading, data: del_data, error: del_error }] = useMutation<MutationResult>(
-    `${FEcheckEnvironment().concat("/api/ssgposetting/materialCreate/del-ssgmaterial")}`,
+  const [
+    delMaterial,
+    { loading: del_loading, data: del_data, error: del_error },
+  ] = useMutation<MutationResult>(
+    `${FEcheckEnvironment().concat(
+      "/api/ssgposetting/materialCreate/del-ssgmaterial"
+    )}`,
     async () => {
       try {
         await refetch(); // 삭제가 성공했을 때 refetch를 호출하여 새로운 데이터를 가져옵니다.
       } catch (error) {
-        console.error('Error refetching data:', error);
+        console.error("Error refetching data:", error);
       }
     }
   );
-  const calcleFn = async (e: SyntheticEvent<HTMLButtonElement>,id:number) => {
+  const calcleFn = async (e: SyntheticEvent<HTMLButtonElement>, id: number) => {
     e.preventDefault();
-    if(confirm('삭제하시겠습니까')){
-        await delMaterial({'id':id});
-        refetch();
-   
+    if (confirm("삭제하시겠습니까")) {
+      await delMaterial({ id: id });
+      refetch();
     }
     // await filterMedia();
     alert("삭제완료");
@@ -87,7 +91,7 @@ const MaterialPage = () => {
               <td>{el.division_2}</td>
               <td>
                 <button
-                  onClick={(e) => calcleFn(e,el.id)}
+                  onClick={(e) => calcleFn(e, el.id)}
                   className="w-24 rounded-md bg-red-400 p-2 text-white"
                 >
                   삭제

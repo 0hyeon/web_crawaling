@@ -279,6 +279,7 @@ const MeterialCreate = () => {
           data={[
             { value: "RT", label: "RT" },
             { value: "RE", label: "RE" },
+            { value: "CPS", label: "CPS" },
             { value: "UA", label: "UA" },
           ]}
           value={state.구분2}
