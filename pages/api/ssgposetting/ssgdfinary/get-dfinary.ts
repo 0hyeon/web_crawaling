@@ -21,85 +21,39 @@ interface ISSGDfn {
     category?: boolean;
   };
 }
-async function getDfnData() {
+async function getDfnData({
+  startday,
+  lastday,
+}: {
+  startday?: string | null;
+  lastday?: string | null;
+}) {
   try {
-    // const queriesEvent: ISSGDfn[] = [
-    //   {
-    //     category: "evnets_reportId",
-    //     select: {
-    //       id: true,
-    //       daily: true,
-    //       tracker: true,
-    //       platform: true,
+    const whereCondition: Prisma.SSG_DFINARYWhereInput = {};
 
-    //       uniqueView: true,
-    //       sumValue: true,
-    //       pageView: true,
-
-    //       eventName: true,
-    //       mall: true,
-    //       category: true,
-    //     },
-    //   },
-    //   {
-    //     category: "membership_reportId",
-    //     select: {
-    //       id: true,
-    //       daily: true,
-    //       tracker: true,
-    //       platform: true,
-
-    //       uniqueView: true,
-    //       sumValue: true,
-    //       pageView: true,
-
-    //       eventName: true,
-    //       mall: true,
-    //       category: true,
-    //     },
-    //   },
-    //   {
-    //     category: "ua_reportId",
-    //     select: {
-    //       id: true,
-    //       daily: true,
-    //       tracker: true,
-    //       platform: true,
-
-    //       clickCount: true,
-    //       newInstallClick: true,
-    //       reInstallClick: true,
-    //       reOpen: true,
-
-    //       eventName: true,
-    //       mall: true,
-    //       category: true,
-    //     },
-    //   },
-    //   // 나머지 DB 쿼리 추가
-    // ];
-    // const results = await Promise.all(
-    //   queriesEvent.map(async (query) => {
-    //     const items = await prisma.sSG_DFINARY.findMany({
-    //       orderBy: {
-    //         createdAt: "desc",
-    //       },
-    //       where: {
-    //         category: query.category,
-    //       },
-    //       select: query.select,
-    //     });
-    //     return items;
-    //   })
-    // );
-    // const allItems = results.flat();
-    // const uniqueItems = allItems.filter(
-    //   (item, index, self) => index === self.findIndex((t) => t.id === item.id)
-    // );
+    if (startday && lastday === null) {
+      const startDate = new Date(startday);
+      const endDate = new Date(startDate);
+      endDate.setDate(startDate.getDate() + 1);
+      const startDateString = startDate.toISOString().slice(0, 10);
+      whereCondition.OR = [{ daily: startDateString }];
+    }
+    if (startday !== null && lastday !== null) {
+      if (startday !== undefined && lastday !== undefined) {
+        const startDate = new Date(startday);
+        const lastDate = new Date(lastday);
+        const startDateString = startDate.toISOString().slice(0, 10);
+        const endDateString = lastDate.toISOString().slice(0, 10);
+        whereCondition.OR = [
+          { daily: { gte: startDateString, lte: endDateString } },
+        ];
+      }
+    }
     const uniqueItems = await prisma.sSG_DFINARY.findMany({
       orderBy: {
         createdAt: "desc",
       },
+      where: whereCondition,
     });
     return uniqueItems;
   } catch (error) {
@@ -107,9 +61,16 @@ async function getDfnData() {
   }
 }
 
-export default async function handler(_: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const { startday, lastday } = req.query;
   try {
-    const items = await getDfnData();
+    const items = await getDfnData({
+      startday: startday !== "null" ? String(startday) : null,
+      lastday: lastday !== "null" ? String(lastday) : null,
+    });
     res.status(200).json({ items: items || [], message: "Success" });
   } catch (error) {
     res.status(400).json({ message: "Failed" });
