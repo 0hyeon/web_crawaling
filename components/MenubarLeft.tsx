@@ -31,7 +31,8 @@ function MenubarLeft() {
     "[코보게임즈] 이커머스": "/kobogames",
     SSG_PO데이터: "/ssgpodata",
     "SSG PO세팅": "/ssgpoSetting",
-    SSG_DFN데이터: "/ssgDfnData",
+    SSG_DFN피봇: "/ssgDfnData",
+    // SSG_DFN시각화: "/ssgDfnDataPivot",
   };
   const onClickRouterLink = (menu: string) => {
     const route = menuToRouteMap[menu];
@@ -50,7 +51,7 @@ function MenubarLeft() {
   }, [isLogin]);
 
   return (
-    <div className="fix fixed h-[100vh] w-64 border-r-2 bg-white">
+    <div className="fix fixed z-[99999] h-[100vh] w-64 border-r-2 bg-white">
       <div className="bg align-center flex h-16 justify-center bg-[#efefef] py-3">
         <Image
           priority={true}
@@ -129,7 +130,8 @@ function MenubarLeft() {
               "[ssgㆍ이마트] cauly",
               "[코보게임즈] 이커머스",
               "SSG_PO데이터",
-              "SSG_DFN데이터",
+              "SSG_DFN피봇",
+              // "SSG_DFN시각화",
             ].map((el, idx) => {
               return (
                 <ul key={idx}>

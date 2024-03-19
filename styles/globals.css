@@ -16,3 +16,17 @@ div[style*="position: fixed"][style*="width: 100%"][style*="height: 100%"][style
   left: 50% !important;
   transform: translate(-50%, -50%);
 }
+
+.pvtUi {
+  width: 100% !important;
+}
+.pvtRows,
+.pvtVertList {
+  width: 50px;
+}
+.pvtDropdownCurrent {
+  width: 170px !important;
+}
+.pvtDropdownValue {
+  overflow: hidden;
+}
