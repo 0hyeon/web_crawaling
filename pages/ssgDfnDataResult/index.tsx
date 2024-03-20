@@ -146,12 +146,14 @@ const SsgPoDfnData = () => {
     (
       dfnData: any[],
       linklistData: IEXTEND_SSG_TrackingLinkList[],
-      setMappedDataCallback: (data: any) => void,
-      argChannel: any,
-      argMedia: string
+      setMappedDataCallback: (data: any) => void
     ) => {
       if (dfnData && linklistData) {
-        console.log("argChannel,argMedia : ", argChannel, argMedia);
+        console.log(
+          "SSGselectedMedia,isSelectedChannel : ",
+          SSGselectedMedia,
+          isSelectedChannel
+        );
 
         const dataMap = new Map(); // Map을 생성하여 데이터를 누적할 준비
 
@@ -224,29 +226,33 @@ const SsgPoDfnData = () => {
           });
 
         // 맵에서 합쳐진 데이터를 배열로 변환
-        const filteredMapped = Array.from(dataMap.values()).map((el) => {
-          switch (el.platform) {
-            case "2":
-              el.platform = "ios";
-              break;
-            case "1":
-              el.platform = "aos";
-              break;
-            default:
-              el.platform = "undefined";
-              break;
-          }
-          return el;
-        });
-        // .filter((dfnary) => {
-        //   return (
-        //     (!SSGselectedMedia || dfnary.media === SSGselectedMedia) &&
-        //     (!isSelectedChannel.length ||
-        //       isSelectedChannel.includes(dfnary.channel)) &&
-        //     ((SSGselectedMedia && isSelectedChannel.length) ||
-        //       (!SSGselectedMedia && !isSelectedChannel.length))
-        //   );
-        // });
+        const filteredMapped = Array.from(dataMap.values())
+          .filter((dfnary) => {
+            console.log(SSGselectedMedia, dfnary.media); // SSGselectedMedia와 dfnary.media의 값을 출력합니다.
+            console.log(isSelectedChannel, dfnary.channel); // isSelectedChannel과 dfnary.channel의 값을 출력합니다.
+            return (
+              (!SSGselectedMedia || dfnary.media === SSGselectedMedia) &&
+              (!isSelectedChannel.length ||
+                isSelectedChannel.includes(dfnary.channel)) &&
+              (!isSelectedChannel.length ||
+                (SSGselectedMedia && isSelectedChannel.length) ||
+                (!SSGselectedMedia && isSelectedChannel.length === 0))
+            );
+          })
+          .map((el) => {
+            switch (el.platform) {
+              case "2":
+                el.platform = "ios";
+                break;
+              case "1":
+                el.platform = "aos";
+                break;
+              default:
+                el.platform = "undefined";
+                break;
+            }
+            return el;
+          });
 
         // 필터링된 데이터 설정
         setMappedDataCallback(filteredMapped);
@@ -257,22 +263,16 @@ const SsgPoDfnData = () => {
   //dfnData에서 등록되지 않은 소재들은 제외
   // Inside your component
   useEffect(() => {
-    if (dfnData && linklistData && SSGselectedMedia) {
-      mapData(
-        dfnData,
-        linklistData,
-        setMappedDataCallback,
-        SSGselectedMedia,
-        isSelectedChannel
-      );
+    if (dfnData && linklistData) {
+      mapData(dfnData, linklistData, setMappedDataCallback);
     }
   }, [
     dfnData,
     linklistData,
     setMappedDataCallback,
+    mapData,
     SSGselectedMedia,
     isSelectedChannel,
-    mapData,
   ]);
 
   useEffect(() => {
@@ -291,8 +291,6 @@ const SsgPoDfnData = () => {
       : setExcelIcon(false);
   }, [isDate, filteredChannels, isSelectedChannel]);
   console.log("isMappedData : ", isMappedData);
-  console.log("isDate : ", isDate);
-  console.log("isExcelIcon : ", isExcelIcon);
   console.log("isSelectedChannel : ", isSelectedChannel);
   return (
     <>
