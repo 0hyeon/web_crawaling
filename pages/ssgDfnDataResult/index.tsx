@@ -153,6 +153,7 @@ const SsgPoDfnData = () => {
     lastDate
   );
   console.log("dfnData : ", dfnData);
+  console.log("startDate,lastDate : ", startDate, lastDate);
   const rows = isMappedData?.map((element, idx) => (
     <tr key={idx} className="text-[10px] ">
       <td>{element.media}</td>
@@ -376,35 +377,13 @@ const SsgPoDfnData = () => {
               ) : null}
             </div>
 
-            <div className="relative flex">
+            <div className="relative flex items-center gap-3">
               {/* 달력 */}
-              <DateSchedule getDate={getDate} />
-              {/* 검색바 */}
-              <div className="w-52">
-                <Input
-                  icon={
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="icon icon-tabler icon-tabler-search"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      strokeWidth="2"
-                      stroke="currentColor"
-                      fill="none"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                      <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
-                      <path d="M21 21l-6 -6" />
-                    </svg>
-                  }
-                  placeholder="Search"
-                  value={keyword}
-                  onChange={handleChange}
-                />
+              <div className="mb-2 flex items-center gap-2">
+                <span className="text-red-500">*</span>
+                <span className="text-xs">날짜를 지정해주세요</span>
               </div>
+              <DateSchedule getDate={getDate} />
             </div>
           </div>
           <div className="max-w-8xl mx-auto mb-2 mt-12">

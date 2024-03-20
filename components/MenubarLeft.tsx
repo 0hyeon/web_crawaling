@@ -32,6 +32,7 @@ function MenubarLeft() {
     SSG_PO데이터: "/ssgpodata",
     "SSG PO세팅": "/ssgpoSetting",
     SSG_DFN피봇: "/ssgDfnData",
+    SSG_View: "/ssgDfnDataResult",
     // SSG_DFN시각화: "/ssgDfnDataPivot",
   };
   const onClickRouterLink = (menu: string) => {
@@ -131,6 +132,7 @@ function MenubarLeft() {
               "[코보게임즈] 이커머스",
               "SSG_PO데이터",
               "SSG_DFN피봇",
+              "SSG_View",
               // "SSG_DFN시각화",
             ].map((el, idx) => {
               return (

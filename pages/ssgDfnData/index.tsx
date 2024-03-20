@@ -23,8 +23,22 @@ import {
 import DateSchedule from "@components/DateSchedule";
 import { useQuery } from "@tanstack/react-query";
 import { SSG_DFINARY, SSG_DFINARY_TrackingLinkList } from "@prisma/client";
+import { useDfnData } from "data/getSSGData";
+import useDebounce from "@libs/client/useDebounce";
 
 const SSGDfnDataPage = () => {
+  const [isDate, setDate] = useState<[string | null, string | null]>([
+    null,
+    null,
+  ]);
+  const getDate = useCallback(
+    (startDay: string | null, lastDay: string | null) => {
+      setDate([startDay, lastDay]);
+    },
+    [setDate]
+  );
+  const startDate = useDebounce<string | null>(isDate[0]);
+  const lastDate = useDebounce<string | null>(isDate[1]);
   const [mappedData, setMappedData] = useState<SSG_DFINARY[]>([]);
 
   const { data: linklistData, refetch: linkListRefetch } = useQuery<
@@ -42,20 +56,9 @@ const SSGDfnDataPage = () => {
       // .filter((item) => item.category === "ua_reportId"),
     }
   );
-  const { data: dfnData, refetch } = useQuery<
-    { items: SSG_DFINARY[] },
-    unknown,
-    SSG_DFINARY[]
-  >(
-    [`/api/ssgposetting/ssgdfinary/get-dfinary`],
-    () =>
-      fetch(`/api/ssgposetting/ssgdfinary/get-dfinary`).then((res) =>
-        res.json()
-      ),
-    {
-      select: (data) => data.items,
-      // .filter((item) => item.category === "ua_reportId"),
-    }
+  const { data: dfnData, refetch: dfnRefetch } = useDfnData(
+    startDate,
+    lastDate
   );
   const dataSourceSettings: IDataOptions = {
     dataSource: mappedData as any,
@@ -96,16 +99,7 @@ const SSGDfnDataPage = () => {
     ],
   };
   console.log("dfnData :", dfnData);
-  const [isDate, setDate] = useState<[string | null, string | null]>([
-    null,
-    null,
-  ]);
-  const getDate = useCallback(
-    (startDay: string | null, lastDay: string | null) => {
-      setDate([startDay, lastDay]);
-    },
-    [setDate]
-  );
+
   useEffect(() => {
     if (dfnData && linklistData) {
       const filteredMapped = dfnData
@@ -188,10 +182,12 @@ const SSGDfnDataPage = () => {
   return (
     <Layout>
       <div className="mb-10 flex items-center justify-center text-2xl font-bold">
-        SSG_DFN_대시보드
+        SSG_DFN_대시보드{" "}
       </div>
-      <div className="relative flex h-14">
+      <div className="relative flex h-14 items-center gap-1">
         <DateSchedule getDate={getDate} />
+        <span className="text-red-500">*</span>
+        <span className="text-xs">날짜를 지정해주세요</span>
       </div>
       <div>
         <PivotViewComponent
