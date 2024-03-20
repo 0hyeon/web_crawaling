@@ -1,10 +1,18 @@
-import MenubarLeft from '@components/MenubarLeft'
-import { BEcheckEnvironment } from '@libs/server/useCheckEnvironment';
-import { Box, Button, Center, FileInput, FileInputProps, Group, rem } from '@mantine/core';
-import { IconPhoto } from '@tabler/icons-react';
-import { LoadingText, Svg } from 'pages/exceltrans';
-import Loading from 'public/asset/svg/Logo';
-import React, { useState } from 'react'
+import MenubarLeft from "@components/MenubarLeft";
+import { BEcheckEnvironment } from "@libs/server/useCheckEnvironment";
+import {
+  Box,
+  Button,
+  Center,
+  FileInput,
+  FileInputProps,
+  Group,
+  rem,
+} from "@mantine/core";
+import { IconPhoto } from "@tabler/icons-react";
+import { LoadingText, Svg } from "pages/exceltrans";
+import Loading from "public/asset/svg/Logo";
+import React, { useState } from "react";
 
 const CaulyLogic = () => {
   const [files, setFiles] = useState<File[]>([]);
@@ -127,11 +135,11 @@ const CaulyLogic = () => {
   ));
   return (
     <>
-    <MenubarLeft />
-    <div className="h-[100%] min-h-[100vh] w-full bg-[#dee2e6] pl-64">
-      <div className="mx-4 min-h-[100vh] bg-white px-4 py-16">
-        <div className="mx-auto w-[90%]">
-        {state?.loading === true ? (
+      <MenubarLeft />
+      <div className="h-[100%] min-h-[100vh] w-full bg-[#dee2e6] pl-64">
+        <div className="min-h-[100vh] w-full bg-white px-4 py-16">
+          <div className="mx-auto w-[90%]">
+            {state?.loading === true ? (
               <>
                 <Svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -145,14 +153,22 @@ const CaulyLogic = () => {
               </>
             ) : (
               <div className="p-16">
-                <div className="mb-14 text-center text-2xl font-extrabold font-sans">
+                <div className="mb-14 text-center font-sans text-2xl font-extrabold">
                   [SSGㆍEmart] 카울리 Merge Logic Process [...ing]
                 </div>
-                <div className='mb-14 text-center flex flex-col gap-1'>
-                  <div className='mb-2'><b className='text-xl'>재료:</b></div>
-                  <div><b>1.</b>명선_개인폼★MS2_(GB)SSG_InAPP_Report.xlsx</div>
-                  <div><b>2.</b>그린브릭스_UV_*월.xlsb</div>
-                  <div><b>3.</b>그린브릭스_첫구매_*월.xlsx</div>
+                <div className="mb-14 flex flex-col gap-1 text-center">
+                  <div className="mb-2">
+                    <b className="text-xl">재료:</b>
+                  </div>
+                  <div>
+                    <b>1.</b>명선_개인폼★MS2_(GB)SSG_InAPP_Report.xlsx
+                  </div>
+                  <div>
+                    <b>2.</b>그린브릭스_UV_*월.xlsb
+                  </div>
+                  <div>
+                    <b>3.</b>그린브릭스_첫구매_*월.xlsx
+                  </div>
                 </div>
                 {FileInputs}
                 <Box
@@ -173,11 +189,11 @@ const CaulyLogic = () => {
                 </Box>
               </div>
             )}
+          </div>
         </div>
       </div>
-    </div>
     </>
-  )
-}
+  );
+};
 
-export default CaulyLogic
+export default CaulyLogic;

@@ -162,7 +162,7 @@ const SsgPoData = () => {
       <MenubarLeft />
 
       <div className="h-[100%] min-h-[100vh] w-full bg-[#dee2e6] pl-64">
-        <div className="mx-4 min-h-[100vh] bg-white px-4 py-16">
+        <div className="min-h-[100vh] w-full bg-white px-4 py-16">
           <div className="flex items-center justify-between">
             <div className="flex gap-4">
               <div className="w-52">

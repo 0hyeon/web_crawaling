@@ -155,7 +155,7 @@ const SsgPoDfnData = () => {
   console.log("dfnData : ", dfnData);
   console.log("startDate,lastDate : ", startDate, lastDate);
   const rows = isMappedData?.map((element, idx) => (
-    <tr key={idx} className="text-[10px] ">
+    <tr key={idx} className="text-[10px]">
       <td>{element.media}</td>
       <td>{element.channel}</td>
       <td>{element.mall}</td>
@@ -175,6 +175,20 @@ const SsgPoDfnData = () => {
       <td>{element.m신규가입자.toLocaleString("ko-kr")}</td>
       <td>{element.결제건수.toLocaleString("ko-kr")}</td>
       <td>{element.결제금액.toLocaleString("ko-kr")}</td>
+      {totalPrice && isSelectedChannel.length > 0 && totalPrice ? (
+        <>
+          <td>
+            {totalPrice && totalPrice
+              ? totalPrice && totalPrice[1].toLocaleString("ko-kr")
+              : 0}
+          </td>
+          <td>
+            {totalPrice && totalPrice
+              ? totalPrice && totalPrice[0].toLocaleString("ko-kr")
+              : 0}
+          </td>
+        </>
+      ) : null}
     </tr>
   ));
   const setMappedDataCallback = useCallback((data: any) => {
@@ -333,7 +347,7 @@ const SsgPoDfnData = () => {
       <MenubarLeft />
 
       <div className="h-[100%] min-h-[100vh] w-full bg-[#dee2e6] pl-64">
-        <div className="mx-4 min-h-[100vh] bg-white px-4 py-16">
+        <div className="min-h-[100vh] w-full bg-white px-4 py-16">
           <div className="flex items-center justify-between">
             <div className="flex gap-4">
               <div className="w-52">
@@ -366,15 +380,14 @@ const SsgPoDfnData = () => {
                   value={totalPrice && totalPrice[0].toLocaleString("ko-kr")}
                 />
               </div>
-              {isExcelIcon && isExcelIcon ? (
+              {/* {isExcelIcon && isExcelIcon ? (
                 <div
                   className="flex cursor-pointer flex-col items-baseline justify-around font-bold"
                   onClick={ExcelBtn}
                 >
                   <span className="text-xs text-gray-600">Download Excel</span>
-                  {/* <ExcelIcon width={25} height={25} fill={"#91979c"} /> */}
                 </div>
-              ) : null}
+              ) : null} */}
             </div>
 
             <div className="relative flex items-center gap-3">
@@ -386,49 +399,65 @@ const SsgPoDfnData = () => {
               <DateSchedule getDate={getDate} />
             </div>
           </div>
-          <div className="max-w-8xl mx-auto mb-2 mt-12">
+          <div className="mx-auto mb-2 mt-12 w-full">
             <Table>
               <colgroup>
-                <col width={"3%"} />
-                <col width={"3%"} />
-                <col width={"3%"} />
-                <col width={"3%"} />
-                <col width={"3%"} />
-                <col width={"3%"} />
-                <col width={"3%"} />
-                <col width={"3%"} />
-                <col width={"3%"} />
-                <col width={"3%"} />
-                <col width={"3%"} />
-                <col width={"3%"} />
-                <col width={"3%"} />
-                <col width={"3%"} />
-                <col width={"3%"} />
-                <col width={"3%"} />
-                <col width={"3%"} />
-                <col width={"3%"} />
+                <col width={"15%"} />
+                <col width={"100%"} />
+                <col width={"100%"} />
+                <col width={"100%"} />
+                <col width={"100%"} />
+                <col width={"100%"} />
+                <col width={"100%"} />
+                <col width={"100%"} />
+                <col width={"100%"} />
+                <col width={"100%"} />
+                <col width={"10%"} />
+                <col width={"100%"} />
+                <col width={"100%"} />
+                <col width={"100%"} />
+                <col width={"100%"} />
+                <col width={"100%"} />
+                <col width={"100%"} />
+                <col width={"100%"} />
               </colgroup>
               <thead>
                 <tr>
-                  <th>매체</th>
-                  <th>채널</th>
-                  <th>몰</th>
-                  <th>소재명</th>
-                  <th>날짜</th>
-                  <th>OS</th>
-                  <th>구분1</th>
-                  <th>구분2</th>
-                  <th>링크명</th>
-                  <th>클릭</th>
-                  <th>뉴인스톨</th>
-                  <th>리인스톨</th>
-                  <th>리오픈</th>
-                  <th>첫구매</th>
-                  <th>m가입자수</th>
-                  <th>m구매건수</th>
-                  <th>m신규가입자</th>
-                  <th>결제건수</th>
-                  <th>결제금액</th>
+                  <th className="min-w-[85px] text-center text-sm">매체</th>
+                  <th className="min-w-[85px] text-center text-sm">채널</th>
+                  <th className="min-w-[85px] text-center text-sm">몰</th>
+                  <th className="min-w-[85px] text-center text-sm">소재명</th>
+                  <th className="min-w-[85px] text-center text-sm">날짜</th>
+                  <th className="min-w-[85px] text-center text-sm">OS</th>
+                  <th className="min-w-[85px] text-center text-sm">구분1</th>
+                  <th className="min-w-[85px] text-center text-sm">구분2</th>
+                  <th className="min-w-[85px] text-center text-sm">링크명</th>
+                  <th className="min-w-[85px] text-center text-sm">클릭</th>
+                  <th className="min-w-[85px] text-center text-sm">뉴인스톨</th>
+                  <th className="min-w-[85px] text-center text-sm">리인스톨</th>
+                  <th className="min-w-[85px] text-center text-sm">리오픈</th>
+                  <th className="min-w-[85px] text-center text-sm">첫구매</th>
+                  <th className="min-w-[100px] text-center text-sm">
+                    m가입자수
+                  </th>
+                  <th className="min-w-[100px] text-center text-sm">
+                    m구매건수
+                  </th>
+                  <th className="min-w-[105px] text-center text-sm">
+                    m신규가입자
+                  </th>
+                  <th className="min-w-[85px] text-center text-sm">결제건수</th>
+                  <th className="min-w-[85px] text-center text-sm">결제금액</th>
+                  {totalPrice && isSelectedChannel.length > 0 && totalPrice ? (
+                    <>
+                      <th className="min-w-[85px] text-center text-sm">
+                        po건수
+                      </th>
+                      <th className="min-w-[85px] text-center text-sm">
+                        po정산금액
+                      </th>
+                    </>
+                  ) : null}
                 </tr>
               </thead>
               <tbody>{rows}</tbody>
