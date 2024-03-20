@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { IEXTEND_SSG_TrackingLinkList } from "pages/ssgDfnDataResult";
+import { IEXTEND_SSG_TrackingLinkList } from "../types/type";
 
 export const useTotalPriceQuery = (
   debouncedKeword: string,

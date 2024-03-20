@@ -21,7 +21,7 @@ import {
   useLinkListData,
   useTotalPriceQuery,
 } from "data/getSSGData";
-import { IEXTEND_SSG_TrackingLinkList } from "types/type";
+import { IEXTEND_SSG_TrackingLinkList } from "../../types/type";
 
 const SsgPoDfnData = () => {
   const [isResultPrice, setResultPrice] = useState<any>(0);
