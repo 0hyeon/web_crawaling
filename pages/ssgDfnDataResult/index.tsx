@@ -6,6 +6,7 @@ import {
   SSG_DFINARY_TrackingLinkList,
   SSG_PO,
   SSG_PO_Channel,
+  SSG_PO_Media,
 } from "@prisma/client";
 import { Input, Pagination, SegmentedControl, Select } from "@mantine/core";
 import MenubarLeft from "@components/MenubarLeft";
@@ -20,11 +21,7 @@ import {
   useLinkListData,
   useTotalPriceQuery,
 } from "data/getSSGData";
-export interface IEXTEND_SSG_TrackingLinkList
-  extends SSG_DFINARY_TrackingLinkList {
-  channel: SSG_PO_Channel;
-  media: string;
-}
+import { IEXTEND_SSG_TrackingLinkList } from "types/type";
 
 const SsgPoDfnData = () => {
   const [isResultPrice, setResultPrice] = useState<any>(0);
@@ -41,6 +38,7 @@ const SsgPoDfnData = () => {
   const [keyword, setKeyword] = useState("");
   const [activePage, setPage] = useState(1);
   const [isMappedData, setMappedData] = useState<any[]>([]);
+  const [isLinkListFilter, setLinkListFilter] = useState<any[]>([]);
 
   const [isDate, setDate] = useState<[string | null, string | null]>([
     null,
@@ -109,6 +107,46 @@ const SsgPoDfnData = () => {
   //DFN data
   const { data: linklistData, refetch: linkListRefetch } = useLinkListData();
   console.log("linklistData : ", linklistData);
+  interface FilterItem {
+    name: string;
+    channels: string[];
+  }
+
+  const generateSSGFilters = useCallback(
+    (
+      linklistData: IEXTEND_SSG_TrackingLinkList[] | undefined
+    ): FilterItem[] => {
+      const mediaChannels: { [media: string]: string[] } = {};
+
+      // linklistData를 반복하면서 각 미디어별로 채널을 그룹화
+      linklistData?.forEach((entry) => {
+        const media = entry.media.media;
+        const channel = entry.channel.channel;
+
+        // 이미 있는 미디어인지 확인하고 채널을 추가
+        if (mediaChannels[media]) {
+          if (!mediaChannels[media].includes(channel)) {
+            mediaChannels[media].push(channel);
+          }
+        } else {
+          mediaChannels[media] = [channel];
+        }
+      });
+
+      // FilterItem 배열로 변환
+      const filters: FilterItem[] = Object.entries(mediaChannels).map(
+        ([media, channels]) => ({
+          name: media,
+          channels: channels.sort(), // 채널을 알파벳 순으로 정렬
+        })
+      );
+
+      return filters;
+    },
+    []
+  );
+  // const generatedFilters = generateSSGFilters(linklistData);
+  // console.log("generatedFilters  :", generatedFilters); // 생성된 필터 배열 출력
 
   const { data: dfnData, refetch: dfnRefetch } = useDfnData(
     startDate,
@@ -149,12 +187,6 @@ const SsgPoDfnData = () => {
       setMappedDataCallback: (data: any) => void
     ) => {
       if (dfnData && linklistData) {
-        console.log(
-          "SSGselectedMedia,isSelectedChannel : ",
-          SSGselectedMedia,
-          isSelectedChannel
-        );
-
         const dataMap = new Map(); // Map을 생성하여 데이터를 누적할 준비
 
         // 먼저 dfnData와 linklistData를 이용해 데이터를 합치고 누적
@@ -228,8 +260,6 @@ const SsgPoDfnData = () => {
         // 맵에서 합쳐진 데이터를 배열로 변환
         const filteredMapped = Array.from(dataMap.values())
           .filter((dfnary) => {
-            console.log(SSGselectedMedia, dfnary.media); // SSGselectedMedia와 dfnary.media의 값을 출력합니다.
-            console.log(isSelectedChannel, dfnary.channel); // isSelectedChannel과 dfnary.channel의 값을 출력합니다.
             return (
               (!SSGselectedMedia || dfnary.media === SSGselectedMedia) &&
               (!isSelectedChannel.length ||
@@ -264,7 +294,10 @@ const SsgPoDfnData = () => {
   // Inside your component
   useEffect(() => {
     if (dfnData && linklistData) {
+      /*dfnData 필터링*/
       mapData(dfnData, linklistData, setMappedDataCallback);
+      /*링크리스트 필터링*/
+      setLinkListFilter(generateSSGFilters(linklistData));
     }
   }, [
     dfnData,
@@ -273,6 +306,7 @@ const SsgPoDfnData = () => {
     mapData,
     SSGselectedMedia,
     isSelectedChannel,
+    generateSSGFilters,
   ]);
 
   useEffect(() => {

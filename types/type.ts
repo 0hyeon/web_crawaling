@@ -1,3 +1,8 @@
+import {
+  SSG_DFINARY_TrackingLinkList,
+  SSG_PO_Channel,
+  SSG_PO_Media,
+} from "@prisma/client";
 import { ReactNode } from "react";
 export interface Props {
   summary: ReactNode;
@@ -40,52 +45,57 @@ export interface BannerInfo {
   replaceName?: string;
   href: string;
 }
-export interface IJobkoAppsData{
-  id?:number;      
-  Category?:string
-  AttributedTouchType?:string
-  AttributedTouchTime?:string
-  InstallTime?:string
-  EventTime?:string
-  EventName?:string
-  Partner?:string | null
-  MediaSource?:string
-  Channel?:string
-  Keywords?:string
-  Campaign?:string
-  Adset?:string
-  Ad?:string
-  AdType?:string
-  Region?:string
-  CountryCode?:string
-  Carrier?:string
-  Language?:string
-  AppsFlyerID?:string
-  AndroidID?:string
-  AdvertisingID?:string
-  IDFA?:string
-  IDFV?:string
-  DeviceCategory?:string
-  Platform?:string
-  OSVersion?:string
-  AppVersion?:string
-  SDKVersion?:string
-  IsRetargeting?:any
-  RetargetingConversionType?:string
-  IsPrimaryAttribution?:any
-  AttributionLookback?:string
-  ReengagementWindow?:string
-  MatchType?:string
-  UserAgent?:string
-  ConversionType?:string
-  CampaignType?:string
-  DeviceModel?:string
-  KeywordID?:string
-  PivotTime?:string
+export interface IJobkoAppsData {
+  id?: number;
+  Category?: string;
+  AttributedTouchType?: string;
+  AttributedTouchTime?: string;
+  InstallTime?: string;
+  EventTime?: string;
+  EventName?: string;
+  Partner?: string | null;
+  MediaSource?: string;
+  Channel?: string;
+  Keywords?: string;
+  Campaign?: string;
+  Adset?: string;
+  Ad?: string;
+  AdType?: string;
+  Region?: string;
+  CountryCode?: string;
+  Carrier?: string;
+  Language?: string;
+  AppsFlyerID?: string;
+  AndroidID?: string;
+  AdvertisingID?: string;
+  IDFA?: string;
+  IDFV?: string;
+  DeviceCategory?: string;
+  Platform?: string;
+  OSVersion?: string;
+  AppVersion?: string;
+  SDKVersion?: string;
+  IsRetargeting?: any;
+  RetargetingConversionType?: string;
+  IsPrimaryAttribution?: any;
+  AttributionLookback?: string;
+  ReengagementWindow?: string;
+  MatchType?: string;
+  UserAgent?: string;
+  ConversionType?: string;
+  CampaignType?: string;
+  DeviceModel?: string;
+  KeywordID?: string;
+  PivotTime?: string;
 }
 export interface ChannelInfo {
   id: number;
   channel: string;
   media: string;
   onOff: boolean;
+}
+export interface IEXTEND_SSG_TrackingLinkList
+  extends SSG_DFINARY_TrackingLinkList {
+  channel: SSG_PO_Channel;
+  media: SSG_PO_Media;
 }
