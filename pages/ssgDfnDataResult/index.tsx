@@ -209,7 +209,7 @@ const SsgPoDfnData = () => {
           .filter((dfnary) =>
             linklistData.some(
               (trackingLink) => trackingLink.trackingLinkName === dfnary.tracker
-            )
+            )//디파이너리에서 링크명이 등록된 링크명만 필터
           )
           .forEach((dfnary) => {
             const matchingTrackingLink = linklistData.find(
@@ -217,7 +217,8 @@ const SsgPoDfnData = () => {
             );
 
             if (matchingTrackingLink) {
-              const key = `${dfnary.daily}-${dfnary.materialName}-${dfnary.media}-${dfnary.tracker}-${dfnary.trackingLink}`;
+              const key = `${dfnary.daily}-${matchingTrackingLink.materialName}-${matchingTrackingLink.media.media}-${dfnary.tracker}-${matchingTrackingLink.trackingLink}`;
+              console.log("key : ",key)
               if (!dataMap.has(key)) {
                 // 맵에 키가 없으면 새로운 항목으로 추가
                 dataMap.set(key, {
@@ -255,7 +256,7 @@ const SsgPoDfnData = () => {
                   ? dfnary.uniqueView || 0
                   : 0;
               accumulatedData.m가입자수 +=
-                dfnary.eventName === "custom:MembershipOrder"
+                dfnary.eventName === "custom:MembershipComplete_ssg"
                   ? dfnary.uniqueView || 0
                   : 0;
               accumulatedData.m구매건수 +=
