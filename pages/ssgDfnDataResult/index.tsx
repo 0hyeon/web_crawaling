@@ -255,19 +255,18 @@ const SsgPoDfnData = () => {
                 dfnary.eventName === "custom:Firstorder"
                   ? dfnary.uniqueView || 0
                   : 0;
-              accumulatedData.m가입자수 +=
-                dfnary.eventName === "custom:MembershipComplete_ssg"
-                  ? dfnary.uniqueView || 0
-                  : 0;
               accumulatedData.m구매건수 +=
                 dfnary.eventName === "custom:MembershipOrder"
                   ? dfnary.pageView || 0
                   : 0;
-              accumulatedData.m신규가입자 +=
+              accumulatedData.m가입자수 +=
                 dfnary.eventName === "custom:MembershipComplete"
                   ? dfnary.uniqueView || 0
                   : 0;
-
+              accumulatedData.m신규가입자 +=
+                dfnary.eventName === "custom:MembershipComplete_ssg"
+                  ? dfnary.uniqueView || 0
+                  : 0;
               // 합쳐진 데이터를 맵에 다시 설정
               dataMap.set(key, accumulatedData);
             }
