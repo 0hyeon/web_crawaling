@@ -28,6 +28,7 @@ function MenubarLeft() {
     엑셀로직: "/excelLogic",
     권한수정: "/editRoll",
     "[ssgㆍ이마트] cauly": "/caulyLogic",
+    "[SSG광고주]업로드": "/ssgAdmUpload",
     "[코보게임즈] 이커머스": "/kobogames",
     SSG_PO데이터: "/ssgpodata",
     "SSG PO세팅": "/ssgpoSetting",
@@ -128,11 +129,11 @@ function MenubarLeft() {
               // "앱스플라이어 & 알바몬",
               // "잡코리아 시각화",
               "트래킹조회",
-              "[ssgㆍ이마트] cauly",
               "[코보게임즈] 이커머스",
               "SSG_PO데이터",
               "SSG_DFN피봇",
               "SSG_View",
+              "[SSG광고주]업로드",
               // "SSG_DFN시각화",
             ].map((el, idx) => {
               return (
