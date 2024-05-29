@@ -46,24 +46,15 @@ const SSGAdmUpload = () => {
   function handleSubmit() {
     const formDataToSend = new FormData();
     files.forEach((file, index) => {
-      formDataToSend.append(`file${index + 1}`, file);
+      formData.append(`files`, file); // "files" 필드에 파일 추가
     });
-    const file1 = formDataToSend.get("file1");
-    const file2 = formDataToSend.get("file2");
-    const file3 = formDataToSend.get("file3");
-    const file4 = formDataToSend.get("file4");
-    const file5 = formDataToSend.get("file5");
-    const file6 = formDataToSend.get("file6");
-    const file7 = formDataToSend.get("file7");
-    const file8 = formDataToSend.get("file8");
-    console.log(file1, file2, file3, file4, file5, file6, file7, file8);
 
     setSate(() => ({ loading: true }));
     fetch(BEcheckEnvironment().concat("/ssg/ssgadmUpload"), {
       method: "POST",
       body: formData,
     })
-      .then((res) => console.log(res) )
+      .then((res) => console.log(res))
       // .then((blob) => {
       //   const url = URL.createObjectURL(blob);
       //   const a = document.createElement("a");
@@ -72,9 +63,9 @@ const SSGAdmUpload = () => {
       //   a.click();
       //   setSate({ loading: false });
       // })
-      .then(()=>{
+      .then(() => {
         setSate({ loading: false });
-        alert('업로드완료')
+        alert("업로드완료");
       })
       .catch((error) => {
         console.error(error);
@@ -161,8 +152,9 @@ const SSGAdmUpload = () => {
                   SSG광고주 데이터 업로드 [...ing]
                 </div>
                 <div className="mb-14 flex flex-col gap-1 text-center">
-                  <div className="mb-2 gap-1 flex items-center justify-center">
-                  <span className="text-red-500">*</span><b className="text-base">규칙:</b>
+                  <div className="mb-2 flex items-center justify-center gap-1">
+                    <span className="text-red-500">*</span>
+                    <b className="text-base">규칙:</b>
                   </div>
                   <div className="text-sm">
                     <b>1.</b>그린브릭스_UV_*월.xlsb

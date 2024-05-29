@@ -90,19 +90,12 @@ model SSG_PO {
   channel      String?
   media        String?
   updateDate   String?
+  affP1        String?
+  postback     Boolean?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
-
-  @@index([channel])
-  @@index([date])
-  @@index([itemId])
-  @@index([itemNm])
-  @@index([media])
-  @@index([ordNo])
-  @@index([ordStatNm])
-  @@index([orgGb])
-  @@index([sellprc])
-  @@index([stdCtgId])
+  @@index([ordNo(length: 15), itemId(length: 15), itemNm(length: 120), sellprc, stdCtgId(length: 10), date(length: 10), channel(length: 15), media(length: 15)])
+  // @@index([ordNo,itemId,itemNm,sellprc,stdCtgId,date,channel,media])
 }
 
 model SSG_PO_Channel {
@@ -164,7 +157,7 @@ model SSG_DFINARY_TrackingLinkList {
   id               Int             @id @default(autoincrement())
   mall             String
   trackingLinkName String          @unique
-  trackingLink     String?         @db.VarChar(400)
+  trackingLink     String?         @db.VarChar(600)
   division_1       String
   division_2       String
   materialName     String
@@ -180,4 +173,47 @@ model SSG_DFINARY_TrackingLinkList {
   @@index([channelId])
   @@index([mediaId])
   @@index([userId])
+}
+
+model JOBKO_META_IMAGE {
+  id        Int      @id @default(autoincrement())
+  company   String?  @unique @db.VarChar(400)
+  src       String
+  originSrc String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SSG_PO_COOKIEOVEN {
+  id           Int      @id @default(autoincrement())
+  ordNo        String?
+  ordDts       String?
+  orgGb        String?
+  itemId       String?
+  itemNm       String?  @db.VarChar(400)
+  ordStatNm    String?
+  sellprc      Int?
+  ordAmt       Int?
+  dcAmt        Int?
+  rlordAmt     Int?
+  rlordQty     Int?
+  itemRegDivCd String?
+  stdCtgId     String?
+  date         String?
+  channel      String?
+  media        String?
+  updateDate   String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([channel])
+  @@index([date])
+  @@index([itemId])
+  @@index([itemNm])
+  @@index([media])
+  @@index([ordNo])
+  @@index([ordStatNm])
+  @@index([orgGb])
+  @@index([sellprc])
+  @@index([stdCtgId])
 }
