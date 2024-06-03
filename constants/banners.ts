@@ -141,6 +141,18 @@ export const SSG_FILTERS: SSGFilter[] = [
       "e_adpick_cps10",
     ],
   },
+  {
+    name: "쿠키오븐",
+    channels: [
+      "cookie1",
+      "cookie2",
+      "cookie3",
+      "ecookie1",
+      "ecookie2",
+      "ecookie3",
+    ],
+  },
+  { name: "링크마인", channels: ["ssg_linkmine_cps1", "e_linkmine_cps1"] },
 ];
 
 export const getOrderBy = (orderBy?: string): OrderByCondition => {
