@@ -73,10 +73,10 @@ model KoboGamesPdList {
 
 model SSG_PO {
   id           Int      @id @default(autoincrement())
-  ordNo        String?
+  ordNo        String?  @db.VarChar(15)
   ordDts       String?
   orgGb        String?
-  itemId       String?
+  itemId       String?  @db.VarChar(15)
   itemNm       String?  @db.VarChar(400)
   ordStatNm    String?
   sellprc      Int?
@@ -85,17 +85,18 @@ model SSG_PO {
   rlordAmt     Int?
   rlordQty     Int?
   itemRegDivCd String?
-  stdCtgId     String?
-  date         String?
-  channel      String?
-  media        String?
+  stdCtgId     String?  @db.VarChar(10)
+  date         String?  @db.VarChar(10)
+  channel      String?  @db.VarChar(30)
+  media        String?  @db.VarChar(30)
   updateDate   String?
   affP1        String?
   postback     Boolean?
+  reward       Boolean?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
-  @@index([ordNo(length: 15), itemId(length: 15), itemNm(length: 120), sellprc, stdCtgId(length: 10), date(length: 10), channel(length: 15), media(length: 15)])
-  // @@index([ordNo,itemId,itemNm,sellprc,stdCtgId,date,channel,media])
+
+  @@index([ordNo, itemId, itemNm, stdCtgId, date, channel, media])
 }
 
 model SSG_PO_Channel {
@@ -177,9 +178,55 @@ model SSG_DFINARY_TrackingLinkList {
 
 model JOBKO_META_IMAGE {
   id        Int      @id @default(autoincrement())
-  company   String?  @unique @db.VarChar(400)
   src       String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  company   String?  @db.VarChar(400)
   originSrc String
+  updateDate String?
+  title String?
+  career String?
+  limitDay String?
+  jobType String?
+}
+
+model JOBKO_META_IMAGE_FEED {
+  id        Int      @id @default(autoincrement())
+  company   String
+  detail    String
+  src       String?
+  originSrc String?
+  updateDate String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([company, detail]) // 복합 유니크 제약 조건
+}
+model GMARKET_LINKREW_DATA {
+  id                    BigInt   @id @default(autoincrement())
+  sortDate              DateTime
+  linkrewSettleDailySeq Int
+  serviceCode           Int
+  subId                 Int
+  orderAmount           Int
+  orderNo               BigInt
+  itemNo                String
+  itemName              String
+  paymentStatus         String
+  orderDate             DateTime
+  returnDate            DateTime? 
+  transportCompletedDate DateTime
+  paymentMoney          Float
+  settleMoney           Float
+  settleExpectedDate    DateTime
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}
+model ALBAMON_META_IMAGE {
+  id        Int      @id @default(autoincrement())
+  src       String
+  originSrc String   @unique @db.VarChar(400)
+  company   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -216,4 +263,35 @@ model SSG_PO_COOKIEOVEN {
   @@index([orgGb])
   @@index([sellprc])
   @@index([stdCtgId])
+}
+
+model Order {
+  id               Int       @id @default(autoincrement()) // Primary Key
+  OrderDetail OrderDetail[] 
+  ordNo            String?                                // 주문번호
+  ordDts           String?                               // 주문일시
+  itemId           String?                                // 상품번호
+  itemNm           String?   @db.VarChar(400)             // 상품명
+  categoryId       Int?                                  //카테고리id
+  sellprc          Int?                                  // 판매가
+  sortDate             DateTime?                              // 일자
+  linkrewSettleDailySeq Int?                                  // 일집계번호
+  serviceCode          Int?                                   // 매체
+  subId                Int?                                   // 채널
+  createdAt        DateTime  @default(now())             // 생성일
+  updatedAt        DateTime  @updatedAt                  // 업데이트일
+  
+}
+model OrderDetail {
+  id                   Int       @id @default(autoincrement()) 
+  paymentStatus        String?                               // 주문상태 (ordStatNm)
+  orderAmount          Int?                                  // 주문금액 (ordAmt)
+  orderDate            DateTime?                             // 주문날짜
+  returnDate           DateTime?                             // 환불일자
+  settleMoney          Float?                                // 예상수익
+  createdAt            DateTime   @default(now())            // 생성일
+  updatedAt            DateTime   @updatedAt                 // 업데이트일
+
+  // Relation with Order
+  Order                Order[]                               // 1:N 관계
 }

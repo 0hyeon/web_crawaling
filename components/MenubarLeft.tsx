@@ -32,6 +32,7 @@ function MenubarLeft() {
     "[코보게임즈] 이커머스": "/kobogames",
     SSG_PO데이터: "/ssgpodata",
     "SSG PO세팅": "/ssgpoSetting",
+    "UTM params": "/utmparams",
     SSG_DFN피봇: "/ssgDfnData",
     SSG_View: "/ssgDfnDataResult",
     // SSG_DFN시각화: "/ssgDfnDataPivot",
@@ -200,7 +201,7 @@ function MenubarLeft() {
             <SettingIcon width={25} height={25} />
           </div>
           <Accordion summary={"Setting"}>
-            {["SSG PO세팅"].map((el, idx) => {
+            {["SSG PO세팅","UTM params"].map((el, idx) => {
               return (
                 <ul key={idx}>
                   <li
