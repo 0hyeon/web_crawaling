@@ -47,7 +47,7 @@ const keyColors = [
 ];
 
 const SsgPoData = () => {
-  const [keyword, setKeyword] = useState("");
+  const [keyword, setKeyword] = useState("https://greenbricks.onelink.me/4KSi?pid=tossa3u_int&af_siteid={SITE_ID}&c=paid_Reward_tossa3u_int_quiz_240317&af_adset=250317_quiz2&af_ad=250317_quiz&af_force_deeplink=ture&is_retargeting=flase#zero&utm_campaign=super365&utm_source=da&utm_medium=naver_bs&utm_content=pc&utm_term=1_all_A_zero#zero");
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
   };
@@ -98,7 +98,7 @@ const SsgPoData = () => {
       key={idx}
       className="flex items-start space-x-4 rounded-lg border p-4 shadow-sm bg-white"
     >
-      <div className="flex flex-col">
+      <div className="flex flex-col min-w-[250px]">
         <span className="text-sm font-semibold text-gray-500">Key</span>
         <span className="text-lg font-bold" style={colorStyle}>
           {key}
